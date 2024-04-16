@@ -581,52 +581,52 @@ class _HomePageState extends State<HomePage> {
                                         Text('ทะเบียนรถ ${customer?.licensePlate ?? '-'}'),
                                       ],
                                     ),
-                                    trailing: IconButton(
-                                      onPressed: () async {
-                                        if (!mounted) return;
-                                        final _customer = await showDialog(
-                                          context: context,
-                                          builder: (context) => EditCustomerDialog(
-                                            customer: customer,
-                                          ),
-                                        );
-                                        if (_customer != null) {
-                                          try {
-                                            final _editCustomer = await ProductApi.editCustomerById(
-                                                cusid: _customer.id,
-                                                code: _customer.code,
-                                                name: _customer.name,
-                                                address: _customer.address,
-                                                levelId: 1,
-                                                licensePlate: _customer.licensePlate,
-                                                phoneNumber: _customer.phoneNumber,
-                                                tax: _customer.tax,
-                                                identityCardId: _customer.identityCard.id);
-                                            if (_editCustomer != null) {
-                                              setState(() {
-                                                customer = _customer;
-                                              });
-                                            }
-                                          } on Exception catch (e) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialogYes(
-                                                title: 'แจ้งเตือน',
-                                                description: '${e}',
-                                                pressYes: () {
-                                                  Navigator.pop(context, true);
-                                                },
-                                              ),
-                                            );
-                                          }
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.edit_square,
-                                        color: Colors.red,
-                                        size: 30,
-                                      ),
-                                    ),
+                                    // trailing: IconButton(
+                                    //   onPressed: () async {
+                                    //     if (!mounted) return;
+                                    //     final _customer = await showDialog(
+                                    //       context: context,
+                                    //       builder: (context) => EditCustomerDialog(
+                                    //         customer: customer,
+                                    //       ),
+                                    //     );
+                                    //     if (_customer != null) {
+                                    //       try {
+                                    //         final _editCustomer = await ProductApi.editCustomerById(
+                                    //             cusid: _customer.id,
+                                    //             code: _customer.code,
+                                    //             name: _customer.name,
+                                    //             address: _customer.address,
+                                    //             levelId: 1,
+                                    //             licensePlate: _customer.licensePlate,
+                                    //             phoneNumber: _customer.phoneNumber,
+                                    //             tax: _customer.tax,
+                                    //             identityCardId: _customer.identityCard.id);
+                                    //         if (_editCustomer != null) {
+                                    //           setState(() {
+                                    //             customer = _customer;
+                                    //           });
+                                    //         }
+                                    //       } on Exception catch (e) {
+                                    //         showDialog(
+                                    //           context: context,
+                                    //           builder: (context) => AlertDialogYes(
+                                    //             title: 'แจ้งเตือน',
+                                    //             description: '${e}',
+                                    //             pressYes: () {
+                                    //               Navigator.pop(context, true);
+                                    //             },
+                                    //           ),
+                                    //         );
+                                    //       }
+                                    //     }
+                                    //   },
+                                    //   icon: Icon(
+                                    //     Icons.edit_square,
+                                    //     color: Colors.red,
+                                    //     size: 30,
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                               )

@@ -4,6 +4,8 @@ import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart';
+import 'package:sunmi_printer_plus/enums.dart';
+import 'package:sunmi_printer_plus/sunmi_printer_plus.dart';
 
 class PrinterService {
   const PrinterService();
@@ -66,4 +68,23 @@ class PrinterService {
     printer.cut();
     printer.disconnect();
   }
+
+
+  Future<void> print(Uint8List bill) async {
+    await SunmiPrinter.initPrinter();
+    await SunmiPrinter.startTransactionPrint(true);
+    await SunmiPrinter.exitTransactionPrint(true);
+    await SunmiPrinter.setAlignment(SunmiPrintAlign.CENTER);
+    await SunmiPrinter.line();
+    await SunmiPrinter.printImage(bill);
+
+    await SunmiPrinter.line();
+    await SunmiPrinter.setAlignment(SunmiPrintAlign.CENTER);
+
+    await SunmiPrinter.lineWrap(2);
+    await SunmiPrinter.exitTransactionPrint(true);
+  }
+
+
+
 }

@@ -12,8 +12,11 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sunmi_printer_plus/enums.dart';
 import 'dart:ui' as ui;
 import 'dart:convert';
+
+import 'package:sunmi_printer_plus/sunmi_printer_plus.dart';
 
 class PrintPreview extends StatefulWidget {
   PrintPreview({super.key, required this.customer, required this.order, required this.selectProduct, required this.selectedPayment});
@@ -33,12 +36,42 @@ class _PrintPreviewState extends State<PrintPreview> {
   Uint8List? pngBytes;
   String? bs64;
   final controller = ScreenshotController();
+  bool printBinded = false;
 
   @override
   void initState() {
     super.initState();
     getIpAddress();
     print(widget.customer.phoneNumber);
+  }
+
+  Future<bool?> _bindingPrinter() async {
+    final bool? result = await SunmiPrinter.bindingPrinter();
+    return result;
+  }
+
+  void _printerInitail() {
+    _bindingPrinter().then((bool? isBind) async {
+      // final size = await SunmiPrinter.paperSize();
+      // final version = await SunmiPrinter.printerVersion();
+      // final serial = await SunmiPrinter.serialNumber();
+      final printer = await SunmiPrinter.getPrinterStatus();
+
+      setState(() {
+        printBinded = isBind!;
+        // serialNumber = serial;
+        // printerVersion = version;
+        // paperSize = size;
+      });
+      if (printer != PrinterStatus.NORMAL) {
+        _printerInitail();
+      }
+      print('printBinded : $printBinded');
+      // print('serialNumber : $serialNumber');
+      // print('printerVersion : $printerVersion');
+      // print('paperSize : $paperSize');
+      print('printer : $printer');
+    });
   }
 
   Future getIpAddress() async {
