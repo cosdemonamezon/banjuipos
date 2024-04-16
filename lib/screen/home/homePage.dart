@@ -170,21 +170,65 @@ class _HomePageState extends State<HomePage> {
                                       },
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () async {},
-                                    child: Container(
-                                      width: size.width * 0.11,
-                                      height: size.height * 0.06,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(2.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [Text('เลือกพาเนล')],
-                                        ),
-                                      ),
-                                    ),
-                                  )
+                                  // Container(
+                                  //   width: size.width * 0.11,
+                                  //   height: size.height * 0.06,
+                                  //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.all(2.0),
+                                  //     child: Row(
+                                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //       children: [
+                                  //         InkWell(
+                                  //           onTap: () {
+                                  //             onSelectPayment('เงินสด');
+                                  //           },
+                                  //           child: Container(
+                                  //             width: size.width * 0.05,
+                                  //             height: size.height * 0.05,
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius: BorderRadius.circular(8),
+                                  //               color: selectedPayment == 'เงินสด' ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
+                                  //             ),
+                                  //             child: Row(
+                                  //               mainAxisAlignment: MainAxisAlignment.center,
+                                  //               children: [
+                                  //                 Text(
+                                  //                   "เงินสด",
+                                  //                   style: TextStyle(
+                                  //                     fontSize: 16,
+                                  //                     fontFamily: 'IBMPlexSansThai',
+                                  //                     color: selectedPayment == 'เงินสด' ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
+                                  //                   ),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         InkWell(
+                                  //           onTap: () {
+                                  //             onSelectPayment('เงินโอน');
+                                  //           },
+                                  //           child: Container(
+                                  //             width: size.width * 0.05,
+                                  //             height: size.height * 0.05,
+                                  //             decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: selectedPayment == 'เงินโอน' ? Colors.blue : Color.fromARGB(255, 255, 255, 255)),
+                                  //             child: Row(
+                                  //               mainAxisAlignment: MainAxisAlignment.center,
+                                  //               children: [
+                                  //                 Text(
+                                  //                   "เงินโอน",
+                                  //                   style:
+                                  //                       TextStyle(fontSize: 16, fontFamily: 'IBMPlexSansThai', color: selectedPayment == 'เงินโอน' ? Color.fromARGB(255, 255, 255, 255) : Colors.black),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // )
                                 ],
                               ),
 
