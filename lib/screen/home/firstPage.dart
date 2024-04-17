@@ -2,9 +2,11 @@ import 'package:banjuipos/screen/home/homePage.dart';
 import 'package:banjuipos/screen/home/orderPage.dart';
 import 'package:banjuipos/screen/home/widgets/ItemMenuWidget.dart';
 import 'package:banjuipos/screen/login/loginPage.dart';
+import 'package:banjuipos/screen/login/services/loginApi.dart';
 import 'package:banjuipos/screen/login/services/loginController.dart';
 import 'package:banjuipos/screen/setting/printerSetting.dart';
 import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
+import 'package:banjuipos/widgets/LoadingDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -130,10 +132,33 @@ class _FirstPageState extends State<FirstPage> {
                         ),
                       );
                       if (ok == true) {
-                        if (!mounted) return;
-                        context.read<LoginController>().clearToken().then((value) {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-                        });
+                        try {
+                          LoadingDialog.open(context);
+                          final _logout = await LoginApi.logout();
+                          if (_logout == true) {
+                            if (!mounted) return;
+                            LoadingDialog.close(context);
+                            context.read<LoginController>().clearToken().then((value) {
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                            });
+                          } else {
+                            if (!mounted) return;
+                            LoadingDialog.close(context);
+                          }
+                        } on Exception catch (e) {
+                          if (!mounted) return;
+                          LoadingDialog.close(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialogYes(
+                              title: 'แจ้งเตือน',
+                              description: '${e}',
+                              pressYes: () {
+                                Navigator.pop(context, true);
+                              },
+                            ),
+                          );
+                        }
                       }
                     },
                     child: AnimatedContainer(
@@ -167,6 +192,7 @@ class _FirstPageState extends State<FirstPage> {
                 ],
               ),
             ),
+
             ///Show Page
             Expanded(
               child: Container(
@@ -179,7 +205,6 @@ class _FirstPageState extends State<FirstPage> {
                 child: _pageView(),
               ),
             )
-            
           ],
         ),
       ),
