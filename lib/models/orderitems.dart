@@ -7,6 +7,7 @@ part 'orderitems.g.dart';
 class OrderItems {
   final int? productId;
   final int quantity;
+  int dequantity;
   final double price;  
   final double total;
   final List attributes;
@@ -18,7 +19,8 @@ class OrderItems {
     this.price,
     this.total,
     this.attributes,
-    this.product
+    this.product,
+    this.dequantity
   );
 
   factory OrderItems.fromJson(Map<String, dynamic> json) => _$OrderItemsFromJson(json);

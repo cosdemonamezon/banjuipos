@@ -5,6 +5,7 @@ import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/licenseplates.dart';
 import 'package:banjuipos/models/orderitems.dart';
+import 'package:banjuipos/models/payment.dart';
 import 'package:banjuipos/models/selectproduct.dart';
 import 'package:banjuipos/screen/home/printPreview.dart';
 import 'package:banjuipos/screen/home/services/productApi.dart';
@@ -50,13 +51,15 @@ class _HomePageState extends State<HomePage> {
   LicensePlates? licensePlate;
   List<String> licensePlates = [];
   int setpanel = 0;
+  List<Payment> payments = [];
+  Payment? payment;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getlistCategory();
-      // await getlistBranch();
+      await getPayments();
     });
     setState(() {
       selectPoint.add(Text(''));
@@ -66,9 +69,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void onSelectPayment(String payment) {
-    setState(() {
-      selectedPayment = payment;
+  void onSelectPayment(Payment payment) {
+    setState(() {      
+      payment = payment;
+      selectedPayment = payment.name!;
     });
   }
 
@@ -87,6 +91,32 @@ class _HomePageState extends State<HomePage> {
     } on Exception catch (e) {
       if (!mounted) return;
       LoadingDialog.close(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialogYes(
+          title: 'แจ้งเตือน',
+          description: '${e}',
+          pressYes: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> getPayments() async {
+    try {
+      final _payments = await ProductApi.getPaymentMethod();
+      if (_payments.isNotEmpty) {
+        setState(() {
+          payments = _payments;
+          payment = payments[0];
+          selectedPayment = payments[0].name!;
+        });
+      } else {}
+      if (!mounted) return;
+    } on Exception catch (e) {
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (context) => AlertDialogYes(
@@ -495,64 +525,50 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          Container(
-                            width: size.width * 0.11,
-                            height: size.height * 0.06,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      onSelectPayment('เงินสด');
-                                    },
-                                    child: Container(
-                                      width: size.width * 0.05,
-                                      height: size.height * 0.05,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: selectedPayment == 'เงินสด' ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "เงินสด",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'IBMPlexSansThai',
-                                              color: selectedPayment == 'เงินสด' ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
+                          payments.isNotEmpty
+                              ? Container(
+                                  width: size.width * 0.14,
+                                  height: size.height * 0.06,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Row(
+                                      children: List.generate(
+                                        payments.length,
+                                        (index) => InkWell(
+                                          onTap: () {
+                                            onSelectPayment(payments[index]);
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: size.width *0.001),
+                                            child: Container(
+                                              width: size.width * 0.065,
+                                              height: size.height * 0.05,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8),
+                                                color: selectedPayment == payments[index].name ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "${payments[index].name}",
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily: 'IBMPlexSansThai',
+                                                      color: selectedPayment == payments[index].name ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      onSelectPayment('เงินโอน');
-                                    },
-                                    child: Container(
-                                      width: size.width * 0.05,
-                                      height: size.height * 0.05,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: selectedPayment == 'เงินโอน' ? Colors.blue : Color.fromARGB(255, 255, 255, 255)),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "เงินโอน",
-                                            style: TextStyle(fontSize: 16, fontFamily: 'IBMPlexSansThai', color: selectedPayment == 'เงินโอน' ? Color.fromARGB(255, 255, 255, 255) : Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
+                                )
+                              : SizedBox()
                         ],
                       ),
                     ),
@@ -588,7 +604,7 @@ class _HomePageState extends State<HomePage> {
                                     //     final _customer = await showDialog(
                                     //       context: context,
                                     //       builder: (context) => EditCustomerDialog(
-                                    //         customer: customer,
+                                    //         customer: customer!,
                                     //       ),
                                     //     );
                                     //     if (_customer != null) {
@@ -956,7 +972,7 @@ class _HomePageState extends State<HomePage> {
                                                 setState(() {
                                                   for (var i = 0; i < selectproducts.length; i++) {
                                                     OrderItems _orderItem = OrderItems(selectproducts[i].product.id, selectproducts[i].qty, selectproducts[i].product.price!,
-                                                        double.parse(sum(selectproducts).toStringAsFixed(2)), [], null);
+                                                        double.parse(sum(selectproducts).toStringAsFixed(2)), [], null, selectproducts[i].newQty);
                                                     orderItems.add(_orderItem);
                                                   }
                                                 });
@@ -969,6 +985,7 @@ class _HomePageState extends State<HomePage> {
                                                   customerId: customer!.id!,
                                                   licensePlateId: _licensePlate[0].id!,
                                                   selectedPayment: selectedPayment,
+                                                  paymentMethodId: payment!.id!
                                                 );
                                                 if (!mounted) return;
                                                 LoadingDialog.close(context);

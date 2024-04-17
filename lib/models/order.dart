@@ -1,6 +1,7 @@
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/licenseplates.dart';
 import 'package:banjuipos/models/orderitems.dart';
+import 'package:banjuipos/models/payment.dart';
 import 'package:banjuipos/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -22,6 +23,7 @@ class Order {
   User? user;
   LicensePlates? licensePlate;
   Customer? customer;
+  List<Payment>? orderPayments;
 
   Order(
     this.createdAt,
@@ -37,7 +39,8 @@ class Order {
     this.orderItems,
     this.user,
     this.licensePlate,
-    this.customer
+    this.customer,
+    this.orderPayments
   );
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);

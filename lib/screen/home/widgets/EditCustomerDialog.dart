@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class EditCustomerDialog extends StatefulWidget {
   EditCustomerDialog({super.key, required this.customer});
-  Customer? customer;
+  Customer customer;
 
   @override
   State<EditCustomerDialog> createState() => _EditCustomerDialogState();
@@ -28,12 +28,12 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
   void initState() {
     super.initState();
     setState(() {
-      name.text = widget.customer!.name!;
-      phoneNumber.text = widget.customer!.phoneNumber!;
-      licensePlate.text = widget.customer!.licensePlate!;
-      address.text = widget.customer!.address!;
-      code.text = widget.customer!.code!;
-      tax.text = widget.customer!.tax!;
+      name.text = widget.customer.name!;
+      phoneNumber.text = widget.customer.phoneNumber!;
+      licensePlate.text = widget.customer.licensePlate!;
+      address.text = widget.customer.address!;
+      code.text = widget.customer.code!;
+      tax.text = widget.customer.tax!;
     });
   }
 
@@ -198,10 +198,12 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                 child: TextButton(
                   //textColor: Color(0xFF6200EE),
                   onPressed: () async {
-                    setState(() {
-                      _customer = Customer(customer!.id, code.text, name.text, address.text, licensePlate.text, phoneNumber.text, tax.text, customer.identityCard, customer.licensePlates);
-                    });
-                    Navigator.pop(context, _customer);
+                    if (widget.customer != null) {
+                      setState(() {
+                        _customer = Customer(widget.customer.id, code.text, name.text, address.text, licensePlate.text, phoneNumber.text, tax.text, widget.customer.identityCard, widget.customer.licensePlates);
+                      });
+                      Navigator.pop(context, _customer);
+                    }
                   },
                   child: Text(
                     'ตกลง',

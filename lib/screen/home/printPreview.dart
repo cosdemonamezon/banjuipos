@@ -441,12 +441,12 @@ class _PrintPreviewState extends State<PrintPreview> {
                                               Text('${widget.order.orderItems![index].quantity}'),
                                             ],
                                           ),
-                                          // Row(
-                                          //   mainAxisAlignment: MainAxisAlignment.end,
-                                          //   children: [
-                                          //     Text('- ${widget.selectProduct[index].newQty}'),
-                                          //   ],
-                                          // ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text('- ${widget.order.orderItems![index].dequantity}', style: TextStyle(fontSize: 14),),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                   Expanded(
@@ -502,13 +502,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                     Text('-----------------------------------------------------------------------'),
                   ],
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text('ประเภทการชำระ'),
-                //     Text('${widget.selectedPayment}'),
-                //   ],
-                // ),
+                widget.order.orderPayments!.isNotEmpty
+                ?Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('ประเภทการชำระ'),
+                    Text('${widget.order.orderPayments![0].name}'),
+                  ],
+                ):SizedBox(),
               ],
             ),
           ),

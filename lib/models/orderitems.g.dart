@@ -15,12 +15,14 @@ OrderItems _$OrderItemsFromJson(Map<String, dynamic> json) => OrderItems(
       json['product'] == null
           ? null
           : Product.fromJson(json['product'] as Map<String, dynamic>),
+      json['dequantity'] as int,
     );
 
 Map<String, dynamic> _$OrderItemsToJson(OrderItems instance) =>
     <String, dynamic>{
       'productId': instance.productId,
       'quantity': instance.quantity,
+      'dequantity': instance.dequantity,
       'price': instance.price,
       'total': instance.total,
       'attributes': instance.attributes,

@@ -436,12 +436,12 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                               Text('${order!.orderItems![index].quantity}'),
                                             ],
                                           ),
-                                          // Row(
-                                          //   mainAxisAlignment: MainAxisAlignment.end,
-                                          //   children: [
-                                          //     Text('- ${widget.selectProduct[index].newQty}'),
-                                          //   ],
-                                          // ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text('- ${order!.orderItems![index].dequantity}', style: TextStyle(fontSize: 14),),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                   Expanded(
@@ -497,13 +497,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                     Text('-----------------------------------------------------------------------'),
                   ],
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text('ประเภทการชำระ'),
-                //     //Text('${widget.selectedPayment}'),
-                //   ],
-                // ),
+                order!.orderPayments!.isNotEmpty
+                ?Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('ประเภทการชำระ'),
+                    Text('${order!.orderPayments![0].name}'),
+                  ],
+                ):SizedBox(),
               ],
             ),
           ),

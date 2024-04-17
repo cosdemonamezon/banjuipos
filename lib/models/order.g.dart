@@ -38,6 +38,9 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       json['customer'] == null
           ? null
           : Customer.fromJson(json['customer'] as Map<String, dynamic>),
+      (json['orderPayments'] as List<dynamic>?)
+          ?.map((e) => Payment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
@@ -55,4 +58,5 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'user': instance.user,
       'licensePlate': instance.licensePlate,
       'customer': instance.customer,
+      'orderPayments': instance.orderPayments,
     };

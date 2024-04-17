@@ -5,6 +5,7 @@ import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/myorder.dart';
 import 'package:banjuipos/models/order.dart';
 import 'package:banjuipos/models/orderitems.dart';
+import 'package:banjuipos/models/payment.dart';
 import 'package:banjuipos/models/product.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,8 +78,28 @@ class ProductApi {
     }
   }
 
+  //เรียกดูประเภทการชำระเงิน
+  static Future<List<Payment>> getPaymentMethod() async {
+    final url = Uri.https(publicUrl, '/api/payment-method');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200) {
+      final data = convert.jsonDecode(response.body);
+      final list = data as List;
+      return list.map((e) => Payment.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
   //สร้างออร์เดอร์
-  static Future<Order> ceateOrders({required int shiftId, required double total, required List<OrderItems> orderItems, required int customerId, required int licensePlateId, required String selectedPayment}) async {
+  static Future<Order> ceateOrders({required int shiftId, required double total, required List<OrderItems> orderItems, required int customerId, required int licensePlateId, required String selectedPayment, required int paymentMethodId}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -90,8 +111,8 @@ class ProductApi {
           "total": total,
           "customerId": customerId,
           "licensePlateId": licensePlateId,
+          "paymentMethodId": paymentMethodId,
           "orderItems": orderItems,
-          "selectedPayment": selectedPayment
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = convert.jsonDecode(response.body);
