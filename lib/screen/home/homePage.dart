@@ -942,6 +942,7 @@ class _HomePageState extends State<HomePage> {
                                                     setState(() {
                                                       selectproducts.clear();
                                                       customer = null;
+                                                      customers[point] = Customer(null, null, null, null, null, null, null, null, null);
                                                       orderItems.clear();
                                                     });
                                                   }
