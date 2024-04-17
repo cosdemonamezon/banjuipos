@@ -18,6 +18,7 @@ import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:banjuipos/widgets/LoadingDialog.dart';
 import 'package:banjuipos/widgets/NumPad.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:provider/provider.dart';
 
@@ -665,6 +666,29 @@ class _HomePageState extends State<HomePage> {
                               itemCount: selectproducts.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
+                                  onLongPress: () async {
+                                    final _delete = await showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return AlertDialogYesNo(
+                                          title: 'แจ้งเตือน',
+                                          description: 'ต้องการลบรายการหรือไม่',
+                                          pressYes: () {
+                                            Navigator.pop(context, true);
+                                          },
+                                          pressNo: () {
+                                            Navigator.pop(context, false);
+                                          },
+                                        );
+                                      },
+                                    );
+                                    if (_delete == true) {
+                                      setState(() {
+                                        selectproducts.removeAt(index);
+                                      });
+                                    }
+                                  },
                                   onTap: () async {
                                     _myNumber.clear();
                                     final addNewQty = await showModalBottomSheet(
@@ -679,71 +703,91 @@ class _HomePageState extends State<HomePage> {
                                       isScrollControlled: true,
                                       useRootNavigator: true,
                                       builder: (BuildContext context) {
-                                        return Container(
-                                          height: size.height * 0.90,
-                                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Slidable(
+                                            key: Key("1"),
+                                            endActionPane: ActionPane(
+                                              motion: const ScrollMotion(),
                                               children: [
-                                                SizedBox(height: 50),
-                                                Padding(
-                                                  padding: EdgeInsets.all(5),
-                                                  child: SizedBox(
-                                                    height: size.height * 0.05,
-                                                    child: Center(
-                                                        child: TextField(
-                                                      controller: _myNumber,
-                                                      textAlign: TextAlign.center,
-                                                      showCursor: false,
-                                                      style: TextStyle(fontSize: 30),
-                                                      // Disable the default soft keybaord
-                                                      keyboardType: TextInputType.none,
-                                                    )),
-                                                  ),
-                                                ),
-                                                Divider(),
-                                                SizedBox(height: 10),
-                                                NumPad(
-                                                  buttonSize: size.height * 0.13,
-                                                  buttonColor: Colors.grey,
-                                                  iconColor: Colors.red,
-                                                  controller: _myNumber,
-                                                  delete: () {
-                                                    if (_myNumber.text != null) {
-                                                      if (_myNumber.text.length > 0) {
-                                                        _myNumber.text = _myNumber.text.substring(0, _myNumber.text.length - 1);
-                                                      }
-                                                    }
+                                                SlidableAction(
+                                                  onPressed: (context) {
+                                                    setState(() {
+                                                      selectproducts.removeAt(index);
+                                                    });
                                                   },
-                                                  onSubmit: () {
-                                                    try {
-                                                      //String text = _myNumber.text;
-                                                      //String text = _myNumber.text;
-                                                      List<String> substring2 = _myNumber.text.split('+');
-                                                      setState(() {
-                                                        selectproducts[index].newQty = sumQty(substring2);
-                                                      });
-                                                      Navigator.pop(context, _myNumber.text);
-                                                    } catch (e) {
-                                                      _myNumber.clear();
-                                                      showDialog(
-                                                        context: context,
-                                                        barrierDismissible: false,
-                                                        builder: (BuildContext context) {
-                                                          return AlertDialogYes(
-                                                            title: 'แจ้งเตือน',
-                                                            description: e.toString(),
-                                                            pressYes: () {
-                                                              Navigator.pop(context, true);
+                                                  backgroundColor: Colors.red,
+                                                  icon: Icons.delete,
+                                                )
+                                              ],
+                                            ),
+                                            child: Container(
+                                              height: size.height * 0.90,
+                                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    SizedBox(height: 50),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(5),
+                                                      child: SizedBox(
+                                                        height: size.height * 0.05,
+                                                        child: Center(
+                                                            child: TextField(
+                                                          controller: _myNumber,
+                                                          textAlign: TextAlign.center,
+                                                          showCursor: false,
+                                                          style: TextStyle(fontSize: 30),
+                                                          // Disable the default soft keybaord
+                                                          keyboardType: TextInputType.none,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                    Divider(),
+                                                    SizedBox(height: 10),
+                                                    NumPad(
+                                                      buttonSize: size.height * 0.13,
+                                                      buttonColor: Colors.grey,
+                                                      iconColor: Colors.red,
+                                                      controller: _myNumber,
+                                                      delete: () {
+                                                        if (_myNumber.text != null) {
+                                                          if (_myNumber.text.length > 0) {
+                                                            _myNumber.text = _myNumber.text.substring(0, _myNumber.text.length - 1);
+                                                          }
+                                                        }
+                                                      },
+                                                      onSubmit: () {
+                                                        try {
+                                                          //String text = _myNumber.text;
+                                                          //String text = _myNumber.text;
+                                                          List<String> substring2 = _myNumber.text.split('+');
+                                                          setState(() {
+                                                            selectproducts[index].newQty = sumQty(substring2);
+                                                          });
+                                                          Navigator.pop(context, _myNumber.text);
+                                                        } catch (e) {
+                                                          _myNumber.clear();
+                                                          showDialog(
+                                                            context: context,
+                                                            barrierDismissible: false,
+                                                            builder: (BuildContext context) {
+                                                              return AlertDialogYes(
+                                                                title: 'แจ้งเตือน',
+                                                                description: e.toString(),
+                                                                pressYes: () {
+                                                                  Navigator.pop(context, true);
+                                                                },
+                                                              );
                                                             },
                                                           );
-                                                        },
-                                                      );
-                                                    }
-                                                  },
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
                                           ),
                                         );
