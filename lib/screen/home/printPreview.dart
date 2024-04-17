@@ -201,7 +201,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                   //Navigator.pop(context, true);
                 },
                 child: Card(
-                  color: ipAddress != '' ?Colors.blue : Colors.grey,
+                  color: ipAddress != '' ? Colors.blue : Colors.grey,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
@@ -444,7 +444,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text('- ${widget.order.orderItems![index].dequantity}', style: TextStyle(fontSize: 14),),
+                                              Text(
+                                                '- ${widget.order.orderItems![index].dequantity}',
+                                                style: TextStyle(fontSize: 14),
+                                              ),
                                             ],
                                           ),
                                         ],
@@ -502,14 +505,13 @@ class _PrintPreviewState extends State<PrintPreview> {
                     Text('-----------------------------------------------------------------------'),
                   ],
                 ),
-                widget.order.orderPayments!.isNotEmpty
-                ?Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('ประเภทการชำระ'),
-                    Text('${widget.order.orderPayments![0].name}'),
+                    Text('${widget.order.paymentMethod?.name ?? ''}'),
                   ],
-                ):SizedBox(),
+                ),
               ],
             ),
           ),

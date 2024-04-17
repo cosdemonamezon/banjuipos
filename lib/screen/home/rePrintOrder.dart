@@ -497,14 +497,13 @@ class _RePrintOrderState extends State<RePrintOrder> {
                     Text('-----------------------------------------------------------------------'),
                   ],
                 ),
-                order!.orderPayments!.isNotEmpty
-                ?Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('ประเภทการชำระ'),
-                    Text('${order!.orderPayments![0].name}'),
+                    Text('${order!.paymentMethod?.name ?? ''}'),
                   ],
-                ):SizedBox(),
+                ),
               ],
             ),
           ),

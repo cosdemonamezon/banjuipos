@@ -23,7 +23,7 @@ class Order {
   User? user;
   LicensePlates? licensePlate;
   Customer? customer;
-  List<Payment>? orderPayments;
+  Payment? paymentMethod;
 
   Order(
     this.createdAt,
@@ -40,7 +40,7 @@ class Order {
     this.user,
     this.licensePlate,
     this.customer,
-    this.orderPayments
+    this.paymentMethod
   );
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
