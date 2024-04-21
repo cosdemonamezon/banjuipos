@@ -489,7 +489,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('ยอดสุทธิ'),
-                    Text('${order!.grandTotal} ฿'),
+                    Text('${sumNewOneColumn(order!.orderItems!)} ฿'),
                   ],
                 ),
                 Row(

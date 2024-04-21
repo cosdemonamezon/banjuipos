@@ -497,7 +497,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('ยอดสุทธิ'),
-                    Text('${widget.order.grandTotal} ฿'),
+                    Text('${sumNewOneColumn(widget.order.orderItems!)} ฿'),
                   ],
                 ),
                 Row(

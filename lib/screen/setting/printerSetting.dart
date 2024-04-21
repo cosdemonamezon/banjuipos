@@ -73,6 +73,7 @@ class _PrinterSettingState extends State<PrinterSetting> {
                         ),
                         child: InputTextFormField(
                           size: size,
+                          width: 0.30,
                           controller: ipAddress,
                           hintText: 'IP address',
                           keyboardType: TextInputType.number,

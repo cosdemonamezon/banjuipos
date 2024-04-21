@@ -8,7 +8,9 @@ class InputTextFormField extends StatefulWidget {
     this.hintText,
     this.isPassword = false,
     this.keyboardType,
-    this.maxLines
+    this.maxLines,
+    required this.width,
+    this.prefixIcon
   });
 
   final Size size;
@@ -17,6 +19,8 @@ class InputTextFormField extends StatefulWidget {
   String? hintText;
   int? maxLines;
   final TextInputType? keyboardType;
+  double width;
+  Widget? prefixIcon;
 
   @override
   State<InputTextFormField> createState() => _InputTextFormFieldState();
@@ -28,7 +32,7 @@ class _InputTextFormFieldState extends State<InputTextFormField> {
   Widget build(BuildContext context) {    
     return Container(
       color: Color.fromARGB(255, 241, 241, 241),
-      width: widget.size.width * 0.35,
+      width: widget.size.width * widget.width,
       child: TextFormField(
           controller: widget.controller,
           keyboardType: widget.keyboardType,
@@ -43,7 +47,7 @@ class _InputTextFormFieldState extends State<InputTextFormField> {
           decoration: InputDecoration(
             hintText: widget.hintText,
             hintStyle: TextStyle(fontSize: 22),
-            prefixIcon: Icon(Icons.local_mall),
+            prefixIcon: widget.prefixIcon,
             suffixIcon: widget.isPassword
                 ? GestureDetector(
                     onTap: () {

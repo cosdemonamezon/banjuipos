@@ -3,8 +3,10 @@ import 'package:banjuipos/constants.dart';
 import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/myorder.dart';
+import 'package:banjuipos/models/nameprefix.dart';
 import 'package:banjuipos/models/order.dart';
 import 'package:banjuipos/models/orderitems.dart';
+import 'package:banjuipos/models/panel.dart';
 import 'package:banjuipos/models/payment.dart';
 import 'package:banjuipos/models/product.dart';
 import 'package:http/http.dart' as http;
@@ -279,7 +281,7 @@ class ProductApi {
   }
 
   //เพิ่มข้อมูลลูกค้าใหม่
-  static Future<Customer> addCustomer({required String name, required String phoneNumber, required String licensePlate, required String address, required String code, required String tax}) async {
+  static Future<Customer> addCustomer({required String name, required String phoneNumber, required String licensePlate, required String address, required String code, required String tax, required int prefixId}) async {
     final url = Uri.https(publicUrl, '/api/customer');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -287,10 +289,66 @@ class ProductApi {
     final response = await http.post(
         headers: headers,
         url,
-        body: convert.jsonEncode({"code": code, "name": name, "levelId": 1, "address": address, "phoneNumber": phoneNumber, "tax": tax, "identityCardId": null, "licensePlate": licensePlate}));
+        body: convert.jsonEncode({"code": code, "name": name, "levelId": 1, "address": address, "phoneNumber": phoneNumber, "tax": tax, "identityCardId": null, "licensePlate": licensePlate, "prefixId": prefixId,}));
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = convert.jsonDecode(response.body);
       return Customer.fromJson(data);
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  static Future<List<NamePrefix>> getNamePrefixs() async{
+    final url = Uri.https(publicUrl, '/api/name-prefix');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = convert.jsonDecode(response.body);
+      final list = data as List;
+      return list.map((e) => NamePrefix.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  static Future<List<Panel>> getPanels() async{
+    final url = Uri.https(publicUrl, '/api/panel');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = convert.jsonDecode(response.body);
+      final list = data as List;
+      return list.map((e) => Panel.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  static Future<Panel> getPanelById({required int panelId}) async{
+    final url = Uri.https(publicUrl, '/api/panel/$panelId');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = convert.jsonDecode(response.body);
+      return Panel.fromJson(data);
     } else {
       final data = convert.jsonDecode(response.body);
       throw Exception(data['message']);

@@ -57,17 +57,21 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             InputTextFormField(
                               size: size,
+                              width: 0.30,
                               controller: username,
                               maxLines: 1,
+                              prefixIcon: Icon(Icons.local_mall),
                             ),
                             SizedBox(
                               height: size.height * 0.01,
                             ),
                             InputTextFormField(
                               size: size,
+                              width: 0.30,
                               controller: password,
                               isPassword: true,
                               maxLines: 1,
+                              prefixIcon: Icon(Icons.local_mall),
                             ),
                             SizedBox(
                               height: size.height * 0.04,

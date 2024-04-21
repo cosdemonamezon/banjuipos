@@ -5,6 +5,7 @@ import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/licenseplates.dart';
 import 'package:banjuipos/models/orderitems.dart';
+import 'package:banjuipos/models/panel.dart';
 import 'package:banjuipos/models/payment.dart';
 import 'package:banjuipos/models/selectproduct.dart';
 import 'package:banjuipos/screen/home/printPreview.dart';
@@ -53,12 +54,19 @@ class _HomePageState extends State<HomePage> {
   int setpanel = 0;
   List<Payment> payments = [];
   Payment? payment;
+  int keyPanel = 0;
+  List<Panel> panels = [];
+  Panel? panel;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getlistCategory();
+      if (keyPanel == 0) {
+        await getlistPanel();
+      } else {
+        await getlistCategory();
+      }
       await getPayments();
     });
     setState(() {
@@ -70,10 +78,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onSelectPayment(Payment payment) {
-    setState(() {      
+    setState(() {
       payment = payment;
       selectedPayment = payment.name!;
     });
+  }
+
+  void onSelectPanel(int _panel) async {
+    setState(() {
+      keyPanel = _panel;
+    });
+    if (keyPanel == 0) {
+      await getlistPanel();
+    } else {
+      await getlistCategory();
+    }
   }
 
   //ดึงข้อมูล Category
@@ -87,6 +106,34 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         category = list;
         sclectedProduct = list[0];
+      });
+    } on Exception catch (e) {
+      if (!mounted) return;
+      LoadingDialog.close(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialogYes(
+          title: 'แจ้งเตือน',
+          description: '${e}',
+          pressYes: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      );
+    }
+  }
+
+  //ดึงข้อมูล Panel
+  Future<void> getlistPanel() async {
+    try {
+      LoadingDialog.open(context);
+      await context.read<ProductController>().getListPanel();
+      final list = context.read<ProductController>().panels;
+      if (!mounted) return;
+      LoadingDialog.close(context);
+      setState(() {
+        panels = list;
+        panel = list[0];
       });
     } on Exception catch (e) {
       if (!mounted) return;
@@ -160,106 +207,152 @@ class _HomePageState extends State<HomePage> {
                               // SizedBox(
                               //   width: size.width * 0.02,
                               // ),
+
                               Row(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
-                                    child: DropdownButton<Category>(
-                                      selectedItemBuilder: (e) => category.map<Widget>((item) {
-                                        return Center(
-                                          child: Text(
-                                            item.name!,
-                                            style: TextStyle(
+                                  keyPanel == 1
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+                                          child: DropdownButton<Category>(
+                                            selectedItemBuilder: (e) => category.map<Widget>((item) {
+                                              return Center(
+                                                child: Text(
+                                                  item.name!,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            icon: Icon(
+                                              Icons.arrow_drop_down,
                                               color: Colors.white,
                                             ),
+                                            underline: SizedBox(),
+                                            items: category.map<DropdownMenuItem<Category>>((item) {
+                                              return DropdownMenuItem<Category>(
+                                                value: item,
+                                                child: Text(
+                                                  item.name!,
+                                                  style: TextStyle(
+                                                    fontFamily: 'IBMPlexSansThai',
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            value: sclectedProduct,
+                                            onChanged: (v) async {
+                                              setState(() {
+                                                sclectedProduct = v;
+                                              });
+                                              await context.read<ProductController>().getProduct(categoryid: sclectedProduct!.id!);
+                                            },
                                           ),
-                                        );
-                                      }).toList(),
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.white,
-                                      ),
-                                      underline: SizedBox(),
-                                      items: category.map<DropdownMenuItem<Category>>((item) {
-                                        return DropdownMenuItem<Category>(
-                                          value: item,
-                                          child: Text(
-                                            item.name!,
-                                            style: TextStyle(
-                                              fontFamily: 'IBMPlexSansThai',
-                                              color: Colors.black,
+                                        )
+                                      : SizedBox(),
+                                  keyPanel == 0
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+                                          child: DropdownButton<Panel>(
+                                            selectedItemBuilder: (e) => panels.map<Widget>((itemPanel) {
+                                              return Center(
+                                                child: Text(
+                                                  itemPanel.name!,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            icon: Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Colors.white,
                                             ),
+                                            underline: SizedBox(),
+                                            items: panels.map<DropdownMenuItem<Panel>>((itemPanel) {
+                                              return DropdownMenuItem<Panel>(
+                                                value: itemPanel,
+                                                child: Text(
+                                                  itemPanel.name!,
+                                                  style: TextStyle(
+                                                    fontFamily: 'IBMPlexSansThai',
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            value: panel,
+                                            onChanged: (v) async {
+                                              setState(() {
+                                                panel = v;
+                                              });
+                                              await context.read<ProductController>().getPanelById(panelId: panel!.id!);
+                                            },
                                           ),
-                                        );
-                                      }).toList(),
-                                      value: sclectedProduct,
-                                      onChanged: (v) async {
-                                        setState(() {
-                                          sclectedProduct = v;
-                                        });
-                                        await context.read<ProductController>().getProduct(categoryid: sclectedProduct!.id!);
-                                      },
+                                        )
+                                      : SizedBox(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                                    child: Container(
+                                      width: size.width * 0.12,
+                                      height: size.height * 0.06,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                onSelectPanel(1);
+                                              },
+                                              child: Container(
+                                                width: size.width * 0.05,
+                                                height: size.height * 0.05,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  color: keyPanel == 1 ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "ทั้งหมด",
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily: 'IBMPlexSansThai',
+                                                        color: keyPanel == 1 ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                onSelectPanel(0);
+                                              },
+                                              child: Container(
+                                                width: size.width * 0.06,
+                                                height: size.height * 0.05,
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: keyPanel == 0 ? Colors.blue : Color.fromARGB(255, 255, 255, 255)),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "พาเนล",
+                                                      style: TextStyle(fontSize: 16, fontFamily: 'IBMPlexSansThai', color: keyPanel == 0 ? Color.fromARGB(255, 255, 255, 255) : Colors.black),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  // Container(
-                                  //   width: size.width * 0.11,
-                                  //   height: size.height * 0.06,
-                                  //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                                  //   child: Padding(
-                                  //     padding: const EdgeInsets.all(2.0),
-                                  //     child: Row(
-                                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  //       children: [
-                                  //         InkWell(
-                                  //           onTap: () {
-                                  //             onSelectPayment('เงินสด');
-                                  //           },
-                                  //           child: Container(
-                                  //             width: size.width * 0.05,
-                                  //             height: size.height * 0.05,
-                                  //             decoration: BoxDecoration(
-                                  //               borderRadius: BorderRadius.circular(8),
-                                  //               color: selectedPayment == 'เงินสด' ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
-                                  //             ),
-                                  //             child: Row(
-                                  //               mainAxisAlignment: MainAxisAlignment.center,
-                                  //               children: [
-                                  //                 Text(
-                                  //                   "เงินสด",
-                                  //                   style: TextStyle(
-                                  //                     fontSize: 16,
-                                  //                     fontFamily: 'IBMPlexSansThai',
-                                  //                     color: selectedPayment == 'เงินสด' ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
-                                  //                   ),
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         InkWell(
-                                  //           onTap: () {
-                                  //             onSelectPayment('เงินโอน');
-                                  //           },
-                                  //           child: Container(
-                                  //             width: size.width * 0.05,
-                                  //             height: size.height * 0.05,
-                                  //             decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: selectedPayment == 'เงินโอน' ? Colors.blue : Color.fromARGB(255, 255, 255, 255)),
-                                  //             child: Row(
-                                  //               mainAxisAlignment: MainAxisAlignment.center,
-                                  //               children: [
-                                  //                 Text(
-                                  //                   "เงินโอน",
-                                  //                   style:
-                                  //                       TextStyle(fontSize: 16, fontFamily: 'IBMPlexSansThai', color: selectedPayment == 'เงินโอน' ? Color.fromARGB(255, 255, 255, 255) : Colors.black),
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //           ),
-                                  //         )
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // )
+                                  )
                                 ],
                               ),
 
@@ -540,7 +633,7 @@ class _HomePageState extends State<HomePage> {
                                             onSelectPayment(payments[index]);
                                           },
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: size.width *0.001),
+                                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.001),
                                             child: Container(
                                               width: size.width * 0.065,
                                               height: size.height * 0.05,
@@ -979,14 +1072,13 @@ class _HomePageState extends State<HomePage> {
                                                 List<LicensePlates> _licensePlate = customer!.licensePlates!.where((element) => element.select == true).toList();
                                                 //inspect(_licensePlate);
                                                 final _order = await ProductApi.ceateOrders(
-                                                  shiftId: 2,
-                                                  total: double.parse(sum(selectproducts).toStringAsFixed(2)),
-                                                  orderItems: orderItems,
-                                                  customerId: customer!.id!,
-                                                  licensePlateId: _licensePlate[0].id!,
-                                                  selectedPayment: selectedPayment,
-                                                  paymentMethodId: payment!.id!
-                                                );
+                                                    shiftId: 2,
+                                                    total: double.parse(sum(selectproducts).toStringAsFixed(2)),
+                                                    orderItems: orderItems,
+                                                    customerId: customer!.id!,
+                                                    licensePlateId: _licensePlate[0].id!,
+                                                    selectedPayment: selectedPayment,
+                                                    paymentMethodId: payment!.id!);
                                                 if (!mounted) return;
                                                 LoadingDialog.close(context);
                                                 if (_order != null) {

@@ -68,6 +68,7 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                   ),
                   InputTextFormField(
                     size: size,
+                    width: 0.30,
                     controller: name,
                     maxLines: 1,
                   ),
@@ -87,6 +88,7 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                   ),
                   InputTextFormField(
                     size: size,
+                    width: 0.30,
                     controller: phoneNumber,
                     keyboardType: TextInputType.number,
                     maxLines: 1,
@@ -107,6 +109,7 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                   ),
                   InputTextFormField(
                     size: size,
+                    width: 0.30,
                     controller: licensePlate,
                     maxLines: 1,
                   ),
@@ -126,6 +129,7 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                   ),
                   InputTextFormField(
                     size: size,
+                    width: 0.30,
                     controller: address,
                     maxLines: 2,
                   ),
@@ -145,6 +149,7 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                   ),
                   InputTextFormField(
                     size: size,
+                    width: 0.30,
                     controller: code,
                     maxLines: 1,
                   ),
@@ -164,6 +169,7 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                   ),
                   InputTextFormField(
                     size: size,
+                    width: 0.30,
                     controller: tax,
                     maxLines: 1,
                   ),
