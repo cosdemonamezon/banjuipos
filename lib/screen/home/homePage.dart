@@ -16,6 +16,7 @@ import 'package:banjuipos/screen/home/widgets/CardOrder.dart';
 import 'package:banjuipos/screen/home/widgets/CustomerDialog.dart';
 import 'package:banjuipos/screen/home/widgets/EditCustomerDialog.dart';
 import 'package:banjuipos/screen/home/widgets/GridProduct.dart';
+import 'package:banjuipos/screen/home/widgets/SelectPaymentType.dart';
 import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:banjuipos/widgets/LoadingDialog.dart';
 import 'package:banjuipos/widgets/NumPad.dart';
@@ -160,6 +161,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           payments = _payments;
           payment = payments[0];
+          payment!.select = true;
           selectedPayment = payments[0].name!;
         });
       } else {}
@@ -437,41 +439,41 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         index != 0
                                             ? Expanded(
-                                              flex: 3,
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(horizontal: size.width * 0.005),
-                                                child: InkWell(
-                                                    onTap: () async {
-                                                      final _ok = await showDialog(
-                                                        context: context,
-                                                        barrierDismissible: false,
-                                                        builder: (BuildContext context) {
-                                                          return AlertDialogYesNo(
-                                                            title: 'แจ้งเตือน',
-                                                            description: 'ต้องการลบออร์เดอร์นี้หรือไม่',
-                                                            pressYes: () {
-                                                              Navigator.pop(context, true);
-                                                            },
-                                                            pressNo: () {
-                                                              Navigator.pop(context, false);
-                                                            },
-                                                          );
-                                                        },
-                                                      );
-                                                      if (_ok == true) {
-                                                        setState(() {
-                                                          selectPoint.removeAt(index);
-                                                          showSelect.removeAt(index);
-                                                          customers.removeAt(index);
-                                                          point = 0;
-                                                          selectproducts = showSelect[point];
-                                                          customer = customers[point];
-                                                        });
-                                                      }
-                                                    },
-                                                    child: Icon(Icons.cancel)),
-                                              ),
-                                            )
+                                                flex: 3,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.005),
+                                                  child: InkWell(
+                                                      onTap: () async {
+                                                        final _ok = await showDialog(
+                                                          context: context,
+                                                          barrierDismissible: false,
+                                                          builder: (BuildContext context) {
+                                                            return AlertDialogYesNo(
+                                                              title: 'แจ้งเตือน',
+                                                              description: 'ต้องการลบออร์เดอร์นี้หรือไม่',
+                                                              pressYes: () {
+                                                                Navigator.pop(context, true);
+                                                              },
+                                                              pressNo: () {
+                                                                Navigator.pop(context, false);
+                                                              },
+                                                            );
+                                                          },
+                                                        );
+                                                        if (_ok == true) {
+                                                          setState(() {
+                                                            selectPoint.removeAt(index);
+                                                            showSelect.removeAt(index);
+                                                            customers.removeAt(index);
+                                                            point = 0;
+                                                            selectproducts = showSelect[point];
+                                                            customer = customers[point];
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Icon(Icons.cancel)),
+                                                ),
+                                              )
                                             // IconButton(
                                             //     onPressed: () async {
                                             //       final _ok = await showDialog(
@@ -503,12 +505,12 @@ class _HomePageState extends State<HomePage> {
                                             //     },
                                             //     icon: Icon(Icons.cancel))
                                             : Expanded(
-                                              flex: 3,
-                                              child: SizedBox(
+                                                flex: 3,
+                                                child: SizedBox(
                                                   height: size.height * 0.01,
                                                   width: size.width * 0.032,
                                                 ),
-                                            )
+                                              )
                                       ],
                                     ),
                                   ),
@@ -736,50 +738,50 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          payments.isNotEmpty
-                              ? Container(
-                                  width: size.width * 0.14,
-                                  height: size.height * 0.06,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Row(
-                                      children: List.generate(
-                                        payments.length,
-                                        (index) => InkWell(
-                                          onTap: () {
-                                            onSelectPayment(payments[index]);
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.001),
-                                            child: Container(
-                                              width: size.width * 0.065,
-                                              height: size.height * 0.05,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8),
-                                                color: selectedPayment == payments[index].name ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "${payments[index].name}",
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily: 'IBMPlexSansThai',
-                                                      color: selectedPayment == payments[index].name ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : SizedBox()
+                          // payments.isNotEmpty
+                          //     ? Container(
+                          //         width: size.width * 0.14,
+                          //         height: size.height * 0.06,
+                          //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.all(2.0),
+                          //           child: Row(
+                          //             children: List.generate(
+                          //               payments.length,
+                          //               (index) => InkWell(
+                          //                 onTap: () {
+                          //                   onSelectPayment(payments[index]);
+                          //                 },
+                          //                 child: Padding(
+                          //                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.001),
+                          //                   child: Container(
+                          //                     width: size.width * 0.065,
+                          //                     height: size.height * 0.05,
+                          //                     decoration: BoxDecoration(
+                          //                       borderRadius: BorderRadius.circular(8),
+                          //                       color: selectedPayment == payments[index].name ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
+                          //                     ),
+                          //                     child: Row(
+                          //                       mainAxisAlignment: MainAxisAlignment.center,
+                          //                       children: [
+                          //                         Text(
+                          //                           "${payments[index].name}",
+                          //                           style: TextStyle(
+                          //                             fontSize: 16,
+                          //                             fontFamily: 'IBMPlexSansThai',
+                          //                             color: selectedPayment == payments[index].name ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
+                          //                           ),
+                          //                         ),
+                          //                       ],
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       )
+                          //     : SizedBox()
                         ],
                       ),
                     ),
@@ -1212,77 +1214,100 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       InkWell(
                                         onTap: () async {
-                                          if (customer != null) {
-                                            if (selectproducts.isNotEmpty && customer!.licensePlate != null) {
-                                              try {
-                                                LoadingDialog.open(context);
-                                                setState(() {
-                                                  for (var i = 0; i < selectproducts.length; i++) {
-                                                    OrderItems _orderItem = OrderItems(
-                                                      selectproducts[i].product.id,
-                                                      selectproducts[i].qty,
-                                                      selectproducts[i].product.price!,
-                                                      double.parse(sumTotal(selectproducts).toStringAsFixed(2)),
-                                                      [],
-                                                      null,
-                                                      selectproducts[i].newQty,
-                                                      selectproducts[i].downText!,
-                                                      selectproducts[i].sumText!,
-                                                    );
-                                                    orderItems.add(_orderItem);
-                                                  }
-                                                });
-                                                List<LicensePlates> _licensePlate = customer!.licensePlates!.where((element) => element.select == true).toList();
-                                                //inspect(_licensePlate);
-                                                final _order = await ProductApi.ceateOrders(
-                                                    shiftId: 2,
-                                                    total: double.parse(sum(selectproducts).toStringAsFixed(2)),
-                                                    orderItems: orderItems,
-                                                    customerId: customer!.id!,
-                                                    licensePlateId: _licensePlate[0].id!,
-                                                    selectedPayment: selectedPayment,
-                                                    paymentMethodId: payment!.id!);
-                                                if (!mounted) return;
-                                                LoadingDialog.close(context);
-                                                if (_order != null) {
-                                                  final printsuccess = await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => PrintPreview(
-                                                                customer: customer!,
-                                                                order: _order,
-                                                                selectProduct: selectproducts,
-                                                                selectedPayment: selectedPayment,
-                                                              )));
-                                                  if (printsuccess == true) {
-                                                    setState(() {
-                                                      selectproducts.clear();
-                                                      customer = null;
-                                                      customers[point] = Customer(null, null, null, null, null, null, null, null, null);
-                                                      orderItems.clear();
-                                                    });
-                                                  }
-                                                } else {
+                                          if (!mounted) return;
+                                          final _payment = await showDialog(
+                                            context: context,
+                                            builder: (context) => SelectPaymentType(
+                                              payments: payments,
+                                            ),
+                                          );
+                                          if (_payment != null) {
+                                            setState(() {
+                                              payment = _payment;
+                                            });
+                                            if (customer != null) {
+                                              if (selectproducts.isNotEmpty && customer!.licensePlate != null) {
+                                                try {
+                                                  LoadingDialog.open(context);
+                                                  setState(() {
+                                                    for (var i = 0; i < selectproducts.length; i++) {
+                                                      OrderItems _orderItem = OrderItems(
+                                                        selectproducts[i].product.id,
+                                                        selectproducts[i].qty,
+                                                        selectproducts[i].product.price!,
+                                                        double.parse(sumTotal(selectproducts).toStringAsFixed(2)),
+                                                        [],
+                                                        null,
+                                                        selectproducts[i].newQty,
+                                                        selectproducts[i].downText!,
+                                                        selectproducts[i].sumText!,
+                                                      );
+                                                      orderItems.add(_orderItem);
+                                                    }
+                                                  });
+                                                  List<LicensePlates> _licensePlate = customer!.licensePlates!.where((element) => element.select == true).toList();
+                                                  //inspect(_licensePlate);
+                                                  final _order = await ProductApi.ceateOrders(
+                                                      shiftId: 2,
+                                                      total: double.parse(sum(selectproducts).toStringAsFixed(2)),
+                                                      orderItems: orderItems,
+                                                      customerId: customer!.id!,
+                                                      licensePlateId: _licensePlate[0].id!,
+                                                      selectedPayment: selectedPayment,
+                                                      paymentMethodId: payment!.id!);
                                                   if (!mounted) return;
+                                                  LoadingDialog.close(context);
+                                                  if (_order != null) {
+                                                    final printsuccess = await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => PrintPreview(
+                                                                  customer: customer!,
+                                                                  order: _order,
+                                                                  selectProduct: selectproducts,
+                                                                  selectedPayment: selectedPayment,
+                                                                )));
+                                                    if (printsuccess == true) {
+                                                      setState(() {
+                                                        selectproducts.clear();
+                                                        customer = null;
+                                                        customers[point] = Customer(null, null, null, null, null, null, null, null, null);
+                                                        orderItems.clear();
+                                                      });
+                                                    }
+                                                  } else {
+                                                    if (!mounted) return;
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => AlertDialogYes(
+                                                        title: 'แจ้งเตือน',
+                                                        description: 'ข้อมูลจากตอบกลับจาก api ไม่ถูกต้อง',
+                                                        pressYes: () {
+                                                          Navigator.pop(context, true);
+                                                        },
+                                                      ),
+                                                    );
+                                                  }
+                                                } on Exception catch (e) {
+                                                  if (!mounted) return;
+                                                  LoadingDialog.close(context);
                                                   showDialog(
                                                     context: context,
                                                     builder: (context) => AlertDialogYes(
                                                       title: 'แจ้งเตือน',
-                                                      description: 'ข้อมูลจากตอบกลับจาก api ไม่ถูกต้อง',
+                                                      description: '${e}',
                                                       pressYes: () {
                                                         Navigator.pop(context, true);
                                                       },
                                                     ),
                                                   );
                                                 }
-                                              } on Exception catch (e) {
-                                                if (!mounted) return;
-                                                LoadingDialog.close(context);
+                                              } else {
                                                 showDialog(
                                                   context: context,
                                                   builder: (context) => AlertDialogYes(
                                                     title: 'แจ้งเตือน',
-                                                    description: '${e}',
+                                                    description: 'ยังไม่ได้เลือกสินค้า',
                                                     pressYes: () {
                                                       Navigator.pop(context, true);
                                                     },
@@ -1294,24 +1319,13 @@ class _HomePageState extends State<HomePage> {
                                                 context: context,
                                                 builder: (context) => AlertDialogYes(
                                                   title: 'แจ้งเตือน',
-                                                  description: 'ยังไม่ได้เลือกสินค้า',
+                                                  description: 'ยังไม่ได้เลือกลูกค้า',
                                                   pressYes: () {
                                                     Navigator.pop(context, true);
                                                   },
                                                 ),
                                               );
                                             }
-                                          } else {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialogYes(
-                                                title: 'แจ้งเตือน',
-                                                description: 'ยังไม่ได้เลือกลูกค้า',
-                                                pressYes: () {
-                                                  Navigator.pop(context, true);
-                                                },
-                                              ),
-                                            );
                                           }
                                         },
                                         child: Container(

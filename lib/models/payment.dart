@@ -8,12 +8,14 @@ class Payment {
   final String? name;
   final String? icon;
   final String? type;
+  bool select;
 
   Payment(
     this.id,
     this.name,
     this.icon,
     this.type,
+    {this.select = false}
   );
 
   factory Payment.fromJson(Map<String, dynamic> json) => _$PaymentFromJson(json);

@@ -102,7 +102,7 @@ class ProductController extends ChangeNotifier {
   }
 
   searchListCustomer({required String search}) async {
-    List<Customer> _customer = customers.where((customer) => customer.name == search).toList();
+    List<Customer> _customer = customers.where((customer) => customer.name == search || customer.licensePlate == search || customer.phoneNumber == search).toList();
     customers = _customer;
     notifyListeners();
   }

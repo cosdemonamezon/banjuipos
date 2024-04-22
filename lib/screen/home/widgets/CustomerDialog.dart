@@ -258,7 +258,6 @@ class _CustomerDialogState extends State<CustomerDialog> {
                               maxLines: 4,
                               hintText: 'ที่อยู่',
                             ),
-                            
                             SizedBox(
                               height: size.height * 0.30,
                             ),
@@ -266,117 +265,116 @@ class _CustomerDialogState extends State<CustomerDialog> {
                         ),
                       )
                     : SingleChildScrollView(
-                        child: customer.isNotEmpty
-                            ? Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: size.height * 0.01, horizontal: size.width * 0.01),
-                                    child: InputSearchText(
-                                        size: size,
-                                        controller: search,
-                                        onPressed: () async {
-                                          await context.read<ProductController>().searchListCustomer(search: search.text);
-                                          setState(() {});
-                                        },
-                                        onChanged: (value) {
-                                          if (value == '' || value == null) {
-                                            getlistCustomer();
-                                          }
-                                        }),
-                                  ),
-                                  Container(
-                                    height: size.height * 0.65,
-                                    child: ListView.builder(
-                                        physics: const ClampingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: customer.length,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                                            child: Card(
-                                              margin: EdgeInsets.zero,
-                                              elevation: 0,
-                                              color: Color.fromARGB(255, 238, 234, 234),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                  color: Color.fromARGB(255, 238, 231, 231),
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius: BorderRadius.circular(8),
+                        child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: size.height * 0.01, horizontal: size.width * 0.01),
+                            child: InputSearchText(
+                                size: size,
+                                controller: search,
+                                onPressed: () async {
+                                  await context.read<ProductController>().searchListCustomer(search: search.text);
+                                  setState(() {});
+                                },
+                                onChanged: (value) async {
+                                  if (value == '' || value == null) {
+                                    getlistCustomer();
+                                  } 
+                                }),
+                          ),
+                          customer.isNotEmpty
+                              ? Container(
+                                  height: size.height * 0.65,
+                                  child: ListView.builder(
+                                      physics: const ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: customer.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                          child: Card(
+                                            margin: EdgeInsets.zero,
+                                            elevation: 0,
+                                            color: Color.fromARGB(255, 238, 234, 234),
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                color: Color.fromARGB(255, 238, 231, 231),
+                                                width: 2.0,
                                               ),
-                                              child: Container(
-                                                decoration: BoxDecoration(color: Colors.white),
-                                                //decoration: BoxDecoration(color: read ? Colors.white : Color.fromRGBO(0, 0, 0, 0.1), borderRadius: BorderRadius.circular(8)),
-                                                child: ListTile(
-                                                  title: Text(
-                                                    'ชื่อ ${customer[index].name}',
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 16,
-                                                    ),
+                                              borderRadius: BorderRadius.circular(8),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(color: Colors.white),
+                                              //decoration: BoxDecoration(color: read ? Colors.white : Color.fromRGBO(0, 0, 0, 0.1), borderRadius: BorderRadius.circular(8)),
+                                              child: ListTile(
+                                                title: Text(
+                                                  'ชื่อ ${customer[index].name}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
                                                   ),
-                                                  subtitle: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        'เบอร์โทร ${customer[index].phoneNumber}',
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'ทะเบียนรถ ${customer[index].licensePlate}',
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'ที่อยู่ ${customer[index].address}',
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  trailing: select == index
-                                                      ? Icon(
-                                                          Icons.check_circle,
-                                                          color: Colors.green,
-                                                        )
-                                                      : Icon(
-                                                          Icons.keyboard_arrow_right,
-                                                        ),
-                                                  onTap: () async {
-                                                    setState(() {
-                                                      select = index;
-                                                    });
-                                                    final _licensePlate = await showDialog(
-                                                      context: context,
-                                                      barrierDismissible: false,
-                                                      builder: (context) => SelectLicensePlate(
-                                                        licenseplates: customer[index].licensePlates!,
-                                                      ),
-                                                    );
-                                                    if (_licensePlate != null) {
-                                                      setState(() {
-                                                        customer[index].licensePlate = _licensePlate.licensePlate;
-                                                      });
-                                                    }
-                                                  },
                                                 ),
+                                                subtitle: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'เบอร์โทร ${customer[index].phoneNumber}',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'ทะเบียนรถ ${customer[index].licensePlate}',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'ที่อยู่ ${customer[index].address}',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                trailing: select == index
+                                                    ? Icon(
+                                                        Icons.check_circle,
+                                                        color: Colors.green,
+                                                      )
+                                                    : Icon(
+                                                        Icons.keyboard_arrow_right,
+                                                      ),
+                                                onTap: () async {
+                                                  setState(() {
+                                                    select = index;
+                                                  });
+                                                  final _licensePlate = await showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) => SelectLicensePlate(
+                                                      licenseplates: customer[index].licensePlates!,
+                                                    ),
+                                                  );
+                                                  if (_licensePlate != null) {
+                                                    setState(() {
+                                                      customer[index].licensePlate = _licensePlate.licensePlate;
+                                                    });
+                                                  }
+                                                },
                                               ),
                                             ),
-                                          );
-                                        }),
-                                  ),
-                                ],
-                              )
-                            : SizedBox(),
-                      )
+                                          ),
+                                        );
+                                      }),
+                                )
+                              : SizedBox(),
+                        ],
+                      ))
               ],
             ),
           ),
@@ -391,8 +389,8 @@ class _CustomerDialogState extends State<CustomerDialog> {
                         //textColor: Color(0xFF6200EE),
                         onPressed: () async {
                           try {
-                            final addCustomer =
-                                await ProductApi.addCustomer(name: name.text, phoneNumber: phoneNumber.text, licensePlate: licensePlate.text, address: address.text, code: code.text, tax: tax.text, prefixId: namePrefix!.id!);
+                            final addCustomer = await ProductApi.addCustomer(
+                                name: name.text, phoneNumber: phoneNumber.text, licensePlate: licensePlate.text, address: address.text, code: code.text, tax: tax.text, prefixId: namePrefix!.id!);
                             if (addCustomer != null) {
                               setState(() {
                                 add = false;

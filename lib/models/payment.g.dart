@@ -11,6 +11,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       json['name'] as String?,
       json['icon'] as String?,
       json['type'] as String?,
+      select: json['select'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
       'name': instance.name,
       'icon': instance.icon,
       'type': instance.type,
+      'select': instance.select,
     };
