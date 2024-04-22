@@ -1,27 +1,36 @@
 import 'package:banjuipos/constants.dart';
 import 'package:flutter/material.dart';
 
-class NumPad extends StatelessWidget {
+class NumPad extends StatefulWidget {
   final double buttonSize;
   final Color buttonColor;
   final Color iconColor;
   final TextEditingController controller;
   final Function delete;
   final Function onSubmit;
+  final Function(int) status;
+  int plusOrMinus;
 
-  const NumPad({
-    Key? key,
-    this.buttonSize = 10,
-    this.buttonColor = Colors.indigo,
-    this.iconColor = Colors.amber,
-    required this.delete,
-    required this.onSubmit,
-    required this.controller,
-  }) : super(key: key);
+  NumPad(
+      {Key? key,
+      this.buttonSize = 10,
+      this.buttonColor = Colors.indigo,
+      this.iconColor = Colors.amber,
+      required this.delete,
+      required this.onSubmit,
+      required this.controller,
+      required this.status,
+      required this.plusOrMinus})
+      : super(key: key);
 
   @override
+  State<NumPad> createState() => _NumPadState();
+}
+
+class _NumPadState extends State<NumPad> {
+  @override
   Widget build(BuildContext context) {
-    //final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Container(
       //margin: const EdgeInsets.only(left:1, right: 1),
       child: Column(
@@ -34,23 +43,29 @@ class NumPad extends StatelessWidget {
             children: [
               NumberButton(
                 number: '1',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
               NumberButton(
                 number: '2',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
               NumberButton(
                 number: '3',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
-              
+              NumberButton1(
+                number: 'del',
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
+                delete: widget.delete,
+              ),
             ],
           ),
           const SizedBox(height: 15),
@@ -59,23 +74,28 @@ class NumPad extends StatelessWidget {
             children: [
               NumberButton(
                 number: '4',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
               NumberButton(
                 number: '5',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
               NumberButton(
                 number: '6',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
-              
+              NumberButton(
+                number: '+',
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
+              ),
             ],
           ),
           const SizedBox(height: 15),
@@ -84,23 +104,28 @@ class NumPad extends StatelessWidget {
             children: [
               NumberButton(
                 number: '7',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
               NumberButton(
                 number: '8',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
               NumberButton(
                 number: '9',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
-              
+              NumberButton(
+                number: '-',
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
+              ),
             ],
           ),
           const SizedBox(height: 15),
@@ -109,24 +134,38 @@ class NumPad extends StatelessWidget {
             children: [
               NumberButton(
                 number: '0',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
               ),
-              NumberButton(
-                number: '+',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
+              NumberStatus(
+                number: 'บวก',
+                size: widget.buttonSize,
+                color: widget.plusOrMinus == 0 ? Colors.red : Colors.grey,
+                status: (plusValue) {
+                  setState(() {
+                    widget.plusOrMinus = 0;
+                  });
+                  widget.status(0);
+                },
+                statusClick: 0,
               ),
-              NumberButton1(
-                number: 'del',
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                delete: delete,
+              NumberStatus(
+                number: 'ลบ',
+                size: widget.buttonSize,
+                color: widget.plusOrMinus == 1 ? Colors.red : Colors.grey,
+                status: (minusValue) {
+                  setState(() {
+                    widget.plusOrMinus = 1;
+                  });
+                  widget.status(1);
+                },
+                statusClick: 1,
               ),
-              
+              SizedBox(
+                height: 50,
+                width: size.width * 0.08,
+              )
             ],
           ),
           const SizedBox(height: 20),
@@ -142,7 +181,7 @@ class NumPad extends StatelessWidget {
               //   iconSize: buttonSize,
               // ),
               GestureDetector(
-                onTap: () => onSubmit(),
+                onTap: () => widget.onSubmit(),
                 child: Container(
                   decoration: BoxDecoration(color: kSecondaryColor, borderRadius: BorderRadius.all(Radius.circular(20))),
                   height: 60,
@@ -254,6 +293,43 @@ class NumberButton1 extends StatelessWidget {
           ),
         ),
         onPressed: () => delete(),
+        child: Center(
+          child: Text(
+            number.toString(),
+            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NumberStatus extends StatelessWidget {
+  final String number;
+  final double size;
+  final Color color;
+  final String? price;
+  final String? name;
+  final Function(int) status;
+  int statusClick;
+
+  NumberStatus({Key? key, required this.status, required this.number, required this.size, required this.color, this.name, this.price, required this.statusClick}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(size / 4),
+          ),
+        ),
+        onPressed: () {
+          status(statusClick);
+        },
         child: Center(
           child: Text(
             number.toString(),

@@ -216,7 +216,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              height: size.height * 0.04,
+            ),
           ],
         ),
       ),
@@ -239,7 +242,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('ใบรับซื้อ'),
+                    Text(
+                      'ใบรับซื้อ',
+                      style: TextStyle(fontSize: 22),
+                    ),
                   ],
                 ),
                 Row(
@@ -255,17 +261,26 @@ class _RePrintOrderState extends State<RePrintOrder> {
                           children: [
                             Row(
                               children: [
-                                Text('เลขที่เอกสาร'),
+                                Text(
+                                  'เลขที่เอกสาร',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('วันที่ออกเอกสาร'),
+                                Text(
+                                  'วันที่ออกเอกสาร',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('พนักงาน'),
+                                Text(
+                                  'พนักงาน',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -276,17 +291,26 @@ class _RePrintOrderState extends State<RePrintOrder> {
                           children: [
                             Row(
                               children: [
-                                Text('${order!.orderNo}'),
+                                Text(
+                                  '${order!.orderNo}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${formatter.format(order!.orderDate!)}'),
+                                Text(
+                                  '${formatter.format(order!.orderDate!)}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${order!.user?.firstName ?? ''}'),
+                                Text(
+                                  '${order!.user?.firstName ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -295,7 +319,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                 ),
                 Row(
                   children: [
-                    Text('ข้อมูลลูกค้า :'),
+                    Text(
+                      'ข้อมูลลูกค้า :',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ],
                 ),
                 Row(children: [
@@ -305,17 +332,26 @@ class _RePrintOrderState extends State<RePrintOrder> {
                         children: [
                           Row(
                             children: [
-                              Text('ชื่อผู้ติดต่อหน้าร้าน'),
+                              Text(
+                                'ผู้ติดต่อ',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                           Row(
                             children: [
-                              Text('เบอร์ผู้ติดต่อ'),
+                              Text(
+                                'เบอร์ผู้ติดต่อ',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                           Row(
                             children: [
-                              Text('ทะเบียนรถ'),
+                              Text(
+                                'ทะเบียนรถ',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                         ],
@@ -326,17 +362,26 @@ class _RePrintOrderState extends State<RePrintOrder> {
                         children: [
                           Row(
                             children: [
-                              Text('${order!.customer?.name ?? ''}'),
+                              Text(
+                                '${order!.customer?.name ?? ''}',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                           Row(
                             children: [
-                              Text('${order!.customer?.phoneNumber ?? ''}'),
+                              Text(
+                                '${order!.customer?.phoneNumber ?? ''}',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                           Row(
                             children: [
-                              Text('${order!.licensePlate?.licensePlate ?? ''}'),
+                              Text(
+                                '${order!.licensePlate?.licensePlate ?? ''}',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                         ],
@@ -355,7 +400,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                           children: [
                             Row(
                               children: [
-                                Text('รายการ'),
+                                Text(
+                                  'รายการ',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -367,7 +415,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text('จำนวน'),
+                                Text(
+                                  'จำนวน',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -379,7 +430,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('ราคา'),
+                                Text(
+                                  'ราคา',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -391,7 +445,10 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text('ราคารวม'),
+                                Text(
+                                  'ราคารวม',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -418,12 +475,28 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                         children: [
                                           Row(
                                             children: [
-                                              Text('${order!.orderItems![index].product?.name ?? ''}'),
+                                              Text(
+                                                '${order!.orderItems![index].product?.name ?? ''}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          )
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${order!.orderItems![index].uptext}',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'ลบ  ${order!.orderItems![index].downtext}',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                   Expanded(
@@ -433,13 +506,29 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text('${order!.orderItems![index].quantity}'),
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${order!.orderItems![index].quantity}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text('- ${order!.orderItems![index].dequantity}', style: TextStyle(fontSize: 14),),
+                                              Text(
+                                                '- ${order!.orderItems![index].dequantity}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
                                         ],
@@ -448,15 +537,33 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                       flex: 2,
                                       child: Column(
                                         children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Text('${order!.orderItems![index].price}'),
+                                              Text(
+                                                '${order!.orderItems![index].price}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          )
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                   Expanded(
@@ -466,12 +573,30 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text('${sumOneRowReprint(order!.orderItems![index])}'),
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          )
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '${sumOneRowPrint(order!.orderItems![index])}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '-${sumOneRowReprint(order!.orderItems![index])}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                 ],
@@ -488,8 +613,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('ยอดสุทธิ'),
-                    Text('${sumNewOneColumn(order!.orderItems!)} ฿'),
+                    Text(
+                      'ยอดสุทธิ',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${sumNewOneColumn(order!.orderItems!)} ฿',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ],
                 ),
                 Row(
@@ -500,8 +631,19 @@ class _RePrintOrderState extends State<RePrintOrder> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('ประเภทการชำระ'),
-                    Text('${order!.paymentMethod?.name ?? ''}'),
+                    Text(
+                      'ประเภทการชำระ',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${order!.paymentMethod?.name ?? ''}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('-----------------------------------------------------------------------'),
                   ],
                 ),
               ],

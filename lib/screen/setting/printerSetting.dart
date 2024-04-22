@@ -80,7 +80,7 @@ class _PrinterSettingState extends State<PrinterSetting> {
                         ),
                       ),
                       SizedBox(
-                        height: size.height * 0.05,
+                        height: size.height * 0.35,
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
@@ -117,7 +117,7 @@ class _PrinterSettingState extends State<PrinterSetting> {
                             }
                           },
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: size.height * 0.15),
+                            padding: EdgeInsets.symmetric(horizontal: size.height * 0.35),
                             child: Container(
                               height: size.height * 0.08,
                               width: size.width * 0.35,

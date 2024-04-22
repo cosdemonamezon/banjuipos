@@ -183,6 +183,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                     await _capturePng();
                     if (pngBytes != null) {
                       printOrder(pngBytes!);
+                      printOrder(pngBytes!);
                       Navigator.pop(context, true);
                     }
                   } else {
@@ -217,7 +218,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              height: size.height * 0.04,
+            ),
           ],
         ),
       ),
@@ -241,7 +245,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('ใบรับซื้อ'),
+                    Text(
+                      'ใบรับซื้อ',
+                      style: TextStyle(fontSize: 22),
+                    ),
                   ],
                 ),
                 Row(
@@ -257,17 +264,26 @@ class _PrintPreviewState extends State<PrintPreview> {
                           children: [
                             Row(
                               children: [
-                                Text('เลขที่เอกสาร'),
+                                Text(
+                                  'เลขที่เอกสาร',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('วันที่ออกเอกสาร'),
+                                Text(
+                                  'วันที่ออกเอกสาร',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('พนักงาน'),
+                                Text(
+                                  'พนักงาน',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -278,17 +294,26 @@ class _PrintPreviewState extends State<PrintPreview> {
                           children: [
                             Row(
                               children: [
-                                Text('${widget.order.orderNo}'),
+                                Text(
+                                  '${widget.order.orderNo}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${formatter.format(widget.order.orderDate!)}'),
+                                Text(
+                                  '${formatter.format(widget.order.orderDate!)}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${widget.order.user?.firstName ?? ''}'),
+                                Text(
+                                  '${widget.order.user?.firstName ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -297,7 +322,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                 ),
                 Row(
                   children: [
-                    Text('ข้อมูลลูกค้า :'),
+                    Text(
+                      'ข้อมูลลูกค้า :',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ],
                 ),
                 Row(
@@ -308,17 +336,26 @@ class _PrintPreviewState extends State<PrintPreview> {
                           children: [
                             Row(
                               children: [
-                                Text('ชื่อผู้ติดต่อหน้าร้าน'),
+                                Text(
+                                  'ผู้ติดต่อ',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('เบอร์ผู้ติดต่อ'),
+                                Text(
+                                  'เบอร์ผู้ติดต่อ',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('ทะเบียนรถ'),
+                                Text(
+                                  'ทะเบียนรถ',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -329,17 +366,26 @@ class _PrintPreviewState extends State<PrintPreview> {
                           children: [
                             Row(
                               children: [
-                                Text('${widget.order.customer?.name ?? ''}'),
+                                Text(
+                                  '${widget.order.customer?.name ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${widget.order.customer?.phoneNumber ?? ''}'),
+                                Text(
+                                  '${widget.order.customer?.phoneNumber ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${widget.order.licensePlate?.licensePlate ?? ''}'),
+                                Text(
+                                  '${widget.order.licensePlate?.licensePlate ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -359,7 +405,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                           children: [
                             Row(
                               children: [
-                                Text('รายการ'),
+                                Text(
+                                  'รายการ',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -371,7 +420,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text('จำนวน'),
+                                Text(
+                                  'จำนวน',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -383,7 +435,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('ราคา'),
+                                Text(
+                                  'ราคา',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -395,7 +450,10 @@ class _PrintPreviewState extends State<PrintPreview> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text('ราคารวม'),
+                                Text(
+                                  'ราคารวม',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -422,31 +480,25 @@ class _PrintPreviewState extends State<PrintPreview> {
                                         children: [
                                           Row(
                                             children: [
-                                              Text('${widget.order.orderItems![index].product?.name ?? ''}'),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          )
-                                        ],
-                                      )),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text('${widget.order.orderItems![index].quantity}'),
+                                              Text(
+                                                '${widget.order.orderItems![index].product?.name ?? ''} :',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '- ${widget.order.orderItems![index].dequantity}',
-                                                style: TextStyle(fontSize: 14),
+                                                '${widget.order.orderItems![index].uptext}',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'ลบ  ${widget.order.orderItems![index].downtext}',
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                             ],
                                           ),
@@ -457,14 +509,33 @@ class _PrintPreviewState extends State<PrintPreview> {
                                       child: Column(
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text('${widget.order.orderItems![index].price}'),
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          )
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${widget.order.orderItems![index].quantity}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '- ${widget.order.orderItems![index].dequantity}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                   Expanded(
@@ -474,12 +545,63 @@ class _PrintPreviewState extends State<PrintPreview> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text('${sumOneRowReprint(widget.order.orderItems![index])}'),
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          )
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '${widget.order.orderItems![index].price}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Expanded(
+                                      flex: 2,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '${sumOneRowPrint(widget.order.orderItems![index])}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '-${sumOneRowReprint(widget.order.orderItems![index])}',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       )),
                                 ],
@@ -496,8 +618,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('ยอดสุทธิ'),
-                    Text('${sumNewOneColumn(widget.order.orderItems!)} ฿'),
+                    Text(
+                      'ยอดสุทธิ',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${sumNewOneColumn(widget.order.orderItems!)} ฿',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ],
                 ),
                 Row(
@@ -508,8 +636,19 @@ class _PrintPreviewState extends State<PrintPreview> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('ประเภทการชำระ'),
-                    Text('${widget.order.paymentMethod?.name ?? ''}'),
+                    Text(
+                      'ประเภทการชำระ',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${widget.order.paymentMethod?.name ?? ''}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('-----------------------------------------------------------------------'),
                   ],
                 ),
               ],

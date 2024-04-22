@@ -19,7 +19,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       json['orderDate'] == null
           ? null
           : DateTime.parse(json['orderDate'] as String),
-      json['orderNo'] as String?,
+      json['orderNo'] as int?,
       json['orderStatus'] as String?,
       (json['total'] as num?)?.toDouble(),
       json['updatedAt'] == null

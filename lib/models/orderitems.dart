@@ -6,11 +6,13 @@ part 'orderitems.g.dart';
 @JsonSerializable()
 class OrderItems {
   final int? productId;
-  final int quantity;
-  int dequantity;
-  final double price;  
-  final double total;
-  final List attributes;
+  final int? quantity;
+  int? dequantity;
+  final double? price;  
+  final double? total;
+  final List? attributes;
+  final String? uptext;
+  final String? downtext;
   Product? product;
 
   OrderItems(
@@ -20,7 +22,9 @@ class OrderItems {
     this.total,
     this.attributes,
     this.product,
-    this.dequantity
+    this.dequantity,
+    this.downtext,
+    this.uptext
   );
 
   factory OrderItems.fromJson(Map<String, dynamic> json) => _$OrderItemsFromJson(json);

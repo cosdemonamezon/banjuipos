@@ -15,7 +15,8 @@ class GridProduct extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(
-                products.image ?? 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                //products.image ?? 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
                 width: size.width * 0.22,
                 height: size.height * 0.22,
                 fit: BoxFit.cover,

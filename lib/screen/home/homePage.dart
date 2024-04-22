@@ -20,6 +20,7 @@ import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:banjuipos/widgets/LoadingDialog.dart';
 import 'package:banjuipos/widgets/NumPad.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:provider/provider.dart';
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   int keyPanel = 0;
   List<Panel> panels = [];
   Panel? panel;
+  int plusOrMinus = 0;
 
   @override
   void initState() {
@@ -398,33 +400,124 @@ class _HomePageState extends State<HomePage> {
                       Wrap(
                         children: List.generate(
                             selectPoint.length,
-                            (index) => CardOrder(
-                                  pointIndex: index,
-                                  color: point == index ? kButtonColor : kTabColor,
-                                  //licensePlate: licensePlate,
-                                  onClickText: () {
-                                    setState(() {
-                                      point = index;
-                                      selectproducts = showSelect[point];
-                                      customer = customers[point];
-                                    });
-                                  },
-                                  onClickIcon: () {
-                                    setState(() {
-                                      selectPoint.removeAt(index);
-                                      showSelect.removeAt(index);
-                                      customers.removeAt(index);
-                                      point = 0;
-                                      selectproducts = showSelect[point];
-                                      customer = customers[point];
-                                    });
-                                  },
+                            (index) => Card(
+                                  surfaceTintColor: Colors.white,
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0), side: BorderSide(color: kButtonColor)),
+                                  child: SizedBox(
+                                    width: size.width * 0.12,
+                                    height: size.height * 0.055,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          flex: 7,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                point = index;
+                                                selectproducts = showSelect[point];
+                                                customer = customers[point];
+                                              });
+                                            },
+                                            child: Center(
+                                                child: customers[index].licensePlate != null
+                                                    ? Text(
+                                                        '${customers[index].licensePlate} ',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(color: point == index ? kButtonColor : kTabColor, fontFamily: 'IBMPlexSansThai', fontSize: 16, fontWeight: FontWeight.bold),
+                                                      )
+                                                    : Text(
+                                                        'Order${index + 1}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(color: point == index ? kButtonColor : kTabColor, fontFamily: 'IBMPlexSansThai', fontSize: 16, fontWeight: FontWeight.bold),
+                                                      )),
+                                          ),
+                                        ),
+                                        index != 0
+                                            ? Expanded(
+                                              flex: 3,
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: size.width * 0.005),
+                                                child: InkWell(
+                                                    onTap: () async {
+                                                      final _ok = await showDialog(
+                                                        context: context,
+                                                        barrierDismissible: false,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialogYesNo(
+                                                            title: 'แจ้งเตือน',
+                                                            description: 'ต้องการลบออร์เดอร์นี้หรือไม่',
+                                                            pressYes: () {
+                                                              Navigator.pop(context, true);
+                                                            },
+                                                            pressNo: () {
+                                                              Navigator.pop(context, false);
+                                                            },
+                                                          );
+                                                        },
+                                                      );
+                                                      if (_ok == true) {
+                                                        setState(() {
+                                                          selectPoint.removeAt(index);
+                                                          showSelect.removeAt(index);
+                                                          customers.removeAt(index);
+                                                          point = 0;
+                                                          selectproducts = showSelect[point];
+                                                          customer = customers[point];
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Icon(Icons.cancel)),
+                                              ),
+                                            )
+                                            // IconButton(
+                                            //     onPressed: () async {
+                                            //       final _ok = await showDialog(
+                                            //         context: context,
+                                            //         barrierDismissible: false,
+                                            //         builder: (BuildContext context) {
+                                            //           return AlertDialogYesNo(
+                                            //             title: 'แจ้งเตือน',
+                                            //             description: 'ต้องการลบออร์เดอร์นี้หรือไม่',
+                                            //             pressYes: () {
+                                            //               Navigator.pop(context, true);
+                                            //             },
+                                            //             pressNo: () {
+                                            //               Navigator.pop(context, false);
+                                            //             },
+                                            //           );
+                                            //         },
+                                            //       );
+                                            //       if (_ok == true) {
+                                            //         setState(() {
+                                            //           selectPoint.removeAt(index);
+                                            //           showSelect.removeAt(index);
+                                            //           customers.removeAt(index);
+                                            //           point = 0;
+                                            //           selectproducts = showSelect[point];
+                                            //           customer = customers[point];
+                                            //         });
+                                            //       }
+                                            //     },
+                                            //     icon: Icon(Icons.cancel))
+                                            : Expanded(
+                                              flex: 3,
+                                              child: SizedBox(
+                                                  height: size.height * 0.01,
+                                                  width: size.width * 0.032,
+                                                ),
+                                            )
+                                      ],
+                                    ),
+                                  ),
                                 )),
                       ),
                       AddCardOrder(
                         onClickAdd: () {
                           setState(() {
-                            if (selectPoint.length < 5) {
+                            if (selectPoint.length < 4) {
                               point = point + 1;
                               selectPoint.add(Text(''));
                               final List<SelectProduct> _selectproducts = [];
@@ -473,103 +566,128 @@ class _HomePageState extends State<HomePage> {
                                     itemBuilder: (_, index) {
                                       return GestureDetector(
                                         onTap: () async {
-                                          _myNumber.clear();
-                                          final addProduct = await showModalBottomSheet(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10.0),
-                                                topRight: Radius.circular(10.0),
-                                              ),
-                                            ),
-                                            backgroundColor: Colors.white,
-                                            context: context,
-                                            isScrollControlled: true,
-                                            useRootNavigator: true,
-                                            builder: (BuildContext context) {
-                                              return Container(
-                                                height: size.height * 0.90,
-                                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      SizedBox(height: 50),
-                                                      Padding(
-                                                        padding: EdgeInsets.all(5),
-                                                        child: SizedBox(
-                                                          height: size.height * 0.05,
-                                                          child: Center(
-                                                              child: TextField(
-                                                            controller: _myNumber,
-                                                            textAlign: TextAlign.center,
-                                                            showCursor: false,
-                                                            style: TextStyle(fontSize: 30),
-                                                            // Disable the default soft keybaord
-                                                            keyboardType: TextInputType.none,
-                                                          )),
-                                                        ),
-                                                      ),
-                                                      Divider(),
-                                                      SizedBox(height: 10),
-                                                      NumPad(
-                                                        buttonSize: size.height * 0.13,
-                                                        buttonColor: Colors.grey,
-                                                        iconColor: Colors.red,
-                                                        controller: _myNumber,
-                                                        delete: () {
-                                                          if (_myNumber.text != null) {
-                                                            if (_myNumber.text.length > 0) {
-                                                              _myNumber.text = _myNumber.text.substring(0, _myNumber.text.length - 1);
-                                                            }
-                                                          }
-                                                        },
-                                                        // do something with the input numbers
-                                                        onSubmit: () {
-                                                          //debugPrint('Your code: ${_myNumber.text}');
-                                                          try {
-                                                            // List<String> check = [];
-                                                            // for (var character in _myNumber.text.runes) {
-                                                            //   String singleCharacter = String.fromCharCode(character);
-                                                            //   print(singleCharacter);
-                                                            //   check.add(singleCharacter);
-                                                            // }
-                                                            //
-                                                            //final a = check.contains('+');
-                                                            String text = _myNumber.text;
-                                                            List<String> substring2 = _myNumber.text.split('+');
-                                                            //debugPrint('${substring2}');
-                                                            setState(() {
-                                                              final _selectproduct = SelectProduct(products[index], qty: sumQty(substring2), text, newQty: 0);
-                                                              selectproducts.add(_selectproduct);
-                                                              showSelect.insert(point, selectproducts);
-                                                              showSelect.removeAt(point + 1);
-                                                            });
-                                                            //inspect(selectproducts);
-                                                            Navigator.pop(context, _myNumber.text);
-                                                          } catch (e) {
-                                                            _myNumber.clear();
-                                                            showDialog(
-                                                              context: context,
-                                                              barrierDismissible: false,
-                                                              builder: (BuildContext context) {
-                                                                return AlertDialogYes(
-                                                                  title: 'แจ้งเตือน',
-                                                                  description: e.toString(),
-                                                                  pressYes: () {
-                                                                    Navigator.pop(context, true);
-                                                                  },
-                                                                );
-                                                              },
-                                                            );
-                                                          }
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
+                                          if (customer != null) {
+                                            setState(() {
+                                              plusOrMinus = 0;
+                                            });
+                                            _myNumber.clear();
+                                            final addProduct = await showModalBottomSheet(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10.0),
+                                                  topRight: Radius.circular(10.0),
                                                 ),
-                                              );
-                                            },
-                                          );
+                                              ),
+                                              backgroundColor: Colors.white,
+                                              context: context,
+                                              isScrollControlled: true,
+                                              useRootNavigator: true,
+                                              builder: (BuildContext context) {
+                                                return Container(
+                                                  height: size.height * 0.90,
+                                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        SizedBox(height: 50),
+                                                        Padding(
+                                                          padding: EdgeInsets.all(5),
+                                                          child: SizedBox(
+                                                            height: size.height * 0.05,
+                                                            child: Center(
+                                                                child: TextField(
+                                                              controller: _myNumber,
+                                                              textAlign: TextAlign.center,
+                                                              showCursor: false,
+                                                              style: TextStyle(fontSize: 30),
+                                                              // Disable the default soft keybaord
+                                                              keyboardType: TextInputType.none,
+                                                              decoration: InputDecoration.collapsed(hintText: '0'),
+                                                            )),
+                                                          ),
+                                                        ),
+                                                        Divider(),
+                                                        SizedBox(height: 10),
+                                                        NumPad(
+                                                          buttonSize: size.height * 0.13,
+                                                          buttonColor: Colors.grey,
+                                                          iconColor: Colors.red,
+                                                          controller: _myNumber,
+                                                          delete: () {
+                                                            if (_myNumber.text != null) {
+                                                              if (_myNumber.text.length > 0) {
+                                                                _myNumber.text = _myNumber.text.substring(0, _myNumber.text.length - 1);
+                                                              }
+                                                            }
+                                                          },
+                                                          plusOrMinus: plusOrMinus,
+                                                          status: (value) {
+                                                            plusOrMinus = value;
+                                                            print(plusOrMinus);
+                                                          },
+                                                          // do something with the input numbers
+                                                          onSubmit: () {
+                                                            //debugPrint('Your code: ${_myNumber.text}');
+                                                            try {
+                                                              // List<String> check = [];
+                                                              // for (var character in _myNumber.text.runes) {
+                                                              //   String singleCharacter = String.fromCharCode(character);
+                                                              //   print(singleCharacter);
+                                                              //   check.add(singleCharacter);
+                                                              // }
+                                                              //
+                                                              //final a = check.contains('+');
+                                                              String text = _myNumber.text;
+                                                              List<String> substring2 = _myNumber.text.split('+');
+                                                              //debugPrint('${substring2}');
+                                                              setState(() {
+                                                                final _selectproduct = SelectProduct(products[index], qty: sumQty(substring2), text, '', newQty: 0);
+                                                                selectproducts.add(_selectproduct);
+                                                                showSelect.insert(point, selectproducts);
+                                                                showSelect.removeAt(point + 1);
+                                                              });
+                                                              //inspect(selectproducts);
+                                                              Navigator.pop(context, _myNumber.text);
+                                                            } catch (e) {
+                                                              _myNumber.clear();
+                                                              showDialog(
+                                                                context: context,
+                                                                barrierDismissible: false,
+                                                                builder: (BuildContext context) {
+                                                                  return AlertDialogYes(
+                                                                    title: 'แจ้งเตือน',
+                                                                    description: e.toString(),
+                                                                    pressYes: () {
+                                                                      Navigator.pop(context, true);
+                                                                    },
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (BuildContext context) {
+                                                return AlertDialogYes(
+                                                  title: 'แจ้งเตือน',
+                                                  description: 'โปรดเลือกลูกค้าก่อนทำรายการ',
+                                                  pressYes: () {
+                                                    Navigator.pop(context, true);
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          }
                                         },
                                         child: GridProduct(
                                           products: products[index],
@@ -747,10 +865,25 @@ class _HomePageState extends State<HomePage> {
                         width: size.width * 0.5,
                         height: size.height * 0.06,
                         child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectproducts.clear();
-                              });
+                            onTap: () async {
+                              bool _ok = await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialogYesNo(
+                                  title: 'แจ้งเตือน',
+                                  description: 'ยืนยันลบรายการทั้งหมด',
+                                  pressYes: () {
+                                    Navigator.pop(context, true);
+                                  },
+                                  pressNo: () {
+                                    Navigator.pop(context, false);
+                                  },
+                                ),
+                              );
+                              if (_ok = true) {
+                                setState(() {
+                                  selectproducts.clear();
+                                });
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -770,7 +903,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     selectproducts.isNotEmpty
                         ? SizedBox(
-                            height: size.height * 0.5,
+                            height: size.height * 0.45,
                             child: ListView.builder(
                               itemCount: selectproducts.length,
                               itemBuilder: (context, index) {
@@ -800,6 +933,11 @@ class _HomePageState extends State<HomePage> {
                                   },
                                   onTap: () async {
                                     _myNumber.clear();
+                                    setState(() {
+                                      setState(() {
+                                        plusOrMinus = 0;
+                                      });
+                                    });
                                     final addNewQty = await showModalBottomSheet(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
@@ -850,6 +988,7 @@ class _HomePageState extends State<HomePage> {
                                                           style: TextStyle(fontSize: 30),
                                                           // Disable the default soft keybaord
                                                           keyboardType: TextInputType.none,
+                                                          decoration: InputDecoration.collapsed(hintText: '0'),
                                                         )),
                                                       ),
                                                     ),
@@ -867,15 +1006,29 @@ class _HomePageState extends State<HomePage> {
                                                           }
                                                         }
                                                       },
+                                                      plusOrMinus: plusOrMinus,
+                                                      status: (value) {
+                                                        setState(() {
+                                                          plusOrMinus = value;
+                                                        });
+                                                      },
                                                       onSubmit: () {
                                                         try {
-                                                          //String text = _myNumber.text;
-                                                          //String text = _myNumber.text;
-                                                          List<String> substring2 = _myNumber.text.split('+');
-                                                          setState(() {
-                                                            selectproducts[index].newQty = sumQty(substring2);
-                                                          });
-                                                          Navigator.pop(context, _myNumber.text);
+                                                          if (plusOrMinus == 0) {
+                                                            List<String> substring2 = _myNumber.text.split('+');
+                                                            setState(() {
+                                                              selectproducts[index].qty = selectproducts[index].qty + sumQty(substring2);
+                                                              selectproducts[index].sumText = selectproducts[index].sumText.toString() + '+' + _myNumber.text;
+                                                            });
+                                                            Navigator.pop(context, _myNumber.text);
+                                                          } else {
+                                                            List<String> substring2 = _myNumber.text.split('-');
+                                                            setState(() {
+                                                              selectproducts[index].newQty = selectproducts[index].newQty + sumQty(substring2);
+                                                              selectproducts[index].downText = selectproducts[index].downText.toString() + '-' + _myNumber.text;
+                                                            });
+                                                            Navigator.pop(context, _myNumber.text);
+                                                          }
                                                         } catch (e) {
                                                           _myNumber.clear();
                                                           showDialog(
@@ -946,8 +1099,9 @@ class _HomePageState extends State<HomePage> {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text("${selectproducts[index].newQty}"),
-                                                Text('${selectproducts[index].product.unit?.name ?? ''}'),
+                                                Text("${selectproducts[index].downText}"),
+                                                Text("-${selectproducts[index].newQty} ${selectproducts[index].product.unit?.name ?? ''}"),
+                                                //Text('${selectproducts[index].product.unit?.name ?? ''}'),
                                               ],
                                             ),
                                             SizedBox(
@@ -964,7 +1118,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : SizedBox(
-                            height: size.height * 0.48,
+                            height: size.height * 0.45,
                           ),
                     SingleChildScrollView(
                       child: Column(
@@ -1064,8 +1218,17 @@ class _HomePageState extends State<HomePage> {
                                                 LoadingDialog.open(context);
                                                 setState(() {
                                                   for (var i = 0; i < selectproducts.length; i++) {
-                                                    OrderItems _orderItem = OrderItems(selectproducts[i].product.id, selectproducts[i].qty, selectproducts[i].product.price!,
-                                                        double.parse(sum(selectproducts).toStringAsFixed(2)), [], null, selectproducts[i].newQty);
+                                                    OrderItems _orderItem = OrderItems(
+                                                      selectproducts[i].product.id,
+                                                      selectproducts[i].qty,
+                                                      selectproducts[i].product.price!,
+                                                      double.parse(sumTotal(selectproducts).toStringAsFixed(2)),
+                                                      [],
+                                                      null,
+                                                      selectproducts[i].newQty,
+                                                      selectproducts[i].downText!,
+                                                      selectproducts[i].sumText!,
+                                                    );
                                                     orderItems.add(_orderItem);
                                                   }
                                                 });

@@ -10,7 +10,7 @@ class ItemMenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.height * 0.14,
+      height: size.height * 0.12,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 9),
         child: GestureDetector(

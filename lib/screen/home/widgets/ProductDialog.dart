@@ -207,7 +207,7 @@ class _ProductDialogState extends State<ProductDialog> {
             ),
             InkWell(
               onTap: () {
-                final _selectproduct = SelectProduct(widget.product, qty: qty, '');
+                final _selectproduct = SelectProduct(widget.product, qty: qty, '', '');
                 Navigator.pop(context, _selectproduct);
               },
               child: Container(

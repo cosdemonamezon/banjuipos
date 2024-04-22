@@ -90,21 +90,21 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Center(
-              //   child: TextButton(
-              //     //textColor: Color(0xFF6200EE),
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //     child: Text(
-              //       'ยกเลิก',
-              //       style: TextStyle(
-              //         fontSize: 18,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Center(
+                child: TextButton(
+                  //textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ยกเลิก',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
               Center(
                 child: TextButton(
                   //textColor: Color(0xFF6200EE),

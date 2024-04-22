@@ -1,3 +1,4 @@
+import 'package:banjuipos/constants.dart';
 import 'package:banjuipos/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -76,10 +77,10 @@ class _DataSource extends DataTableSource {
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
     return DataRow(cells: [
-      DataCell(Text(item.orderNo!)),
+      DataCell(Text(item.orderNo!.toString())),
       DataCell(Text(formatter.format(item.orderDate!))),
       DataCell(Text(item.grandTotal.toString())),
-      DataCell(Text(item.orderStatus!)),
+      DataCell(Text('จ่ายแล้ว')),
       DataCell(GestureDetector(
         onTap: (){
           sentOrder(data[index]);

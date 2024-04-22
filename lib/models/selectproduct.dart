@@ -8,11 +8,14 @@ class SelectProduct {
   Product product;
   int qty;
   int newQty;
-  final String? sumText;
+  String? sumText;
+  String? downText;
+
 
   SelectProduct(
     this.product,
     this.sumText,
+    this.downText,
     {this.qty = 0, this.newQty = 0}
   );
 

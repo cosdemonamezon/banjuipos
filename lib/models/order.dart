@@ -13,7 +13,7 @@ class Order {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final DateTime? deletedAt;
-  final String? orderNo;
+  final int? orderNo;
   final DateTime? orderDate;
   final String? orderStatus;
   final double? total;

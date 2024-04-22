@@ -9,7 +9,7 @@ class Product {
   final int id;
   final String? code;
   final String? name;
-  final String? image;
+  // final String? image;
   final double? price;
   final Category? category;
   final Unit? unit;
@@ -21,7 +21,7 @@ class Product {
     this.id,
     this.code,
     this.name,
-    this.image,
+    // this.image,
     this.stqty,
     this.category,
     this.unit,    

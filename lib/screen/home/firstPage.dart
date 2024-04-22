@@ -9,6 +9,7 @@ import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:banjuipos/widgets/LoadingDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -19,6 +20,7 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   String pageActive = 'Home';
+  String ipAddress = '';
 
   _pageView() {
     switch (pageActive) {
@@ -42,6 +44,40 @@ class _FirstPageState extends State<FirstPage> {
     setState(() {
       pageActive = page;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getIpAddress();
+  }
+
+  Future getIpAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final ip = prefs.getString('ipAddress');
+    setState(() {
+      if (ip != null) {
+        ipAddress = ip;
+      } else {
+        ipAddress = '';
+      }
+    });
+    if (ipAddress == '') {
+      final _ok = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialogYes(
+          title: 'แจ้งเตือน',
+          description: 'ยังไม่ได้ตั้งค่าปริ๊นเตอร์โปรดตั้งค่าปริ๊นเตอร์ก่อนทำการปริ๊น',
+          pressYes: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      );
+      if (_ok == true) {
+        _setPage('Setting');
+      }
+    }
   }
 
   @override
@@ -88,7 +124,7 @@ class _FirstPageState extends State<FirstPage> {
                           size: size,
                           pageActive: pageActive,
                           menu: 'Menu',
-                          title: 'รายการคำสั่งซื้อ',
+                          title: 'คำสั่งซื้อ',
                           image: 'assets/icons/Cancelbill.png',
                           press: () => _setPage('Menu'),
                         ),
@@ -175,7 +211,7 @@ class _FirstPageState extends State<FirstPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'ออกจากระบบ',
+                            'Logout',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,

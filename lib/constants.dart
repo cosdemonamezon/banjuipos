@@ -17,7 +17,8 @@ int sumNewQty(List<SelectProduct> value) => value.fold(0, (p, o) => p + o.newQty
 double sum(List<SelectProduct> orders) => orders.fold(0, (previous, o) => previous + (o.qty * o.product.price!));
 double sumTotal(List<SelectProduct> orders) => orders.fold(0, (previous, o) => previous + ((o.qty - o.newQty) * o.product.price!));
 double sumOneRow(SelectProduct value) => ((value.qty - value.newQty) * value.product.price!);
-double sumOneRowReprint(OrderItems value) => ((value.quantity - value.dequantity) * value.price);
+double sumOneRowReprint(OrderItems value) => ((value.quantity! - value.dequantity!) * value.price!);
+double sumOneRowPrint(OrderItems value) => ((value.quantity!) * value.price!);
 double sumOneColumn(List<SelectProduct> value) => value.fold(0, (previousValue, element) => previousValue + ((element.qty - element.newQty) * element.product.price!));
-double sumNewOneColumn(List<OrderItems> value) => value.fold(0, (previousValue, element) => previousValue + ((element.quantity - element.dequantity) * element.product!.price!));
+double sumNewOneColumn(List<OrderItems> value) => value.fold(0, (previousValue, element) => previousValue + ((element.quantity! - element.dequantity!) * element.product!.price!));
 

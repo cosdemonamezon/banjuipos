@@ -86,7 +86,21 @@ class _OrderPageState extends State<OrderPage> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => RePrintOrder(orderId: value.id)));
                               },
                             ))
-                        : SizedBox()
+                        : SizedBox(
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: size.height * 0.35,
+                                  ),
+                                  Text(
+                                    'ไม่พบรายการออร์เดอร์',
+                                    style: TextStyle(fontSize: 22, color: Colors.red, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
                   ],
                 ),
               ),
