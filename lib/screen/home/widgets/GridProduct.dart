@@ -14,16 +14,36 @@ class GridProduct extends StatelessWidget {
         Expanded(
           child: Stack(
             children: [
-              Image.network(
-                //products.image ?? 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
-                'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
-                width: size.width * 0.22,
-                height: size.height * 0.22,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
-                ),
-              ),
+              products.image != null
+                  ? products.image!.pathUrl != null
+                      ? Image.network(
+                          products.image!.pathUrl!,
+                          //'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                          width: size.width * 0.22,
+                          height: size.height * 0.22,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Image.network(
+                            'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                          ),
+                        )
+                      : Image.network(
+                          'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                          width: size.width * 0.22,
+                          height: size.height * 0.22,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Image.network(
+                            'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                          ),
+                        )
+                  : Image.network(
+                      'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                      width: size.width * 0.22,
+                      height: size.height * 0.22,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Image.network(
+                        'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+                      ),
+                    ),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Container(

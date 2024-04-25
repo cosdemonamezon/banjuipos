@@ -1,4 +1,5 @@
 import 'package:banjuipos/models/category.dart';
+import 'package:banjuipos/models/image.dart';
 import 'package:banjuipos/models/unit.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +10,7 @@ class Product {
   final int id;
   final String? code;
   final String? name;
-  // final String? image;
+  final Image? image;
   final double? price;
   final Category? category;
   final Unit? unit;
@@ -21,7 +22,7 @@ class Product {
     this.id,
     this.code,
     this.name,
-    // this.image,
+    this.image,
     this.stqty,
     this.category,
     this.unit,    
