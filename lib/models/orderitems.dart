@@ -6,8 +6,8 @@ part 'orderitems.g.dart';
 @JsonSerializable()
 class OrderItems {
   final int? productId;
-  final int? quantity;
-  int? dequantity;
+  final double? quantity;
+  double? dequantity;
   final double? price;  
   final double? total;
   final List? attributes;

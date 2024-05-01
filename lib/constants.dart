@@ -12,8 +12,8 @@ const kTextDateColor = Color(0xffFA5A0E);
 
 const String publicUrl = 'lim-kob-kun.dev-asha.com';
 
-int sumQty(List<String> value) => value.fold(0, (p, o) => p + int.parse(o));
-int sumNewQty(List<SelectProduct> value) => value.fold(0, (p, o) => p + o.newQty);
+double sumQty(List<String> value) => value.fold(0, (p, o) => p + double.parse(o));
+double sumNewQty(List<SelectProduct> value) => value.fold(0, (p, o) => p + o.newQty);
 double sum(List<SelectProduct> orders) => orders.fold(0, (previous, o) => previous + (o.qty * o.product.price!));
 double sumTotal(List<SelectProduct> orders) => orders.fold(0, (previous, o) => previous + ((o.qty - o.newQty) * o.product.price!));
 double sumOneRow(SelectProduct value) => ((value.qty - value.newQty) * value.product.price!);

@@ -138,6 +138,12 @@ class _NumPadState extends State<NumPad> {
                 color: widget.buttonColor,
                 controller: widget.controller,
               ),
+              NumberButton(
+                number: '.',
+                size: widget.buttonSize,
+                color: widget.buttonColor,
+                controller: widget.controller,
+              ),
               NumberStatus(
                 number: 'บวก',
                 size: widget.buttonSize,
@@ -162,10 +168,10 @@ class _NumPadState extends State<NumPad> {
                 },
                 statusClick: 1,
               ),
-              SizedBox(
-                height: 50,
-                width: size.width * 0.08,
-              )
+              // SizedBox(
+              //   height: 50,
+              //   width: size.width * 0.08,
+              // )
             ],
           ),
           const SizedBox(height: 20),

@@ -11,8 +11,8 @@ SelectProduct _$SelectProductFromJson(Map<String, dynamic> json) =>
       Product.fromJson(json['product'] as Map<String, dynamic>),
       json['sumText'] as String?,
       json['downText'] as String?,
-      qty: json['qty'] as int? ?? 0,
-      newQty: json['newQty'] as int? ?? 0,
+      qty: (json['qty'] as num?)?.toDouble() ?? 0,
+      newQty: (json['newQty'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$SelectProductToJson(SelectProduct instance) =>

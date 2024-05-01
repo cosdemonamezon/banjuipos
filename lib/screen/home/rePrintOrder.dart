@@ -484,7 +484,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                           Row(
                                             children: [
                                               Text(
-                                                '${order!.orderItems![index].uptext}',
+                                                '${order!.orderItems![index].uptext ?? '-'}',
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                             ],
@@ -492,7 +492,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                           Row(
                                             children: [
                                               Text(
-                                                'ลบ  ${order!.orderItems![index].downtext}',
+                                                'ลบ  ${order!.orderItems![index].downtext ?? '-'}',
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                             ],

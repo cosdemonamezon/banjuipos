@@ -8,14 +8,14 @@ import 'dart:convert' as convert;
 class ProductDialog extends StatefulWidget {
   ProductDialog({super.key, required this.product, required this.retuenQty});
   Product product;
-  Function(int) retuenQty;
+  Function(double) retuenQty;
 
   @override
   State<ProductDialog> createState() => _ProductDialogState();
 }
 
 class _ProductDialogState extends State<ProductDialog> {
-  int qty = 1;
+  double qty = 1;
   List<Unit> units = [];
   Unit? sclectedUnits;
   @override

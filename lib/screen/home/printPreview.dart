@@ -489,7 +489,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                           Row(
                                             children: [
                                               Text(
-                                                '${widget.order.orderItems![index].uptext}',
+                                                '${widget.order.orderItems![index].uptext ?? '-'}',
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                             ],
@@ -497,7 +497,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                           Row(
                                             children: [
                                               Text(
-                                                'ลบ  ${widget.order.orderItems![index].downtext}',
+                                                'ลบ  ${widget.order.orderItems![index].downtext ?? '-'}',
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                             ],

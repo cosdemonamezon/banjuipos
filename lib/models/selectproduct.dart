@@ -6,8 +6,8 @@ part 'selectproduct.g.dart';
 @JsonSerializable()
 class SelectProduct {
   Product product;
-  int qty;
-  int newQty;
+  double qty;
+  double newQty;
   String? sumText;
   String? downText;
 

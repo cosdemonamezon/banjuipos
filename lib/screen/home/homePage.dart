@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: size.height * 0.01,
                   ),
-                  Row(
+                  Row(                    
                     children: [
                       Wrap(
                         children: List.generate(
@@ -426,7 +426,7 @@ class _HomePageState extends State<HomePage> {
                                             child: Center(
                                                 child: customers[index].licensePlate != null
                                                     ? Text(
-                                                        '${customers[index].licensePlate} ',
+                                                        '${customers[index].licensePlate}',
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(color: point == index ? kButtonColor : kTabColor, fontFamily: 'IBMPlexSansThai', fontSize: 16, fontWeight: FontWeight.bold),
                                                       )
@@ -508,7 +508,7 @@ class _HomePageState extends State<HomePage> {
                                                 flex: 3,
                                                 child: SizedBox(
                                                   height: size.height * 0.01,
-                                                  width: size.width * 0.032,
+                                                  width: size.width * 0.030,
                                                 ),
                                               )
                                       ],
@@ -868,23 +868,26 @@ class _HomePageState extends State<HomePage> {
                         height: size.height * 0.06,
                         child: InkWell(
                             onTap: () async {
-                              bool _ok = await showDialog(
-                                context: context,
-                                builder: (context) => AlertDialogYesNo(
-                                  title: 'แจ้งเตือน',
-                                  description: 'ยืนยันลบรายการทั้งหมด',
-                                  pressYes: () {
-                                    Navigator.pop(context, true);
-                                  },
-                                  pressNo: () {
-                                    Navigator.pop(context, false);
-                                  },
-                                ),
-                              );
-                              if (_ok = true) {
-                                setState(() {
-                                  selectproducts.clear();
-                                });
+                              if (selectproducts.isNotEmpty) {
+                                bool _ok = await showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => AlertDialogYesNo(
+                                    title: 'แจ้งเตือน',
+                                    description: 'ยืนยันลบรายการทั้งหมด',
+                                    pressYes: () {
+                                      Navigator.pop(context, true);
+                                    },
+                                    pressNo: () {
+                                      Navigator.pop(context, false);
+                                    },
+                                  ),
+                                );
+                                if (_ok = true) {
+                                  setState(() {
+                                    selectproducts.clear();
+                                  });
+                                }
                               }
                             },
                             child: Row(
@@ -1018,6 +1021,7 @@ class _HomePageState extends State<HomePage> {
                                                         try {
                                                           if (plusOrMinus == 0) {
                                                             List<String> substring2 = _myNumber.text.split('+');
+                                                            inspect(sumQty(substring2));
                                                             setState(() {
                                                               selectproducts[index].qty = selectproducts[index].qty + sumQty(substring2);
                                                               selectproducts[index].sumText = selectproducts[index].sumText.toString() + '+' + _myNumber.text;
@@ -1234,13 +1238,13 @@ class _HomePageState extends State<HomePage> {
                                                       OrderItems _orderItem = OrderItems(
                                                         selectproducts[i].product.id,
                                                         selectproducts[i].qty,
-                                                        selectproducts[i].product.price!,
+                                                        selectproducts[i].product.price,
                                                         double.parse(sumTotal(selectproducts).toStringAsFixed(2)),
                                                         [],
                                                         null,
                                                         selectproducts[i].newQty,
-                                                        selectproducts[i].downText!,
-                                                        selectproducts[i].sumText!,
+                                                        selectproducts[i].downText,
+                                                        selectproducts[i].sumText,
                                                       );
                                                       orderItems.add(_orderItem);
                                                     }
