@@ -383,7 +383,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                             Row(
                               children: [
                                 Text(
-                                  '${widget.order.licensePlate?.licensePlate ?? ''}',
+                                  '${widget.order.licensePlate ?? ''}',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -473,7 +473,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                               (index) => Row(
                                 children: [
                                   Expanded(
-                                      flex: 4,
+                                      flex: 5,
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -486,21 +486,13 @@ class _PrintPreviewState extends State<PrintPreview> {
                                               ),
                                             ],
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '${widget.order.orderItems![index].uptext ?? '-'}',
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                            ],
+                                          Text(
+                                            '${widget.order.orderItems![index].uptext ?? '-'}',
+                                            style: TextStyle(fontSize: 18),
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'ลบ  ${widget.order.orderItems![index].downtext ?? '-'}',
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                            ],
+                                          Text(
+                                            'ลบ  ${widget.order.orderItems![index].downtext ?? '-'}',
+                                            style: TextStyle(fontSize: 18),
                                           ),
                                         ],
                                       )),
@@ -522,7 +514,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                '${widget.order.orderItems![index].quantity}',
+                                                '${widget.order.orderItems![index].quantity!.toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -531,7 +523,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '- ${widget.order.orderItems![index].dequantity}',
+                                                '- ${widget.order.orderItems![index].dequantity!.toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -555,7 +547,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${widget.order.orderItems![index].price}',
+                                                '${widget.order.orderItems![index].price!.toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -588,7 +580,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '${sumOneRowPrint(widget.order.orderItems![index])}',
+                                                '${sumOneRowPrint(widget.order.orderItems![index]).toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -597,7 +589,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '-${sumOneRowReprint(widget.order.orderItems![index])}',
+                                                '-${sumOneRowReprint(widget.order.orderItems![index]).toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -623,7 +615,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      '${sumNewOneColumn(widget.order.orderItems!)} ฿',
+                      '${sumNewOneColumn(widget.order.orderItems!).toStringAsFixed(2)} ฿',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],

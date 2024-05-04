@@ -31,10 +31,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      json['licensePlate'] == null
-          ? null
-          : LicensePlates.fromJson(
-              json['licensePlate'] as Map<String, dynamic>),
+      json['licensePlate'] as String?,
       json['customer'] == null
           ? null
           : Customer.fromJson(json['customer'] as Map<String, dynamic>),

@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'package:banjuipos/constants.dart';
 import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
+import 'package:banjuipos/models/licenseplates.dart';
 import 'package:banjuipos/models/myorder.dart';
 import 'package:banjuipos/models/nameprefix.dart';
 import 'package:banjuipos/models/order.dart';
@@ -101,7 +102,14 @@ class ProductApi {
   }
 
   //สร้างออร์เดอร์
-  static Future<Order> ceateOrders({required int shiftId, required double total, required List<OrderItems> orderItems, required int customerId, required int licensePlateId, required String selectedPayment, required int paymentMethodId}) async {
+  static Future<Order> ceateOrders(
+      {required int shiftId,
+      required double total,
+      required List<OrderItems> orderItems,
+      required int customerId,
+      String? licensePlate,
+      required String selectedPayment,
+      required int paymentMethodId}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -112,7 +120,7 @@ class ProductApi {
           "shiftId": shiftId,
           "total": total,
           "customerId": customerId,
-          "licensePlateId": licensePlateId,
+          "licensePlate": licensePlate,
           "paymentMethodId": paymentMethodId,
           "orderItems": orderItems,
         }));
@@ -281,7 +289,15 @@ class ProductApi {
   }
 
   //เพิ่มข้อมูลลูกค้าใหม่
-  static Future<Customer> addCustomer({required String name, required String phoneNumber, required String licensePlate, required String address, required String code, required String tax, required int prefixId}) async {
+  static Future<Customer> addCustomer(
+      {required String name, 
+      required String phoneNumber, 
+      required String licensePlate, 
+      required String address, 
+      required String code, 
+      required String tax, 
+      required int prefixId,
+    }) async {
     final url = Uri.https(publicUrl, '/api/customer');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -289,7 +305,20 @@ class ProductApi {
     final response = await http.post(
         headers: headers,
         url,
-        body: convert.jsonEncode({"code": code, "name": name, "levelId": 1, "address": address, "phoneNumber": phoneNumber, "tax": tax, "identityCardId": null, "licensePlate": licensePlate, "prefixId": prefixId,}));
+        body: convert.jsonEncode({
+          "code": code,
+          "name": name,
+          "levelId": 1,
+          "address": address,
+          "phoneNumber": phoneNumber,
+          "tax": tax,
+          "identityCardId": null,
+          "prefixId": prefixId,
+          "licensePlates": [
+            {"id": null, "licensePlate": licensePlate}
+          ],
+          "banks": [],
+        }));
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = convert.jsonDecode(response.body);
       return Customer.fromJson(data);
@@ -299,7 +328,28 @@ class ProductApi {
     }
   }
 
-  static Future<List<NamePrefix>> getNamePrefixs() async{
+  //เพิ่มทะเบียนรถ
+  static Future<LicensePlates> addLicensePlate({required String licensePlate, required int customerId}) async{
+    final url = Uri.https(publicUrl, '/api/customer/$customerId/license-plate');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.post(
+        headers: headers,
+        url,
+        body: convert.jsonEncode({
+          "licensePlate": licensePlate,
+        }));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = convert.jsonDecode(response.body);
+      return LicensePlates.fromJson(data);
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  static Future<List<NamePrefix>> getNamePrefixs() async {
     final url = Uri.https(publicUrl, '/api/name-prefix');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -318,7 +368,7 @@ class ProductApi {
     }
   }
 
-  static Future<List<Panel>> getPanels() async{
+  static Future<List<Panel>> getPanels() async {
     final url = Uri.https(publicUrl, '/api/panel');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -337,7 +387,7 @@ class ProductApi {
     }
   }
 
-  static Future<Panel> getPanelById({required int panelId}) async{
+  static Future<Panel> getPanelById({required int panelId}) async {
     final url = Uri.https(publicUrl, '/api/panel/$panelId');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');

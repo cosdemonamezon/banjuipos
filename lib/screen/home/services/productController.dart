@@ -24,6 +24,8 @@ class ProductController extends ChangeNotifier {
   Order? order;
 
   List<Customer> customers = [];
+  List<Customer> searchCustomers = [];
+  List<Customer> showCustomers = [];
   Customer? customer;
   List<NamePrefix> namePrefixs = [];
   List<Panel> panels = [];
@@ -87,6 +89,7 @@ class ProductController extends ChangeNotifier {
   getListCustomer() async {
     customers.clear();
     customers = await ProductApi.getCustomer();
+    showCustomers = customers;
     notifyListeners();
   }
 
@@ -102,8 +105,13 @@ class ProductController extends ChangeNotifier {
   }
 
   searchListCustomer({required String search}) async {
-    List<Customer> _customer = customers.where((customer) => customer.name == search || customer.licensePlate == search || customer.phoneNumber == search).toList();
-    customers = _customer;
+    List<Customer> _customer = customers.where((customer) => customer.name == search || customer.licensePlate == search || customer.phoneNumber == search || customer.code == search).toList();
+    searchCustomers = _customer;
+    if (searchCustomers.isNotEmpty) {
+      showCustomers = searchCustomers;
+    } else {
+      showCustomers = customers;
+    }
     notifyListeners();
   }
 }

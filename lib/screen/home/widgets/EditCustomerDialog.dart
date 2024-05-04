@@ -28,12 +28,12 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
   void initState() {
     super.initState();
     setState(() {
-      name.text = widget.customer.name!;
-      phoneNumber.text = widget.customer.phoneNumber!;
-      licensePlate.text = widget.customer.licensePlate!;
-      address.text = widget.customer.address!;
-      code.text = widget.customer.code!;
-      tax.text = widget.customer.tax!;
+      // name.text = widget.customer.name!;
+      // phoneNumber.text = widget.customer.phoneNumber!;
+      // licensePlate.text = widget.customer.licensePlate ?? '';
+      // address.text = widget.customer.address!;
+      // code.text = widget.customer.code!;
+      // tax.text = widget.customer.tax!;
     });
   }
 
@@ -43,139 +43,140 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
     return Consumer<ProductController>(builder: (context, productController, child) {
       final customer = productController.customer;
       return AlertDialog(
-        title: Center(child: Text('ชื่อลูกค้า')),
+        title: Center(child: Text('แก้ใขทะเบียนรถ')),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2))),
         content: Container(
-          height: size.height * 0.8,
-          width: size.width * 0.5,
+          height: size.height * 0.4,
+          width: size.width * 0.4,
           child: SingleChildScrollView(
             child: Form(
               key: _editCustomerFormKey,
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-                    child: Row(
-                      children: [
-                        Text(
-                          'ชื่อ',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  InputTextFormField(
-                    size: size,
-                    width: 0.30,
-                    controller: name,
-                    maxLines: 1,
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'ชื่อ',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // InputTextFormField(
+                  //   size: size,
+                  //   width: 0.30,
+                  //   controller: name,
+                  //   maxLines: 1,
+                  // ),
                   SizedBox(
                     height: size.height * 0.01,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-                    child: Row(
-                      children: [
-                        Text(
-                          'เบอร์โทร',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  InputTextFormField(
-                    size: size,
-                    width: 0.30,
-                    controller: phoneNumber,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'เบอร์โทร',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // InputTextFormField(
+                  //   size: size,
+                  //   width: 0.30,
+                  //   controller: phoneNumber,
+                  //   keyboardType: TextInputType.number,
+                  //   maxLines: 1,
+                  //),
                   SizedBox(
                     height: size.height * 0.01,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-                    child: Row(
-                      children: [
-                        Text(
-                          'ทะเบียนรถ',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'ทะเบียนรถ',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   InputTextFormField(
                     size: size,
                     width: 0.30,
                     controller: licensePlate,
                     maxLines: 1,
+                    hintText: 'ทะเบียนรถ',
                   ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-                    child: Row(
-                      children: [
-                        Text(
-                          'ที่อยู่',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  InputTextFormField(
-                    size: size,
-                    width: 0.30,
-                    controller: address,
-                    maxLines: 2,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-                    child: Row(
-                      children: [
-                        Text(
-                          'รหัส',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  InputTextFormField(
-                    size: size,
-                    width: 0.30,
-                    controller: code,
-                    maxLines: 1,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-                    child: Row(
-                      children: [
-                        Text(
-                          'เลขบัตรประชาชน',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  InputTextFormField(
-                    size: size,
-                    width: 0.30,
-                    controller: tax,
-                    maxLines: 1,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.30,
-                  ),
+                  // SizedBox(
+                  //   height: size.height * 0.01,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'ที่อยู่',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // InputTextFormField(
+                  //   size: size,
+                  //   width: 0.30,
+                  //   controller: address,
+                  //   maxLines: 2,
+                  // ),
+                  // SizedBox(
+                  //   height: size.height * 0.01,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'รหัส',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // InputTextFormField(
+                  //   size: size,
+                  //   width: 0.30,
+                  //   controller: code,
+                  //   maxLines: 1,
+                  // ),
+                  // SizedBox(
+                  //   height: size.height * 0.01,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'เลขบัตรประชาชน',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // InputTextFormField(
+                  //   size: size,
+                  //   width: 0.30,
+                  //   controller: tax,
+                  //   maxLines: 1,
+                  // ),
+                  // SizedBox(
+                  //   height: size.height * 0.30,
+                  // ),
                 ],
               ),
             ),
@@ -204,11 +205,17 @@ class _EditCustomerDialogState extends State<EditCustomerDialog> {
                 child: TextButton(
                   //textColor: Color(0xFF6200EE),
                   onPressed: () async {
-                    if (widget.customer != null) {
-                      setState(() {
-                        _customer = Customer(widget.customer.id, code.text, name.text, address.text, licensePlate.text, phoneNumber.text, tax.text, widget.customer.identityCard, widget.customer.licensePlates);
-                      });
-                      Navigator.pop(context, _customer);
+                    // if (widget.customer != null) {
+                    //   setState(() {
+                    //     _customer = Customer(
+                    //         widget.customer.id, code.text, name.text, address.text, licensePlate.text, phoneNumber.text, tax.text, widget.customer.identityCard, widget.customer.licensePlates);
+                    //   });
+                    //   Navigator.pop(context, _customer);
+                    // }
+                    if (licensePlate.text != null || licensePlate.text != '') {
+                      Navigator.pop(context, licensePlate.text);
+                    } else {
+                      Navigator.pop(context);
                     }
                   },
                   child: Text(

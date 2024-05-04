@@ -129,18 +129,18 @@ class _HomePageState extends State<HomePage> {
   //ดึงข้อมูล Panel
   Future<void> getlistPanel() async {
     try {
-      LoadingDialog.open(context);
+      //LoadingDialog.open(context);
       await context.read<ProductController>().getListPanel();
       final list = context.read<ProductController>().panels;
       if (!mounted) return;
-      LoadingDialog.close(context);
+      //LoadingDialog.close(context);
       setState(() {
         panels = list;
         panel = list[0];
       });
     } on Exception catch (e) {
       if (!mounted) return;
-      LoadingDialog.close(context);
+      //LoadingDialog.close(context);
       showDialog(
         context: context,
         builder: (context) => AlertDialogYes(
@@ -360,30 +360,33 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
 
-                              GestureDetector(
-                                onTap: () async {
-                                  if (!mounted) return;
-                                  final _customer = await showDialog(
-                                    context: context,
-                                    builder: (context) => CustomerDialog(),
-                                  );
-                                  if (_customer != null) {
-                                    setState(() {
-                                      customers.insert(point, _customer!);
-                                      customers.removeAt(point + 1);
-                                      customer = customers[point];
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  width: size.width * 0.11,
-                                  height: size.height * 0.06,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [Text('เพิ่มลูกค้า')],
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (!mounted) return;
+                                    final _customer = await showDialog(
+                                      context: context,
+                                      builder: (context) => CustomerDialog(),
+                                    );
+                                    if (_customer != null) {
+                                      setState(() {
+                                        customers.insert(point, _customer!);
+                                        customers.removeAt(point + 1);
+                                        customer = customers[point];
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.11,
+                                    height: size.height * 0.06,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(2.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [Text('เพิ่มลูกค้า')],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -394,9 +397,9 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
+                  // SizedBox(
+                  //   height: size.height * 0.01,
+                  // ),
                   Row(                    
                     children: [
                       Wrap(
@@ -550,7 +553,7 @@ class _HomePageState extends State<HomePage> {
                   //ส่วนแสดงสินค้า
                   products.isNotEmpty
                       ? SizedBox(
-                          height: size.height * 0.736,
+                          height: size.height * 0.80,
                           child: SingleChildScrollView(
                             child: SizedBox(
                               child: Padding(
@@ -821,34 +824,37 @@ class _HomePageState extends State<HomePage> {
                                     //       ),
                                     //     );
                                     //     if (_customer != null) {
-                                    //       try {
-                                    //         final _editCustomer = await ProductApi.editCustomerById(
-                                    //             cusid: _customer.id,
-                                    //             code: _customer.code,
-                                    //             name: _customer.name,
-                                    //             address: _customer.address,
-                                    //             levelId: 1,
-                                    //             licensePlate: _customer.licensePlate,
-                                    //             phoneNumber: _customer.phoneNumber,
-                                    //             tax: _customer.tax,
-                                    //             identityCardId: _customer.identityCard.id);
-                                    //         if (_editCustomer != null) {
-                                    //           setState(() {
-                                    //             customer = _customer;
-                                    //           });
-                                    //         }
-                                    //       } on Exception catch (e) {
-                                    //         showDialog(
-                                    //           context: context,
-                                    //           builder: (context) => AlertDialogYes(
-                                    //             title: 'แจ้งเตือน',
-                                    //             description: '${e}',
-                                    //             pressYes: () {
-                                    //               Navigator.pop(context, true);
-                                    //             },
-                                    //           ),
-                                    //         );
-                                    //       }
+                                    //       setState(() {
+                                    //         customer!.licensePlate = _customer;
+                                    //       });
+                                    //       // try {
+                                    //       //   final _editCustomer = await ProductApi.editCustomerById(
+                                    //       //       cusid: _customer.id,
+                                    //       //       code: _customer.code,
+                                    //       //       name: _customer.name,
+                                    //       //       address: _customer.address,
+                                    //       //       levelId: 1,
+                                    //       //       licensePlate: _customer.licensePlate,
+                                    //       //       phoneNumber: _customer.phoneNumber,
+                                    //       //       tax: _customer.tax,
+                                    //       //       identityCardId: _customer.identityCard.id);
+                                    //       //   if (_editCustomer != null) {
+                                    //       //     setState(() {
+                                    //       //       customer = _customer;
+                                    //       //    });
+                                    //       //   }
+                                    //       // } on Exception catch (e) {
+                                    //       //   showDialog(
+                                    //       //     context: context,
+                                    //       //     builder: (context) => AlertDialogYes(
+                                    //       //       title: 'แจ้งเตือน',
+                                    //       //       description: '${e}',
+                                    //       //       pressYes: () {
+                                    //       //         Navigator.pop(context, true);
+                                    //       //       },
+                                    //       //     ),
+                                    //       //   );
+                                    //       // }
                                     //     }
                                     //   },
                                     //   icon: Icon(
@@ -856,7 +862,7 @@ class _HomePageState extends State<HomePage> {
                                     //     color: Colors.red,
                                     //     size: 30,
                                     //   ),
-                                    // ),
+                                    // ), 
                                   ),
                                 ),
                               )
@@ -908,7 +914,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     selectproducts.isNotEmpty
                         ? SizedBox(
-                            height: size.height * 0.45,
+                            height: size.height * 0.48,
                             child: ListView.builder(
                               itemCount: selectproducts.length,
                               itemBuilder: (context, index) {
@@ -1086,14 +1092,14 @@ class _HomePageState extends State<HomePage> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(selectproducts[index].sumText ?? ''),
-                                                Text("${selectproducts[index].qty} ${selectproducts[index].product.unit?.name ?? ''}"),
+                                                Text("${selectproducts[index].qty.toStringAsFixed(2)} ${selectproducts[index].product.unit?.name ?? ''}"),
                                               ],
                                             ),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text('ราคา'),
-                                                Text("${selectproducts[index].product.price} ฿"),
+                                                Text("${selectproducts[index].product.price!.toStringAsFixed(2)} ฿"),
                                               ],
                                             ),
                                             Row(
@@ -1106,7 +1112,7 @@ class _HomePageState extends State<HomePage> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text("${selectproducts[index].downText}"),
-                                                Text("-${selectproducts[index].newQty} ${selectproducts[index].product.unit?.name ?? ''}"),
+                                                Text("-${selectproducts[index].newQty.toStringAsFixed(2)} ${selectproducts[index].product.unit?.name ?? ''}"),
                                                 //Text('${selectproducts[index].product.unit?.name ?? ''}'),
                                               ],
                                             ),
@@ -1124,7 +1130,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : SizedBox(
-                            height: size.height * 0.45,
+                            height: size.height * 0.52,
                           ),
                     SingleChildScrollView(
                       child: Column(
@@ -1230,7 +1236,7 @@ class _HomePageState extends State<HomePage> {
                                               payment = _payment;
                                             });
                                             if (customer != null) {
-                                              if (selectproducts.isNotEmpty && customer!.licensePlate != null) {
+                                              if (selectproducts.isNotEmpty) {
                                                 try {
                                                   LoadingDialog.open(context);
                                                   setState(() {
@@ -1249,14 +1255,14 @@ class _HomePageState extends State<HomePage> {
                                                       orderItems.add(_orderItem);
                                                     }
                                                   });
-                                                  List<LicensePlates> _licensePlate = customer!.licensePlates!.where((element) => element.select == true).toList();
+                                                  //List<LicensePlates> _licensePlate = customer!.licensePlates!.where((element) => element.select == true).toList();
                                                   //inspect(_licensePlate);
                                                   final _order = await ProductApi.ceateOrders(
                                                       shiftId: 2,
                                                       total: double.parse(sum(selectproducts).toStringAsFixed(2)),
                                                       orderItems: orderItems,
                                                       customerId: customer!.id!,
-                                                      licensePlateId: _licensePlate[0].id!,
+                                                      licensePlate: customer!.licensePlate,
                                                       selectedPayment: selectedPayment,
                                                       paymentMethodId: payment!.id!);
                                                   if (!mounted) return;
@@ -1319,6 +1325,7 @@ class _HomePageState extends State<HomePage> {
                                                 );
                                               }
                                             } else {
+                                              //if(!mounted)return;
                                               showDialog(
                                                 context: context,
                                                 builder: (context) => AlertDialogYes(

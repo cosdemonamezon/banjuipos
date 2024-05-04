@@ -21,7 +21,8 @@ class Order {
   final double? grandTotal;
   List<OrderItems>? orderItems;
   User? user;
-  LicensePlates? licensePlate;
+  final String? licensePlate;
+  //LicensePlates? licensePlate;
   Customer? customer;
   Payment? paymentMethod;
 
