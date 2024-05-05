@@ -49,7 +49,7 @@ class _TableOrderState extends State<TableOrder> {
             DataColumn(label: Text('วันที่')),
             DataColumn(label: Text('ยอดสุทธิ(บาท)')),
             DataColumn(label: Text('สถานะ')),
-            DataColumn(label: Text('รูปภาพ')),
+            DataColumn(label: Text('ปริ๊นใบเสร็จ')),
           ],
           source: _DataSource(data: orders, sentOrder: (orderValue){
             widget.reciveOrder(orderValue);

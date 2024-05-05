@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
                                 child: SizedBox(
-                                  width: double.infinity,
+                                  width: size.width * 0.30,
                                   height: size.height * 0.06,
                                   child: Center(
                                       child: Text(

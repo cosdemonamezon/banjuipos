@@ -311,7 +311,7 @@ class _CustomerDialogState extends State<CustomerDialog> {
                                                 //decoration: BoxDecoration(color: read ? Colors.white : Color.fromRGBO(0, 0, 0, 0.1), borderRadius: BorderRadius.circular(8)),
                                                 child: ListTile(
                                                   title: Text(
-                                                    'ชื่อ ${customer[index].name}',
+                                                    'ชื่อ ${customer[index].name} [${customer[index].code}]',
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 16,
@@ -382,12 +382,13 @@ class _CustomerDialogState extends State<CustomerDialog> {
                                 )
                               : SizedBox(),
                         ],
-                      ))
+                      )),                
               ],
             ),
           ),
         ),
         actions: [
+          //Divider(),
           add == true
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,

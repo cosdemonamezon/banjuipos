@@ -427,7 +427,7 @@ class _HomePageState extends State<HomePage> {
                                               });
                                             },
                                             child: Center(
-                                                child: customers[index].licensePlate != null
+                                                child: customers[index].licensePlate != null && customers[index].licensePlate != ""
                                                     ? Text(
                                                         '${customers[index].licensePlate}',
                                                         textAlign: TextAlign.center,
@@ -909,9 +909,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ))),
-                    SizedBox(
-                      height: size.height * 0.01,
-                    ),
+                    Divider(),
                     selectproducts.isNotEmpty
                         ? SizedBox(
                             height: size.height * 0.48,
