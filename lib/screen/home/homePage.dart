@@ -1130,7 +1130,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : SizedBox(
-                            height: size.height * 0.52,
+                            height: size.height * 0.48,
                           ),
                     SingleChildScrollView(
                       child: Column(
