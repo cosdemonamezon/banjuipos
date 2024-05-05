@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/S__42205196.jpg'),
+                      image: AssetImage('assets/images/829035_transformed.png'),
                       fit: BoxFit.fill,
                     ),
                   ),
