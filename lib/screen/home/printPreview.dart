@@ -588,8 +588,13 @@ class _PrintPreviewState extends State<PrintPreview> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text(
+                                              widget.order.orderItems![index].dequantity != 0.0
+                                              ?Text(
                                                 '-${sumOneRowReprint(widget.order.orderItems![index]).toStringAsFixed(2)}',
+                                                style: TextStyle(fontSize: 20),
+                                              )
+                                              :Text(
+                                                '0.00',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],

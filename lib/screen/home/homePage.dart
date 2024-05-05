@@ -912,7 +912,7 @@ class _HomePageState extends State<HomePage> {
                     Divider(),
                     selectproducts.isNotEmpty
                         ? SizedBox(
-                            height: size.height * 0.48,
+                            height: size.height * 0.465,
                             child: ListView.builder(
                               itemCount: selectproducts.length,
                               itemBuilder: (context, index) {
@@ -1069,7 +1069,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Card(
                                     child: SizedBox(
                                       width: double.infinity,
-                                      height: size.height * 0.17,
+                                      height: size.height * 0.165,
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
                                         child: Column(
@@ -1114,10 +1114,10 @@ class _HomePageState extends State<HomePage> {
                                                 //Text('${selectproducts[index].product.unit?.name ?? ''}'),
                                               ],
                                             ),
-                                            SizedBox(
-                                              height: size.height * 0.01,
-                                            ),
-                                            Divider()
+                                            // SizedBox(
+                                            //   height: size.height * 0.01,
+                                            // ),
+                                            //Divider()
                                           ],
                                         ),
                                       ),
@@ -1128,7 +1128,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : SizedBox(
-                            height: size.height * 0.48,
+                            height: customer == null ?size.height * 0.525 : size.height * 0.465,
                           ),
                     SingleChildScrollView(
                       child: Column(
@@ -1142,7 +1142,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Container(
                                 color: Colors.white,
-                                height: size.height * 0.24,
+                                height: size.height * 0.238,
                                 width: size.width * 1,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),

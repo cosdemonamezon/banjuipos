@@ -355,6 +355,9 @@ class _CustomerDialogState extends State<CustomerDialog> {
                                                   onTap: () async {
                                                     setState(() {
                                                       select = index;
+                                                      if (customer[index].licensePlate != '' || customer[index].licensePlate != null) {
+                                                        
+                                                      }
                                                     });
                                                     final _licensePlate = await showDialog(
                                                       context: context,

@@ -583,8 +583,13 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Text(
+                                              order!.orderItems![index].dequantity != 0.0
+                                              ?Text(
                                                 '-${sumOneRowReprint(order!.orderItems![index]).toStringAsFixed(2)}',
+                                                style: TextStyle(fontSize: 20),
+                                              )
+                                              :Text(
+                                                '0.00',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
