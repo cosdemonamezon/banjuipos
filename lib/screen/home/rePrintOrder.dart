@@ -229,6 +229,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
   Widget previewBill() {
     final size = MediaQuery.of(context).size;
     final orientation = MediaQuery.of(context).orientation;
+    DateFormat format = DateFormat("dd-MM-yyyy HH:mm:ss");
 
     return Screenshot(
       controller: controller,
@@ -354,6 +355,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                               ),
                             ],
                           ),
+                          Row(
+                            children: [
+                              Text(
+                                'วันที่ปริ๊นใบเสร็จ',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
                         ],
                       )),
                   Expanded(
@@ -380,6 +389,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             children: [
                               Text(
                                 '${order!.licensePlate ?? ''}',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '${format.format(order!.orderDate!)}',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ],
@@ -584,14 +601,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               order!.orderItems![index].dequantity != 0.0
-                                              ?Text(
-                                                '-${sumOneRowReprint(order!.orderItems![index]).toStringAsFixed(2)}',
-                                                style: TextStyle(fontSize: 20),
-                                              )
-                                              :Text(
-                                                '0.00',
-                                                style: TextStyle(fontSize: 20),
-                                              ),
+                                                  ? Text(
+                                                      '-${sumOneRowReprint(order!.orderItems![index]).toStringAsFixed(2)}',
+                                                      style: TextStyle(fontSize: 20),
+                                                    )
+                                                  : Text(
+                                                      '0.00',
+                                                      style: TextStyle(fontSize: 20),
+                                                    ),
                                             ],
                                           ),
                                         ],

@@ -741,50 +741,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          // payments.isNotEmpty
-                          //     ? Container(
-                          //         width: size.width * 0.14,
-                          //         height: size.height * 0.06,
-                          //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                          //         child: Padding(
-                          //           padding: const EdgeInsets.all(2.0),
-                          //           child: Row(
-                          //             children: List.generate(
-                          //               payments.length,
-                          //               (index) => InkWell(
-                          //                 onTap: () {
-                          //                   onSelectPayment(payments[index]);
-                          //                 },
-                          //                 child: Padding(
-                          //                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.001),
-                          //                   child: Container(
-                          //                     width: size.width * 0.065,
-                          //                     height: size.height * 0.05,
-                          //                     decoration: BoxDecoration(
-                          //                       borderRadius: BorderRadius.circular(8),
-                          //                       color: selectedPayment == payments[index].name ? Colors.blue : Color.fromARGB(255, 255, 255, 255),
-                          //                     ),
-                          //                     child: Row(
-                          //                       mainAxisAlignment: MainAxisAlignment.center,
-                          //                       children: [
-                          //                         Text(
-                          //                           "${payments[index].name}",
-                          //                           style: TextStyle(
-                          //                             fontSize: 16,
-                          //                             fontFamily: 'IBMPlexSansThai',
-                          //                             color: selectedPayment == payments[index].name ? Color.fromARGB(255, 255, 255, 255) : Colors.black,
-                          //                           ),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       )
-                          //     : SizedBox()
+                          
                         ],
                       ),
                     ),

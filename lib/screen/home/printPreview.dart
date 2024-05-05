@@ -37,12 +37,12 @@ class _PrintPreviewState extends State<PrintPreview> {
   String? bs64;
   final controller = ScreenshotController();
   bool printBinded = false;
+  DateTime date = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     getIpAddress();
-    print(widget.customer.phoneNumber);
   }
 
   Future<bool?> _bindingPrinter() async {
@@ -232,6 +232,7 @@ class _PrintPreviewState extends State<PrintPreview> {
     final size = MediaQuery.of(context).size;
     final orientation = MediaQuery.of(context).orientation;
     DateFormat formatter = DateFormat('dd-MM-yyyy');
+    DateFormat format = DateFormat("dd-MM-yyyy HH:mm:ss");
 
     return Screenshot(
       controller: controller,
@@ -273,14 +274,6 @@ class _PrintPreviewState extends State<PrintPreview> {
                             Row(
                               children: [
                                 Text(
-                                  'วันที่ออกเอกสาร',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
                                   'พนักงาน',
                                   style: TextStyle(fontSize: 20),
                                 ),
@@ -296,14 +289,6 @@ class _PrintPreviewState extends State<PrintPreview> {
                               children: [
                                 Text(
                                   '${widget.order.orderNo}',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '${formatter.format(widget.order.orderDate!)}',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -358,6 +343,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                                 ),
                               ],
                             ),
+                            Row(
+                              children: [
+                                Text(
+                                  'วันที่ปริ๊นใบเสร็จ',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
                           ],
                         )),
                     Expanded(
@@ -384,6 +377,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                               children: [
                                 Text(
                                   '${widget.order.licensePlate ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${format.format(widget.order.orderDate!)}',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -547,7 +548,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${widget.order.orderItems![index].price!.toStringAsFixed(2)}',
+                                                '${widget.order.orderItems![index].price!.floor().toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -580,7 +581,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '${sumOneRowPrint(widget.order.orderItems![index]).toStringAsFixed(2)}',
+                                                '${sumOneRowPrint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -589,14 +590,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               widget.order.orderItems![index].dequantity != 0.0
-                                              ?Text(
-                                                '-${sumOneRowReprint(widget.order.orderItems![index]).toStringAsFixed(2)}',
-                                                style: TextStyle(fontSize: 20),
-                                              )
-                                              :Text(
-                                                '0.00',
-                                                style: TextStyle(fontSize: 20),
-                                              ),
+                                                  ? Text(
+                                                      '-${sumOneRowReprint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
+                                                      style: TextStyle(fontSize: 20),
+                                                    )
+                                                  : Text(
+                                                      '0.00',
+                                                      style: TextStyle(fontSize: 20),
+                                                    ),
                                             ],
                                           ),
                                         ],
@@ -620,7 +621,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      '${sumNewOneColumn(widget.order.orderItems!).toStringAsFixed(2)} ฿',
+                      '${sumNewOneColumn(widget.order.orderItems!).floor().toStringAsFixed(2)} ฿',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
