@@ -221,8 +221,11 @@ class ProductApi {
   }
 
   //ดูลูกค้าทั้งหมด
-  static Future<List<Customer>> getCustomer() async {
-    final url = Uri.https(publicUrl, '/api/customer');
+  static Future<List<Customer>> getCustomer({required String search}) async {
+    final url = Uri.https(publicUrl, '/api/customer/datatables', {
+      "search": '$search',
+      "sortBy": 'createdAt:DESC',
+    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -232,7 +235,7 @@ class ProductApi {
     );
     if (response.statusCode == 200) {
       final data = convert.jsonDecode(response.body);
-      final list = data as List;
+      final list = data["data"] as List;
       return list.map((e) => Customer.fromJson(e)).toList();
     } else {
       final data = convert.jsonDecode(response.body);

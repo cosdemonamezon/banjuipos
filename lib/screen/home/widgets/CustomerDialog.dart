@@ -37,16 +37,20 @@ class _CustomerDialogState extends State<CustomerDialog> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getlistNamePrefix();
-      await getlistCustomer();
+      await getlistCustomer(search: '');
     });
   }
 
   //ดึงข้อมูล Customer
-  Future<void> getlistCustomer() async {
+  Future<void> getlistCustomer({required String search}) async {
     try {
-      await context.read<ProductController>().getListCustomer();
+      LoadingDialog.open(context);
+      await context.read<ProductController>().getListCustomer(search: search);
+      if (!mounted) return;
+      LoadingDialog.close(context);
     } on Exception catch (e) {
       if (!mounted) return;
+      LoadingDialog.close(context);
       showDialog(
         context: context,
         builder: (context) => AlertDialogYes(
@@ -63,16 +67,16 @@ class _CustomerDialogState extends State<CustomerDialog> {
   //ดึงข้อมูล คำนำหน้า
   Future<void> getlistNamePrefix() async {
     try {
-      LoadingDialog.open(context);
+      //LoadingDialog.open(context);
       await context.read<ProductController>().getListNamePrefix();
       setState(() {
         namePrefix = context.read<ProductController>().namePrefixs[0];
       });
-      if (!mounted) return;
-      LoadingDialog.close(context);
+      // if (!mounted) return;
+      // LoadingDialog.close(context);
     } on Exception catch (e) {
       if (!mounted) return;
-      LoadingDialog.close(context);
+      //LoadingDialog.close(context);
       showDialog(
         context: context,
         builder: (context) => AlertDialogYes(
@@ -136,12 +140,15 @@ class _CustomerDialogState extends State<CustomerDialog> {
                   size: size,
                   controller: search,
                   onPressed: () async {
-                    await context.read<ProductController>().searchListCustomer(search: search.text);
+                    //await context.read<ProductController>().searchListCustomer(search: search.text);
+                    if (search.text != '' || search.text != null) {
+                      getlistCustomer(search: search.text);
+                    }                    
                     setState(() {});
                   },
                   onChanged: (value) async {
                     if (value == '' || value == null) {
-                      getlistCustomer();
+                      getlistCustomer(search: '');
                     }
                   }),
             ),
@@ -414,7 +421,7 @@ class _CustomerDialogState extends State<CustomerDialog> {
                               setState(() {
                                 add = false;
                               });
-                              getlistCustomer();
+                              getlistCustomer(search: '');
                             }
                           } on Exception catch (e) {
                             if (!mounted) return;

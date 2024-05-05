@@ -595,7 +595,14 @@ class _HomePageState extends State<HomePage> {
                                                     child: Column(
                                                       mainAxisSize: MainAxisSize.min,
                                                       children: [
-                                                        SizedBox(height: 50),
+                                                        SizedBox(height: 15),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Text('${products[index].name}', style: TextStyle(fontSize: 22),),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 10),
                                                         Padding(
                                                           padding: EdgeInsets.all(5),
                                                           child: SizedBox(

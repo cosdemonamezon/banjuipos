@@ -268,14 +268,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'วันที่ออกเอกสาร',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Text(
+                            //       'วันที่ออกเอกสาร',
+                            //       style: TextStyle(fontSize: 20),
+                            //     ),
+                            //   ],
+                            // ),
                             Row(
                               children: [
                                 Text(
@@ -298,14 +298,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  '${formatter.format(order!.orderDate!)}',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Text(
+                            //       '${formatter.format(order!.orderDate!)}',
+                            //       style: TextStyle(fontSize: 20),
+                            //     ),
+                            //   ],
+                            // ),
                             Row(
                               children: [
                                 Text(
@@ -348,6 +348,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             ],
                           ),
                           Row(
+                              children: [
+                                Text(
+                                  'รหัสลูกค้า',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          Row(
                             children: [
                               Text(
                                 'ทะเบียนรถ',
@@ -385,6 +393,14 @@ class _RePrintOrderState extends State<RePrintOrder> {
                               ),
                             ],
                           ),
+                          Row(
+                              children: [
+                                Text(
+                                  '${order!.customer?.code ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
                           Row(
                             children: [
                               Text(

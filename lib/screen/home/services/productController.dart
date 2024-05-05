@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/myorder.dart';
@@ -86,9 +88,9 @@ class ProductController extends ChangeNotifier {
     notifyListeners();
   }
 
-  getListCustomer() async {
+  getListCustomer({required String search}) async {
     customers.clear();
-    customers = await ProductApi.getCustomer();
+    customers = await ProductApi.getCustomer(search: search);
     showCustomers = customers;
     notifyListeners();
   }
@@ -105,13 +107,19 @@ class ProductController extends ChangeNotifier {
   }
 
   searchListCustomer({required String search}) async {
-    List<Customer> _customer = customers.where((customer) => customer.name == search || customer.licensePlate == search || customer.phoneNumber == search || customer.code == search).toList();
-    searchCustomers = _customer;
-    if (searchCustomers.isNotEmpty) {
-      showCustomers = searchCustomers;
-    } else {
-      showCustomers = customers;
-    }
+    // List<Customer> _customer = customers.where((customer) => customer.name == search || customer.licensePlate == search || customer.phoneNumber == search || customer.code == search).toList();
+    // searchCustomers = _customer;
+    // if (searchCustomers.isNotEmpty) {
+    //   showCustomers = searchCustomers;
+    // } else {
+    //   showCustomers = customers;
+    // }
+    List<Customer> _customer =[];
+    _customer.addAll(customers);
+    _customer.retainWhere((customerone){
+       return customerone.phoneNumber!.contains(search);
+    });
+    showCustomers = _customer;
     notifyListeners();
   }
 }

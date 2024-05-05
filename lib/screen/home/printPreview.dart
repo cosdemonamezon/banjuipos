@@ -338,6 +338,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                             Row(
                               children: [
                                 Text(
+                                  'รหัสลูกค้า',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
                                   'ทะเบียนรถ',
                                   style: TextStyle(fontSize: 20),
                                 ),
@@ -369,6 +377,14 @@ class _PrintPreviewState extends State<PrintPreview> {
                               children: [
                                 Text(
                                   '${widget.order.customer?.phoneNumber ?? ''}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${widget.order.customer?.code ?? ''}',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
