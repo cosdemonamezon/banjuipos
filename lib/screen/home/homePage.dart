@@ -400,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                   // SizedBox(
                   //   height: size.height * 0.01,
                   // ),
-                  Row(                    
+                  Row(
                     children: [
                       Wrap(
                         children: List.generate(
@@ -599,7 +599,10 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            Text('${products[index].name}', style: TextStyle(fontSize: 22),),
+                                                            Text(
+                                                              '${products[index].name}',
+                                                              style: TextStyle(fontSize: 22),
+                                                            ),
                                                           ],
                                                         ),
                                                         SizedBox(height: 10),
@@ -636,7 +639,7 @@ class _HomePageState extends State<HomePage> {
                                                           plusOrMinus: plusOrMinus,
                                                           status: (value) {
                                                             plusOrMinus = value;
-                                                            print(plusOrMinus);
+                                                            //print(plusOrMinus);
                                                           },
                                                           // do something with the input numbers
                                                           onSubmit: () {
@@ -650,17 +653,97 @@ class _HomePageState extends State<HomePage> {
                                                               // }
                                                               //
                                                               //final a = check.contains('+');
-                                                              String text = _myNumber.text;
-                                                              List<String> substring2 = _myNumber.text.split('+');
-                                                              //debugPrint('${substring2}');
-                                                              setState(() {
-                                                                final _selectproduct = SelectProduct(products[index], qty: sumQty(substring2), text, '', newQty: 0);
-                                                                selectproducts.add(_selectproduct);
-                                                                showSelect.insert(point, selectproducts);
-                                                                showSelect.removeAt(point + 1);
-                                                              });
-                                                              //inspect(selectproducts);
-                                                              Navigator.pop(context, _myNumber.text);
+                                                              if (selectproducts.isNotEmpty) {
+                                                                List<SelectProduct> _selectproducts = [];
+                                                                _selectproducts.addAll(selectproducts);
+                                                                _selectproducts.retainWhere((selectproduct) {
+                                                                  return selectproduct.product.id.toString().contains(products[index].id.toString());
+                                                                });
+                                                                if (_selectproducts.isNotEmpty) {
+                                                                  for (var i = 0; i < selectproducts.length; i++) {
+                                                                    if (selectproducts[i].product.id == _selectproducts[0].product.id) {
+                                                                      if (plusOrMinus == 0) {
+                                                                        List<String> substring2 = _myNumber.text.split('+');
+                                                                        setState(() {
+                                                                          selectproducts[i].qty = selectproducts[i].qty + sumQty(substring2);
+                                                                          selectproducts[i].sumText = selectproducts[i].sumText.toString() + '+' + _myNumber.text;
+                                                                        });
+                                                                        //break;
+                                                                        //Navigator.pop(context, _myNumber.text);
+                                                                      } else {
+                                                                        List<String> substring2 = _myNumber.text.split('-');
+                                                                        setState(() {
+                                                                          selectproducts[i].newQty = selectproducts[i].newQty + sumQty(substring2);
+                                                                          selectproducts[i].downText = selectproducts[i].downText.toString() + '-' + _myNumber.text;
+                                                                        });
+                                                                        //break;
+                                                                        //Navigator.pop(context, _myNumber.text);
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                  Navigator.pop(context, _myNumber.text);
+                                                                } else {
+                                                                  String text = _myNumber.text;
+                                                                  List<String> substring2 = _myNumber.text.split('+');
+                                                                  //debugPrint('${substring2}');
+                                                                  setState(() {
+                                                                    final _selectproduct = SelectProduct(products[index], qty: sumQty(substring2), text, '', newQty: 0);
+                                                                    selectproducts.add(_selectproduct);
+                                                                    showSelect.insert(point, selectproducts);
+                                                                    showSelect.removeAt(point + 1);
+                                                                  });
+                                                                  //inspect(selectproducts);
+                                                                  Navigator.pop(context, _myNumber.text);
+                                                                }
+                                                                // for (var i = 0; i < selectproducts.length; i++) {
+                                                                //   if (products[index].id == selectproducts[i].product.id) {
+                                                                //     if (plusOrMinus == 0) {
+                                                                //       List<String> substring2 = _myNumber.text.split('+');
+                                                                //       setState(() {
+                                                                //         selectproducts[i].qty = selectproducts[i].qty + sumQty(substring2);
+                                                                //         selectproducts[i].sumText = selectproducts[i].sumText.toString() + '+' + _myNumber.text;
+                                                                //       });
+                                                                //       //break;
+                                                                //       //Navigator.pop(context, _myNumber.text);
+                                                                //     } else {
+                                                                //       List<String> substring2 = _myNumber.text.split('-');
+                                                                //       setState(() {
+                                                                //         selectproducts[i].newQty = selectproducts[i].newQty + sumQty(substring2);
+                                                                //         selectproducts[i].downText = selectproducts[i].downText.toString() + '-' + _myNumber.text;
+                                                                //       });
+                                                                //       //break;
+                                                                //       //Navigator.pop(context, _myNumber.text);
+                                                                //     }
+                                                                //     break;
+                                                                //   } else {
+                                                                //     String text = _myNumber.text;
+                                                                //     List<String> substring2 = _myNumber.text.split('+');
+                                                                //     //debugPrint('${substring2}');
+                                                                //     setState(() {
+                                                                //       final _selectproduct = SelectProduct(products[index], qty: sumQty(substring2), text, '', newQty: 0);
+                                                                //       selectproducts.add(_selectproduct);
+                                                                //       showSelect.insert(point, selectproducts);
+                                                                //       showSelect.removeAt(point + 1);
+                                                                //     });
+                                                                //     break;
+                                                                //     //inspect(selectproducts);
+                                                                //     // Navigator.pop(context, _myNumber.text);
+                                                                //   }
+                                                                // }
+                                                                // Navigator.pop(context, _myNumber.text);
+                                                              } else {
+                                                                String text = _myNumber.text;
+                                                                List<String> substring2 = _myNumber.text.split('+');
+                                                                //debugPrint('${substring2}');
+                                                                setState(() {
+                                                                  final _selectproduct = SelectProduct(products[index], qty: sumQty(substring2), text, '', newQty: 0);
+                                                                  selectproducts.add(_selectproduct);
+                                                                  showSelect.insert(point, selectproducts);
+                                                                  showSelect.removeAt(point + 1);
+                                                                });
+                                                                //inspect(selectproducts);
+                                                                Navigator.pop(context, _myNumber.text);
+                                                              }
                                                             } catch (e) {
                                                               _myNumber.clear();
                                                               showDialog(
@@ -748,7 +831,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          
                         ],
                       ),
                     ),
@@ -826,7 +908,7 @@ class _HomePageState extends State<HomePage> {
                                     //     color: Colors.red,
                                     //     size: 30,
                                     //   ),
-                                    // ), 
+                                    // ),
                                   ),
                                 ),
                               )
@@ -853,7 +935,7 @@ class _HomePageState extends State<HomePage> {
                                     },
                                   ),
                                 );
-                                if (_ok = true) {
+                                if (_ok == true) {
                                   setState(() {
                                     selectproducts.clear();
                                   });
@@ -1092,7 +1174,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : SizedBox(
-                            height: customer == null ?size.height * 0.525 : size.height * 0.465,
+                            height: customer == null ? size.height * 0.525 : size.height * 0.465,
                           ),
                     SingleChildScrollView(
                       child: Column(
