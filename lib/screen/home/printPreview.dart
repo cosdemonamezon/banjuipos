@@ -540,7 +540,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '- ${widget.order.orderItems![index].dequantity!.toStringAsFixed(2)}',
+                                                '${widget.order.orderItems![index].dequantity!.toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -607,7 +607,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             children: [
                                               widget.order.orderItems![index].dequantity != 0.0
                                                   ? Text(
-                                                      '-${sumOneRowReprint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
+                                                      '${sumOneRowReprint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
                                                       style: TextStyle(fontSize: 20),
                                                     )
                                                   : Text(

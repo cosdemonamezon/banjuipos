@@ -551,7 +551,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '- ${order!.orderItems![index].dequantity!.toStringAsFixed(2)}',
+                                                '${order!.orderItems![index].dequantity!.toStringAsFixed(2)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -618,7 +618,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                             children: [
                                               order!.orderItems![index].dequantity != 0.0
                                                   ? Text(
-                                                      '-${sumOneRowReprint(order!.orderItems![index]).toStringAsFixed(2)}',
+                                                      '${sumOneRowReprint(order!.orderItems![index]).toStringAsFixed(2)}',
                                                       style: TextStyle(fontSize: 20),
                                                     )
                                                   : Text(
