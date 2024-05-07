@@ -38,6 +38,7 @@ class _PrintPreviewState extends State<PrintPreview> {
   final controller = ScreenshotController();
   bool printBinded = false;
   DateTime date = DateTime.now();
+  final oCcy = NumberFormat("#,##0.00", "en_US");
 
   @override
   void initState() {
@@ -450,7 +451,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
                                   'ราคา',
@@ -461,7 +462,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                           ],
                         )),
                     Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Column(
                           children: [
                             Row(
@@ -527,20 +528,20 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                '${widget.order.orderItems![index].quantity!.toStringAsFixed(2)}',
+                                                '${widget.order.orderItems![index].quantity!.toStringAsFixed(1)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${widget.order.orderItems![index].dequantity!.toStringAsFixed(2)}',
+                                                '${widget.order.orderItems![index].dequantity!.toStringAsFixed(1)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -581,7 +582,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                                         ],
                                       )),
                                   Expanded(
-                                      flex: 2,
+                                      flex: 3,
                                       child: Column(
                                         children: [
                                           Row(
@@ -597,9 +598,18 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '${sumOneRowPrint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
+                                                '',
                                                 style: TextStyle(fontSize: 20),
-                                              ),
+                                              )
+                                              // widget.order.orderItems![index].dequantity != 0.0
+                                              //     ? Text(
+                                              //         '',
+                                              //         style: TextStyle(fontSize: 20),
+                                              //       )
+                                              //     : Text(
+                                              //         '${sumOneRowPrint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
+                                              //         style: TextStyle(fontSize: 20),
+                                              //       ),
                                             ],
                                           ),
                                           Row(
@@ -607,11 +617,11 @@ class _PrintPreviewState extends State<PrintPreview> {
                                             children: [
                                               widget.order.orderItems![index].dequantity != 0.0
                                                   ? Text(
-                                                      '${sumOneRowReprint(widget.order.orderItems![index]).floor().toStringAsFixed(2)}',
+                                                      '${oCcy.format(sumOneRowReprint(widget.order.orderItems![index]).floor())}',
                                                       style: TextStyle(fontSize: 20),
                                                     )
                                                   : Text(
-                                                      '0.00',
+                                                      '${oCcy.format(sumOneRowPrint(widget.order.orderItems![index]).floor())}',
                                                       style: TextStyle(fontSize: 20),
                                                     ),
                                             ],
@@ -637,7 +647,7 @@ class _PrintPreviewState extends State<PrintPreview> {
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      '${sumNewOneColumn(widget.order.orderItems!).floor().toStringAsFixed(2)} ฿',
+                      '${oCcy.format(sumNewOneColumn(widget.order.orderItems!).floor())} ฿',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],

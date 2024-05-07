@@ -35,6 +35,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
   final controller = ScreenshotController();
   Order? order;
   DateFormat formatter = DateFormat('dd-MM-yyyy');
+  final oCcy = NumberFormat("#,##0.00", "en_US");
 
   @override
   void initState() {
@@ -348,13 +349,13 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             ],
                           ),
                           Row(
-                              children: [
-                                Text(
-                                  'รหัสลูกค้า',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
+                            children: [
+                              Text(
+                                'รหัสลูกค้า',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
                           Row(
                             children: [
                               Text(
@@ -394,13 +395,13 @@ class _RePrintOrderState extends State<RePrintOrder> {
                             ],
                           ),
                           Row(
-                              children: [
-                                Text(
-                                  '${order!.customer?.code ?? ''}',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
+                            children: [
+                              Text(
+                                '${order!.customer?.code ?? ''}',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
                           Row(
                             children: [
                               Text(
@@ -461,7 +462,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
                                   'ราคา',
@@ -472,7 +473,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                           ],
                         )),
                     Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Column(
                           children: [
                             Row(
@@ -527,6 +528,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                   Expanded(
                                       flex: 2,
                                       child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
@@ -538,20 +540,20 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                '${order!.orderItems![index].quantity!.toStringAsFixed(2)}',
+                                                '${order!.orderItems![index].quantity!.toStringAsFixed(1)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${order!.orderItems![index].dequantity!.toStringAsFixed(2)}',
+                                                '${order!.orderItems![index].dequantity!.toStringAsFixed(1)}',
                                                 style: TextStyle(fontSize: 20),
                                               ),
                                             ],
@@ -592,7 +594,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                         ],
                                       )),
                                   Expanded(
-                                      flex: 2,
+                                      flex: 3,
                                       child: Column(
                                         children: [
                                           Row(
@@ -608,9 +610,18 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '${sumOneRowPrint(order!.orderItems![index]).toStringAsFixed(2)}',
+                                                '',
                                                 style: TextStyle(fontSize: 20),
-                                              ),
+                                              )
+                                              // order!.orderItems![index].dequantity != 0.0
+                                              //     ? Text(
+                                              //         '',
+                                              //         style: TextStyle(fontSize: 20),
+                                              //       )
+                                              //     : Text(
+                                              //         '${sumOneRowPrint(order!.orderItems![index]).toStringAsFixed(2)}',
+                                              //         style: TextStyle(fontSize: 20),
+                                              //       ),
                                             ],
                                           ),
                                           Row(
@@ -618,11 +629,11 @@ class _RePrintOrderState extends State<RePrintOrder> {
                                             children: [
                                               order!.orderItems![index].dequantity != 0.0
                                                   ? Text(
-                                                      '${sumOneRowReprint(order!.orderItems![index]).toStringAsFixed(2)}',
+                                                      '${oCcy.format(sumOneRowReprint(order!.orderItems![index]))}',
                                                       style: TextStyle(fontSize: 20),
                                                     )
                                                   : Text(
-                                                      '0.00',
+                                                      '${oCcy.format(sumOneRowPrint(order!.orderItems![index]))}',
                                                       style: TextStyle(fontSize: 20),
                                                     ),
                                             ],
@@ -648,7 +659,7 @@ class _RePrintOrderState extends State<RePrintOrder> {
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      '${sumNewOneColumn(order!.orderItems!).toStringAsFixed(2)} ฿',
+                      '${oCcy.format(sumNewOneColumn(order!.orderItems!))} ฿',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],

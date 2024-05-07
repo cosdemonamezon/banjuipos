@@ -23,6 +23,7 @@ import 'package:banjuipos/widgets/NumPad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
@@ -60,6 +61,7 @@ class _HomePageState extends State<HomePage> {
   List<Panel> panels = [];
   Panel? panel;
   int plusOrMinus = 0;
+  final oCcy = NumberFormat("#,##0.00", "en_US");
 
   @override
   void initState() {
@@ -957,7 +959,8 @@ class _HomePageState extends State<HomePage> {
                             ))),
                     Divider(),
                     selectproducts.isNotEmpty
-                        ? SizedBox(
+                        ? Container(
+                            color: Color(0xffE8EAF6),
                             height: size.height * 0.465,
                             child: ListView.builder(
                               itemCount: selectproducts.length,
@@ -1113,6 +1116,7 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   },
                                   child: Card(
+                                    color: Color.fromARGB(255, 237, 238, 247),
                                     child: SizedBox(
                                       width: double.infinity,
                                       height: size.height * 0.165,
@@ -1173,7 +1177,8 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           )
-                        : SizedBox(
+                        : Container(
+                            color: Color(0xffE8EAF6),
                             height: customer == null ? size.height * 0.525 : size.height * 0.465,
                           ),
                     SingleChildScrollView(
@@ -1221,7 +1226,7 @@ class _HomePageState extends State<HomePage> {
                                             style: TextStyle(fontFamily: 'IBMPlexSansThai', color: Color(0xFF424242)),
                                           ),
                                           Text(
-                                            sum(selectproducts).toStringAsFixed(2),
+                                            oCcy.format(sum(selectproducts)),
                                             // '${sumPrice(selectedItem)} ฿',
                                             style: TextStyle(
                                               fontFamily: 'IBMPlexSansThai',
@@ -1253,7 +1258,7 @@ class _HomePageState extends State<HomePage> {
                                             style: TextStyle(fontFamily: 'IBMPlexSansThai', color: Color(0xFF424242)),
                                           ),
                                           Text(
-                                            "${sumTotal(selectproducts).toStringAsFixed(2)} ฿",
+                                            "${oCcy.format(sumTotal(selectproducts))} ฿",
                                             style: TextStyle(
                                               fontFamily: 'IBMPlexSansThai',
                                             ),
