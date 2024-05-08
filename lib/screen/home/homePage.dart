@@ -1289,20 +1289,22 @@ class _HomePageState extends State<HomePage> {
                                                 try {
                                                   LoadingDialog.open(context);
                                                   setState(() {
-                                                    for (var i = 0; i < selectproducts.length; i++) {
-                                                      OrderItems _orderItem = OrderItems(
-                                                        selectproducts[i].product.id,
-                                                        selectproducts[i].qty,
-                                                        selectproducts[i].product.price,
-                                                        double.parse(sumTotal(selectproducts).toStringAsFixed(2)),
-                                                        [],
-                                                        null,
-                                                        selectproducts[i].newQty,
-                                                        selectproducts[i].downText,
-                                                        selectproducts[i].sumText,
-                                                      );
-                                                      orderItems.add(_orderItem);
-                                                    }
+                                                    if (orderItems.isEmpty) {
+                                                      for (var i = 0; i < selectproducts.length; i++) {
+                                                        OrderItems _orderItem = OrderItems(
+                                                          selectproducts[i].product.id,
+                                                          selectproducts[i].qty,
+                                                          selectproducts[i].product.price,
+                                                          double.parse(sumTotal(selectproducts).toStringAsFixed(2)),
+                                                          [],
+                                                          null,
+                                                          selectproducts[i].newQty,
+                                                          selectproducts[i].downText,
+                                                          selectproducts[i].sumText,
+                                                        );
+                                                        orderItems.add(_orderItem);
+                                                      }
+                                                    } else {}
                                                   });
                                                   //List<LicensePlates> _licensePlate = customer!.licensePlates!.where((element) => element.select == true).toList();
                                                   //inspect(_licensePlate);
@@ -1333,6 +1335,8 @@ class _HomePageState extends State<HomePage> {
                                                         customers[point] = Customer(null, null, null, null, null, null, null, null, null);
                                                         orderItems.clear();
                                                       });
+                                                    }else{
+                                                      orderItems.clear();
                                                     }
                                                   } else {
                                                     if (!mounted) return;

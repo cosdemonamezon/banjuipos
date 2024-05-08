@@ -3,6 +3,7 @@ import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/order.dart';
 import 'package:banjuipos/models/selectproduct.dart';
 import 'package:banjuipos/screen/home/services/printerService.dart';
+import 'package:banjuipos/screen/home/services/productApi.dart';
 import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
@@ -39,6 +40,7 @@ class _PrintPreviewState extends State<PrintPreview> {
   bool printBinded = false;
   DateTime date = DateTime.now();
   final oCcy = NumberFormat("#,##0.00", "en_US");
+  bool printing = false;
 
   @override
   void initState() {
@@ -159,8 +161,42 @@ class _PrintPreviewState extends State<PrintPreview> {
           style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context, true);
+            onPressed: () async {
+              if (printing == true) {
+                Navigator.pop(context, true);
+              } else {
+                if (!mounted) return;
+                final ok = await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialogYesNo(
+                    title: 'แจ้งเตือน',
+                    description: 'คุณยังไม่ได้ปริ๊นใบเสร็จ หากออกจากหน้านี้จะเป็นการ ยกเลิกคำสั่งซื้อ ต้องการยกเลิกคำสั่งซื้อหรือไม่',
+                    pressYes: () {
+                      Navigator.pop(context, true);
+                    },
+                    pressNo: () {
+                      Navigator.pop(context, false);
+                    },
+                  ),
+                );
+                if (ok == true) {
+                  final cancel = await ProductApi.cancelOrder(id: widget.order.id);
+                  if (cancel != null) {
+                    Navigator.pop(context, false);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialogYes(
+                        title: 'แจ้งเตือน',
+                        description: 'เกิดข้อผิดพลาด ข้อมูลออร์เดอร์ไม่ถูกต้อง หรือไม่มีข้อมูลออร์เดอร์นี้',
+                        pressYes: () {
+                          Navigator.pop(context, true);
+                        },
+                      ),
+                    );
+                  }
+                }
+              }
             },
             icon: Icon(Icons.arrow_back_ios)),
       ),
@@ -185,6 +221,9 @@ class _PrintPreviewState extends State<PrintPreview> {
                     if (pngBytes != null) {
                       printOrder(pngBytes!);
                       printOrder(pngBytes!);
+                      setState(() {
+                        printing = true;
+                      });
                       Navigator.pop(context, true);
                     }
                   } else {
