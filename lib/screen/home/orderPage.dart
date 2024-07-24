@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:banjuipos/extension/formattedMessage.dart';
 import 'package:banjuipos/screen/home/rePrintOrder.dart';
 import 'package:banjuipos/screen/home/services/productController.dart';
 import 'package:banjuipos/screen/home/widgets/TableOrder.dart';
@@ -25,6 +26,28 @@ class _OrderPageState extends State<OrderPage> {
     });
   }
 
+  // Future<void> getlistOrder() async {
+  //   try {
+  //     LoadingDialog.open(context);
+  //     await context.read<ProductController>().getListOrder(start: 0, length: 10000);
+  //     if (!mounted) return;
+  //     LoadingDialog.close(context);
+  //   } on Exception catch (e) {
+  //     if (!mounted) return;
+  //     LoadingDialog.close(context);
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialogYes(
+  //         title: 'แจ้งเตือน',
+  //         description: '${e.getMessage}',
+  //         pressYes: () {
+  //           Navigator.pop(context, true);
+  //         },
+  //       ),
+  //     );
+  //   }
+  // }
+
   Future<void> getlistOrder() async {
     try {
       LoadingDialog.open(context);
@@ -38,7 +61,7 @@ class _OrderPageState extends State<OrderPage> {
         context: context,
         builder: (context) => AlertDialogYes(
           title: 'แจ้งเตือน',
-          description: '${e}',
+          description: '${e.getMessage}',
           pressYes: () {
             Navigator.pop(context, true);
           },

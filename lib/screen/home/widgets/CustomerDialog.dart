@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:banjuipos/extension/formattedMessage.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/nameprefix.dart';
 import 'package:banjuipos/screen/home/services/productApi.dart';
@@ -55,7 +56,7 @@ class _CustomerDialogState extends State<CustomerDialog> {
         context: context,
         builder: (context) => AlertDialogYes(
           title: 'แจ้งเตือน',
-          description: '${e}',
+          description: '${e.getMessage}',
           pressYes: () {
             Navigator.pop(context, true);
           },
@@ -81,7 +82,7 @@ class _CustomerDialogState extends State<CustomerDialog> {
         context: context,
         builder: (context) => AlertDialogYes(
           title: 'แจ้งเตือน',
-          description: '${e}',
+          description: '${e.getMessage}',
           pressYes: () {
             Navigator.pop(context, true);
           },
@@ -429,7 +430,7 @@ class _CustomerDialogState extends State<CustomerDialog> {
                               context: context,
                               builder: (context) => AlertDialogYes(
                                 title: 'แจ้งเตือน',
-                                description: '${e}',
+                                description: '${e.getMessage}',
                                 pressYes: () {
                                   Navigator.pop(context, true);
                                 },

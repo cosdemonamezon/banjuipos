@@ -1,3 +1,4 @@
+import 'package:banjuipos/extension/formattedMessage.dart';
 import 'package:banjuipos/models/licenseplates.dart';
 import 'package:banjuipos/screen/home/services/productApi.dart';
 import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
@@ -18,21 +19,28 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
   bool add = false;
   final GlobalKey<FormState> _addLicensePlateFormKey = GlobalKey<FormState>();
   final TextEditingController licensePlate = TextEditingController();
+  List<LicensePlates> licenseplates = [];
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      licenseplates = widget.licenseplates;
+      licenseplates.reversed;
+    });
   }
 
   //add licenseplates
-  Future<void> getlistNamePrefix({required String licenseplates}) async {
+  Future<void> getlistNamePrefix({required String licenseplate}) async {
     try {
       LoadingDialog.open(context);
-      final _licenseplates = await ProductApi.addLicensePlate(customerId: widget.customerId, licensePlate: licenseplates);
+      final _licenseplate = await ProductApi.addLicensePlate(customerId: widget.customerId, licensePlate: licenseplate);
       setState(() {
-        if (_licenseplates != null) {
+        if (_licenseplate != null) {
           add = false;
-          widget.licenseplates.add(_licenseplates);
+          // licenseplates.add(_licenseplate);
+          // licenseplates.reversed;
+          licenseplates.insert(0, _licenseplate);
         }
       });
       if (!mounted) return;
@@ -44,7 +52,7 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
         context: context,
         builder: (context) => AlertDialogYes(
           title: 'แจ้งเตือน',
-          description: '${e}',
+          description: '${e.getMessage}',
           pressYes: () {
             Navigator.pop(context, true);
           },
@@ -112,7 +120,7 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
                         ),
                       )
                     : SingleChildScrollView(
-                        child: widget.licenseplates.isNotEmpty
+                        child: licenseplates.isNotEmpty
                             ? Column(
                                 children: [
                                   Container(
@@ -120,7 +128,7 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
                                     child: ListView.builder(
                                         physics: const ClampingScrollPhysics(),
                                         shrinkWrap: true,
-                                        itemCount: widget.licenseplates.length,
+                                        itemCount: licenseplates.length,
                                         itemBuilder: (context, index) {
                                           return Padding(
                                             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -140,7 +148,7 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
                                                 //decoration: BoxDecoration(color: read ? Colors.white : Color.fromRGBO(0, 0, 0, 0.1), borderRadius: BorderRadius.circular(8)),
                                                 child: ListTile(
                                                   title: Text(
-                                                    '${widget.licenseplates[index].licensePlate}',
+                                                    '${licenseplates[index].licensePlate}',
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 16,
@@ -157,10 +165,10 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
                                                   onTap: () async {
                                                     setState(() {
                                                       select = index;
-                                                      if (widget.licenseplates[select!].select == true) {
-                                                        widget.licenseplates[select!].select = false;
+                                                      if (licenseplates[select!].select == true) {
+                                                        licenseplates[select!].select = false;
                                                       } else {
-                                                        widget.licenseplates[select!].select = true;
+                                                        licenseplates[select!].select = true;
                                                       }
                                                     });
                                                   },
@@ -205,14 +213,14 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
                           if (licensePlate.text != null || licensePlate.text != "") {
                             //Navigator.pop(context, widget.licenseplates[select!]);
                             try {
-                              getlistNamePrefix(licenseplates: licensePlate.text);
+                              getlistNamePrefix(licenseplate: licensePlate.text);
                             } on Exception catch (e) {
                               if (!mounted) return;
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialogYes(
                                   title: 'แจ้งเตือน',
-                                  description: '${e}',
+                                  description: '${e.getMessage}',
                                   pressYes: () {
                                     Navigator.pop(context, true);
                                   },
@@ -266,7 +274,7 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
                         //textColor: Color(0xFF6200EE),
                         onPressed: () async {
                           if (select != null) {
-                            Navigator.pop(context, widget.licenseplates[select!]);
+                            Navigator.pop(context, licenseplates[select!]);
                           } else {
                             showDialog(
                               context: context,

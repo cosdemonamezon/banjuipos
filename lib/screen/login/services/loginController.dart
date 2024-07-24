@@ -26,7 +26,8 @@ class LoginController extends ChangeNotifier {
   Future<void> clearToken() async {
     SharedPreferences prefs = await _prefs;
     prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    //await prefs.clear();
+    await prefs.remove('token');
 
     notifyListeners();
   }

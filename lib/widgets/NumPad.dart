@@ -42,19 +42,19 @@ class _NumPadState extends State<NumPad> {
             // the NumberButton widget is defined in the bottom of this file
             children: [
               NumberButton(
-                number: '1',
+                number: '7',
                 size: widget.buttonSize,
                 color: widget.buttonColor,
                 controller: widget.controller,
               ),
               NumberButton(
-                number: '2',
+                number: '8',
                 size: widget.buttonSize,
                 color: widget.buttonColor,
                 controller: widget.controller,
               ),
               NumberButton(
-                number: '3',
+                number: '9',
                 size: widget.buttonSize,
                 color: widget.buttonColor,
                 controller: widget.controller,
@@ -103,19 +103,19 @@ class _NumPadState extends State<NumPad> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               NumberButton(
-                number: '7',
+                number: '1',
                 size: widget.buttonSize,
                 color: widget.buttonColor,
                 controller: widget.controller,
               ),
               NumberButton(
-                number: '8',
+                number: '2',
                 size: widget.buttonSize,
                 color: widget.buttonColor,
                 controller: widget.controller,
               ),
               NumberButton(
-                number: '9',
+                number: '3',
                 size: widget.buttonSize,
                 color: widget.buttonColor,
                 controller: widget.controller,

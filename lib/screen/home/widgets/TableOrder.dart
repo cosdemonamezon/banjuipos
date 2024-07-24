@@ -35,7 +35,7 @@ class _TableOrderState extends State<TableOrder> {
         //   cardColor: Colors.blue[100],
         //   dividerColor: Colors.white,
         // ),
-        data: ThemeData(cardColor: Colors.white, textTheme: TextTheme(caption: TextStyle(color: Colors.black))),
+        data: ThemeData(cardColor: Colors.white, textTheme: TextTheme(titleMedium: TextStyle(color: Colors.black))),
         child: PaginatedDataTable(
           header: Text('รายการคำสั่งซื้อ'),
           rowsPerPage: _pageSize,

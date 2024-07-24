@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'IBMPlexSansThai',
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          backgroundColor: Colors.white,
+          //backgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSwatch().copyWith(
             secondary: Colors.white, // Your accent color
           ),

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'image.g.dart';
 
 @JsonSerializable()
-class Image {
+class Images {
   final int? id;
   final String? fieldname;
   final String? originalname;
@@ -16,7 +16,7 @@ class Image {
   final String? provider;
   final String? pathUrl;
 
-  Image(
+  Images(
     this.id,
     this.destination,
     this.encoding,
@@ -30,7 +30,7 @@ class Image {
     this.pathUrl
   );
 
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImageToJson(this);
+  Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }

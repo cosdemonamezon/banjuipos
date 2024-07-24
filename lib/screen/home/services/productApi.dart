@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'package:banjuipos/constants.dart';
 import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
+import 'package:banjuipos/models/customerbank.dart';
 import 'package:banjuipos/models/licenseplates.dart';
 import 'package:banjuipos/models/myorder.dart';
 import 'package:banjuipos/models/nameprefix.dart';
@@ -59,6 +60,80 @@ class ProductApi {
     }
   }
 
+  //ดูข้อมูลสินค้า ตามไอดี ระดับของลูกค้า and ตามไอดี Category
+  static Future<List<Product>> getProductByLevelAndCategory({required int categoryid, required int levelId}) async {
+    final url = Uri.https(publicUrl, '/api/product', {
+      "categoryId": '$categoryid',
+      "levelId": '$levelId',
+      "sortBy": 'createdAt:DESC',
+    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200) {
+      final data = convert.jsonDecode(response.body);
+      final list = data as List;
+      return list.map((e) => Product.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  //ดูข้อมูลสินค้า ตามไอดี ระดับของลูกค้า
+  static Future<List<Product>> getProductByLevelId({required int levelId}) async {
+    final url = Uri.https(publicUrl, '/api/product', {
+      "levelId": '$levelId',
+      "sortBy": 'createdAt:DESC',
+    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200) {
+      final data = convert.jsonDecode(response.body);
+      final list = data as List;
+      return list.map((e) => Product.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  //คนหาข้อมูลขอลลูกค้า
+  static Future<List<Product>> searchProducts({
+    required String search,
+    required int levelId
+  }) async {
+    final url = Uri.https(publicUrl, '/api/product/datatables', {
+      "search": '$search',
+      "filter.productLevels.level.id": '$levelId',
+      "sortBy": 'createdAt:DESC',
+    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200) {
+      final data = convert.jsonDecode(response.body);
+      final list = data['data'] as List;
+      return list.map((e) => Product.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
   static Future<Product> getproductById({required int id}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -102,14 +177,18 @@ class ProductApi {
   }
 
   //สร้างออร์เดอร์
-  static Future<Order> ceateOrders(
-      {required int shiftId,
-      required double total,
-      required List<OrderItems> orderItems,
-      required int customerId,
-      String? licensePlate,
-      required String selectedPayment,
-      required int paymentMethodId}) async {
+  static Future<Order> ceateOrders({
+    required int shiftId,
+    required double total,
+    required List<OrderItems> orderItems,
+    required int customerId,
+    String? licensePlate,
+    required String selectedPayment,
+    required int paymentMethodId,
+    required String bankName,
+    required String accountName,
+    required String accountNumber,
+  }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -119,6 +198,9 @@ class ProductApi {
         body: convert.jsonEncode({
           "shiftId": shiftId,
           "total": total,
+          "bankName": bankName,
+          "accountName": accountName,
+          "accountNumber": accountNumber,
           "customerId": customerId,
           "licensePlate": licensePlate,
           "paymentMethodId": paymentMethodId,
@@ -134,31 +216,31 @@ class ProductApi {
   }
 
   //ดูรายการคำสั่งซื้อ
-  static Future<MyOrder> getMyOrder({
-    required int start,
-    int length = 10,
-    String? search = '',
-  }) async {
-    final url = Uri.https(publicUrl, '/api/order/datatables', {
-      "page": '$start',
-      "limit": '$length',
-      "sortBy": 'createdAt:DESC',
-    });
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
-    final response = await http.get(
-      headers: headers,
-      url,
-    );
-    if (response.statusCode == 200) {
-      final data = convert.jsonDecode(response.body);
-      return MyOrder.fromJson(data);
-    } else {
-      final data = convert.jsonDecode(response.body);
-      throw Exception(data['message']);
-    }
-  }
+  // static Future<MyOrder> getMyOrder({
+  //   required int start,
+  //   int length = 10,
+  //   String? search = '',
+  // }) async {
+  //   final url = Uri.https(publicUrl, '/api/order/datatables', {
+  //     "page": '$start',
+  //     "limit": '$length',
+  //     "sortBy": 'createdAt:DESC',
+  //   });
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final token = prefs.getString('token');
+  //   var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+  //   final response = await http.get(
+  //     headers: headers,
+  //     url,
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final data = convert.jsonDecode(response.body);
+  //     return MyOrder.fromJson(data);
+  //   } else {
+  //     final data = convert.jsonDecode(response.body);
+  //     throw Exception(data['message']);
+  //   }
+  // }
 
   static Future<List<Order>> getOrder() async {
     final url = Uri.https(publicUrl, '/api/order');
@@ -172,12 +254,40 @@ class ProductApi {
     if (response.statusCode == 200) {
       final data = convert.jsonDecode(response.body);
       final list = data as List;
-      return list.map((e) => Order.fromJson(e)).toList();
+      return list.map((e) => Order.fromJson(e)).toList().reversed.toList();
     } else {
       final data = convert.jsonDecode(response.body);
       throw Exception(data['message']);
     }
   }
+
+
+  // static Future<List<Order>> getOrder({
+  //   required int start,
+  //   required int length,
+  //   String? search = '',
+  // }) async {
+  //   final url = Uri.https(publicUrl, '/api/order/datatables', {
+  //     "page": '$start',
+  //     "limit": '$length',
+  //     "sortBy": 'createdAt:ASC',
+  //   });
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final token = prefs.getString('token');
+  //   var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+  //   final response = await http.get(
+  //     headers: headers,
+  //     url,
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final data = convert.jsonDecode(response.body);
+  //     final list = data['data'] as List;
+  //     return list.map((e) => Order.fromJson(e)).toList();
+  //   } else {
+  //     final data = convert.jsonDecode(response.body);
+  //     throw Exception(data['message']);
+  //   }
+  // }
 
   //Get order by id
   static Future<Order> getOrderById({required int id}) async {
@@ -219,7 +329,6 @@ class ProductApi {
       throw Exception(data['message']);
     }
   }
-
 
   //ลบออร์เดอร์
   static Future deleteOrder({required int id}) async {
@@ -315,15 +424,15 @@ class ProductApi {
   }
 
   //เพิ่มข้อมูลลูกค้าใหม่
-  static Future<Customer> addCustomer(
-      {required String name, 
-      required String phoneNumber, 
-      required String licensePlate, 
-      required String address, 
-      required String code, 
-      required String tax, 
-      required int prefixId,
-    }) async {
+  static Future<Customer> addCustomer({
+    required String name,
+    required String phoneNumber,
+    required String licensePlate,
+    required String address,
+    required String code,
+    required String tax,
+    required int prefixId,
+  }) async {
     final url = Uri.https(publicUrl, '/api/customer');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -355,7 +464,7 @@ class ProductApi {
   }
 
   //เพิ่มทะเบียนรถ
-  static Future<LicensePlates> addLicensePlate({required String licensePlate, required int customerId}) async{
+  static Future<LicensePlates> addLicensePlate({required String licensePlate, required int customerId}) async {
     final url = Uri.https(publicUrl, '/api/customer/$customerId/license-plate');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -369,6 +478,22 @@ class ProductApi {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = convert.jsonDecode(response.body);
       return LicensePlates.fromJson(data);
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  //เพิ่มธนาคารของลูกค้า
+  static Future<CustomerBank> addCustomerBank({required int customerId, required String accountName, required String accountNumber, required String bank}) async {
+    final url = Uri.https(publicUrl, '/api/customer/$customerId/bank');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.post(headers: headers, url, body: convert.jsonEncode({"id": null, "accountName": accountName, "accountNumber": accountNumber, "bank": bank}));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = convert.jsonDecode(response.body);
+      return CustomerBank.fromJson(data);
     } else {
       final data = convert.jsonDecode(response.body);
       throw Exception(data['message']);

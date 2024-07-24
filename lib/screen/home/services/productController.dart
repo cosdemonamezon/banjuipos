@@ -37,12 +37,15 @@ class ProductController extends ChangeNotifier {
     panels.clear();
     panels = await ProductApi.getPanels();
     if (panels.isNotEmpty) {
-      getPanelById(panelId: panels[0].id!);
+      //getPanelById(panelId: panels[0].id!);
+      panel = await ProductApi.getPanelById(panelId: panels[0].id!);
+      products.clear();
+      products = panel!.products!;
     }
     notifyListeners();
   }
 
-  getPanelById({required int panelId}) async{
+  getPanelById({required int panelId}) async {
     panel = await ProductApi.getPanelById(panelId: panelId);
     products.clear();
     products = panel!.products!;
@@ -53,7 +56,10 @@ class ProductController extends ChangeNotifier {
     categorized.clear();
     categorized = await ProductApi.getCategory();
     categorized.insert(0, Category(0, '00', 'ทั้งหมด'));
-    getProduct(categoryid: categorized[0].id!);
+    //getProduct(categoryid: categorized[0].id!);
+    products.clear();
+    //products = await ProductApi.getProduct(id: categorized[0].id!);
+    products = await ProductApi.getProductByLevelAndCategory(categoryid: categorized[0].id!, levelId: 1);
     notifyListeners();
   }
 
@@ -68,18 +74,31 @@ class ProductController extends ChangeNotifier {
     notifyListeners();
   }
 
-  getListMyOrder({
-    required int start,
-    int length = 10,
-    String? search = '',
-  }) async {
-    myorders = await ProductApi.getMyOrder(start: start);
-    notifyListeners();
-  }
+  // getListMyOrder({
+  //   required int start,
+  //   int length = 10,
+  //   String? search = '',
+  // }) async {
+  //   myorders = await ProductApi.getMyOrder(start: start);
+  //   notifyListeners();
+  // }
+
+  // getListOrder({
+  //   required int start,
+  //   required int length,
+  //   String? search = '',
+  // }) async {
+  //   //orders.clear();
+  //   orders = await ProductApi.getOrder(start: start, length: length);
+  //   print(orders.length);
+  //   notifyListeners();
+  // }
 
   getListOrder() async {
     //orders.clear();
     orders = await ProductApi.getOrder();
+    //orders.reversed;
+    print(orders.length);
     notifyListeners();
   }
 
@@ -114,10 +133,10 @@ class ProductController extends ChangeNotifier {
     // } else {
     //   showCustomers = customers;
     // }
-    List<Customer> _customer =[];
+    List<Customer> _customer = [];
     _customer.addAll(customers);
-    _customer.retainWhere((customerone){
-       return customerone.phoneNumber!.contains(search);
+    _customer.retainWhere((customerone) {
+      return customerone.phoneNumber!.contains(search);
     });
     showCustomers = _customer;
     notifyListeners();

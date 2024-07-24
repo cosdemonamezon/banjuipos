@@ -1,4 +1,6 @@
+import 'package:banjuipos/models/customerbank.dart';
 import 'package:banjuipos/models/identitycard.dart';
+import 'package:banjuipos/models/level.dart';
 import 'package:banjuipos/models/licenseplates.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,6 +17,8 @@ class Customer {
   final String? phoneNumber;
   final IdentityCard? identityCard;
   List<LicensePlates>? licensePlates;
+  List<CustomerBank>? customerBanks;
+  Level? level;
 
   Customer(
     this.id,
@@ -25,7 +29,9 @@ class Customer {
     this.phoneNumber,
     this.tax,
     this.identityCard,
-    this.licensePlates
+    this.licensePlates,
+    this.customerBanks,
+    this.level
   );
 
   factory Customer.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);

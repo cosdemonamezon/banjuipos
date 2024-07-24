@@ -10,6 +10,7 @@ class InputTextFormField extends StatefulWidget {
     this.keyboardType,
     this.maxLines,
     required this.width,
+    this.validator,
     this.prefixIcon
   });
 
@@ -21,6 +22,7 @@ class InputTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   double width;
   Widget? prefixIcon;
+  final FormFieldValidator<String>? validator;
 
   @override
   State<InputTextFormField> createState() => _InputTextFormFieldState();
@@ -59,6 +61,7 @@ class _InputTextFormFieldState extends State<InputTextFormField> {
                   )
                 : null,
           ),
+          validator: widget.validator,
         ),
     );
   }

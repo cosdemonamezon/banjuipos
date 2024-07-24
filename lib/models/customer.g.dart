@@ -20,6 +20,12 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       (json['licensePlates'] as List<dynamic>?)
           ?.map((e) => LicensePlates.fromJson(e as Map<String, dynamic>))
           .toList(),
+      (json['customerBanks'] as List<dynamic>?)
+          ?.map((e) => CustomerBank.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['level'] == null
+          ? null
+          : Level.fromJson(json['level'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
@@ -32,4 +38,6 @@ Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'phoneNumber': instance.phoneNumber,
       'identityCard': instance.identityCard,
       'licensePlates': instance.licensePlates,
+      'customerBanks': instance.customerBanks,
+      'level': instance.level,
     };

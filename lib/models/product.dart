@@ -10,13 +10,15 @@ class Product {
   final int id;
   final String? code;
   final String? name;
-  final Image? image;
+  final Images? image;
   final double? price;
+  double? newWeighQty;
   final Category? category;
   final Unit? unit;
   int? stqty;
   double priceQTY;
   int qty;
+  double weighQty;
 
   Product(
     this.id,
@@ -26,9 +28,11 @@ class Product {
     this.stqty,
     this.category,
     this.unit,    
-    this.price, {
+    this.price,
+    this.newWeighQty, {
     this.qty = 1,
     this.priceQTY = 0,
+    this.weighQty = 0
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
