@@ -319,7 +319,7 @@ class _CustomerDialogState extends State<CustomerDialog> {
                                                 //decoration: BoxDecoration(color: read ? Colors.white : Color.fromRGBO(0, 0, 0, 0.1), borderRadius: BorderRadius.circular(8)),
                                                 child: ListTile(
                                                   title: Text(
-                                                    'ชื่อ ${customer[index].name} [${customer[index].code}]',
+                                                    'ชื่อ: ${customer[index].name} [${customer[index].code}]',
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 16,
@@ -330,26 +330,41 @@ class _CustomerDialogState extends State<CustomerDialog> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        'เบอร์โทร ${customer[index].phoneNumber}',
+                                                        'เบอร์โทร: ${customer[index].phoneNumber}',
                                                         style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: 14,
                                                         ),
                                                       ),
                                                       Text(
-                                                        'ทะเบียนรถ ${customer[index].licensePlate}',
+                                                        'ทะเบียนรถ: ${customer[index].licensePlate}',
                                                         style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: 14,
                                                         ),
                                                       ),
                                                       Text(
-                                                        'ที่อยู่ ${customer[index].address}',
+                                                        'คะแนน: ${customer[index].point_balance ?? '0'}',
                                                         style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: 14,
                                                         ),
                                                       ),
+                                                      Text(
+                                                        'ระดับ: ${customer[index].level?.name ?? ''}',
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'ที่อยู่: ${customer[index].address}',
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                      
                                                     ],
                                                   ),
                                                   trailing: select == index

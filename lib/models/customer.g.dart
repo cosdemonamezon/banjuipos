@@ -26,6 +26,7 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       json['level'] == null
           ? null
           : Level.fromJson(json['level'] as Map<String, dynamic>),
+      json['point_balance'] as int?,
     );
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
@@ -37,6 +38,7 @@ Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'licensePlate': instance.licensePlate,
       'phoneNumber': instance.phoneNumber,
       'identityCard': instance.identityCard,
+      'point_balance': instance.point_balance,
       'licensePlates': instance.licensePlates,
       'customerBanks': instance.customerBanks,
       'level': instance.level,

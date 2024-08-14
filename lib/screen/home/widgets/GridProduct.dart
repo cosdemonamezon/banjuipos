@@ -1,5 +1,6 @@
 import 'package:banjuipos/models/product.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -18,6 +19,7 @@ class GridProduct extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
+              flex: 10,
               child: Stack(
                 children: [
                   products.image != null
@@ -26,7 +28,7 @@ class GridProduct extends StatelessWidget {
                               imageUrl: products.image!.pathUrl!,
                               fit: BoxFit.fill,
                               width: double.infinity,
-                              height: size.height * 0.22,
+                              height: size.height * 0.24,
                               placeholder: (context, url) => Center(
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2.0,
@@ -36,8 +38,8 @@ class GridProduct extends StatelessWidget {
                             )
                           : Image.network(
                               'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
-                              width: size.width * 0.22,
-                              height: size.height * 0.22,
+                              width: size.width * 0.24,
+                              height: size.height * 0.24,
                               fit: BoxFit.fill,
                               errorBuilder: (context, error, stackTrace) => Image.network(
                                 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
@@ -45,8 +47,8 @@ class GridProduct extends StatelessWidget {
                             )
                       : Image.network(
                           'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
-                          width: size.width * 0.22,
-                          height: size.height * 0.22,
+                          width: size.width * 0.24,
+                          height: size.height * 0.24,
                           fit: BoxFit.fill,
                           errorBuilder: (context, error, stackTrace) => Image.network(
                             'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
@@ -102,15 +104,22 @@ class GridProduct extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              children: [
-                Text('${products.name!}'),
-              ],
+            SizedBox(height: size.height * 0.01,),
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Text('${products.name!}'),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Text('${products.price!} ฿'),
-              ],
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Text('${products.price!} ฿'),
+                ],
+              ),
             ),
           ],
         ),

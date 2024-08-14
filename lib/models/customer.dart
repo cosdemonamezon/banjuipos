@@ -16,6 +16,7 @@ class Customer {
   String? licensePlate;
   final String? phoneNumber;
   final IdentityCard? identityCard;
+  final int? point_balance;
   List<LicensePlates>? licensePlates;
   List<CustomerBank>? customerBanks;
   Level? level;
@@ -31,7 +32,8 @@ class Customer {
     this.identityCard,
     this.licensePlates,
     this.customerBanks,
-    this.level
+    this.level,
+    this.point_balance
   );
 
   factory Customer.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);

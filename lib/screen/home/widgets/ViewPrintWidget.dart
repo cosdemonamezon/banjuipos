@@ -149,6 +149,14 @@ class ViewPrintWidget extends StatelessWidget {
                           Row(
                             children: [
                               Text(
+                                'คะแนน',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
                                 'วันที่ปริ๊นใบเสร็จ',
                                 style: TextStyle(fontSize: 20),
                               ),
@@ -196,6 +204,14 @@ class ViewPrintWidget extends StatelessWidget {
                             children: [
                               Text(
                                 '${widget.order.customer?.level?.name ?? ''}',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '${widget.order.customer?.point_balance ?? ''}',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ],
@@ -406,8 +422,7 @@ class ViewPrintWidget extends StatelessWidget {
                                             //   style: TextStyle(fontSize: 20),
                                             // ),
                                           ],
-                                        ),                                          
-                                        
+                                        ),
                                       ],
                                     )),
                                 Expanded(

@@ -4,6 +4,7 @@ import 'package:banjuipos/screen/login/services/loginController.dart';
 import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:banjuipos/widgets/InputTextFormField.dart';
 import 'package:banjuipos/widgets/LoadingDialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,13 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
+  String sclectedSite = 'สำนักงานใหญ่';
+  final List<String> site = [
+    "สำนักงานใหญ่",
+    "สาขาย่อยที่ 1",
+    "สาขาย่อยที่ 2"
+  ];
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -47,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Center(
                       child: Container(
-                        height: size.height * 0.45,
+                        height: size.height * 0.55,
                         width: size.width * 0.35,
                         child: Column(
                           children: [
@@ -73,6 +81,60 @@ class _LoginPageState extends State<LoginPage> {
                               maxLines: 1,
                               prefixIcon: Icon(Icons.local_mall),
                             ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+                            //   child: Row(
+                            //     children: [
+                            //       Text(
+                            //         'เลือกสาขา',
+                            //         style: TextStyle(fontSize: 20),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            // Container(
+                            //   color: Colors.grey,
+                            //   width: size.width * 0.30,
+                            //   //height: size.height ,
+                            //   child: DropdownButton<String>(
+                            //     selectedItemBuilder: (e) => site.map<Widget>((item) {
+                            //       return Center(
+                            //         child: Text(
+                            //           item,
+                            //           style: TextStyle(
+                            //             color: Colors.white,
+                            //           ),
+                            //         ),
+                            //       );
+                            //     }).toList(),
+                            //     icon: Icon(
+                            //       Icons.arrow_drop_down,
+                            //       color: Colors.white,
+                            //     ),
+                            //     underline: SizedBox(),
+                            //     items: site.map<DropdownMenuItem<String>>((item) {
+                            //       return DropdownMenuItem<String>(
+                            //         value: item,
+                            //         child: Text(
+                            //           item,
+                            //           style: TextStyle(
+                            //             fontFamily: 'IBMPlexSansThai',
+                            //             color: Colors.black,
+                            //           ),
+                            //         ),
+                            //       );
+                            //     }).toList(),
+                            //     value: sclectedSite,
+                            //     onChanged: (v) async {
+                            //       setState(() {
+                            //         sclectedSite = v!;
+                            //       });
+                            //     },
+                            //   ),
+                            // ),
                             SizedBox(
                               height: size.height * 0.04,
                             ),

@@ -26,6 +26,7 @@ import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
 import 'package:banjuipos/widgets/LoadingDialog.dart';
 import 'package:banjuipos/widgets/NumPad.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectPoint.add(Text(''));
       showSelect.insert(point, selectproducts);
-      final _customer = Customer(null, null, null, null, null, null, null, null, null, null, null);
+      final _customer = Customer(null, null, null, null, null, null, null, null, null, null, null, null);
       customers.insert(point, _customer);
     });
   }
@@ -901,7 +902,7 @@ class _HomePageState extends State<HomePage> {
                             final List<SelectProduct> _selectproducts = [];
                             showSelect.insert(point, _selectproducts);
                             selectproducts = showSelect[point];
-                            final _customer = Customer(null, null, null, null, null, null, null, null, null, null, null);
+                            final _customer = Customer(null, null, null, null, null, null, null, null, null, null, null, null);
                             customers.insert(point, _customer);
                             customer = customers[point];
                             final _products = context.read<ProductController>().products;
@@ -939,14 +940,14 @@ class _HomePageState extends State<HomePage> {
                         child: SingleChildScrollView(
                           child: SizedBox(
                             child: Padding(
-                              padding: const EdgeInsets.all(18.0),
+                              padding: const EdgeInsets.all(15.0),
                               child: GridView.builder(
                                   shrinkWrap: true,
                                   physics: ClampingScrollPhysics(),
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 4,
                                     crossAxisSpacing: 10,
-                                    mainAxisExtent: 150,
+                                    mainAxisExtent: 140,
                                     mainAxisSpacing: 10,
                                   ),
                                   itemCount: products.length,
@@ -1050,10 +1051,17 @@ class _HomePageState extends State<HomePage> {
                                                                         setState(() {
                                                                           for (var j = 0; j < products.length; j++) {
                                                                             if (products[j].id == _selectproducts[0].product.id) {
-                                                                              products[j].weighQty = _selectproducts[0].product.weighQty + sumQty(substring2);
-                                                                              products[j].newWeighQty = products[j].weighQty;
-                                                                              selectproducts[i].product.weighQty = products[j].weighQty;
-                                                                              selectproducts[i].product.newWeighQty = products[j].weighQty;
+                                                                              if (_selectproducts[0].product.weighQty == 0) {
+                                                                                products[j].weighQty = _selectproducts[0].product.weighQty + sumQty(substring2);
+                                                                                products[j].newWeighQty = products[j].newWeighQty! + products[j].weighQty;
+                                                                                selectproducts[i].product.weighQty = products[j].weighQty;
+                                                                                selectproducts[i].product.newWeighQty = products[j].newWeighQty;
+                                                                              } else {
+                                                                                products[j].weighQty = _selectproducts[0].product.weighQty + sumQty(substring2);
+                                                                                products[j].newWeighQty = products[j].weighQty;
+                                                                                selectproducts[i].product.weighQty = products[j].weighQty;
+                                                                                selectproducts[i].product.newWeighQty = products[j].newWeighQty;
+                                                                              }
                                                                             } else {}
                                                                           }
 
@@ -1067,10 +1075,26 @@ class _HomePageState extends State<HomePage> {
                                                                         setState(() {
                                                                           for (var j = 0; j < products.length; j++) {
                                                                             if (products[j].id == _selectproducts[0].product.id) {
-                                                                              products[j].weighQty = _selectproducts[0].product.weighQty - sumQty(substring2);
-                                                                              products[j].newWeighQty = products[j].weighQty;
+                                                                              if (_selectproducts[0].product.weighQty == 0) {
+                                                                                if (sumQty(substring2) > _selectproducts[0].product.weighQty) {
+                                                                                  products[j].weighQty = sumQty(substring2) - _selectproducts[0].product.weighQty;
+                                                                                  products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                                } else {
+                                                                                  products[j].weighQty = _selectproducts[0].product.weighQty - sumQty(substring2);
+                                                                                  products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                                }
+                                                                              } else {
+                                                                                if (sumQty(substring2) > _selectproducts[0].product.weighQty) {
+                                                                                  products[j].weighQty = sumQty(substring2) - _selectproducts[0].product.weighQty;
+                                                                                  products[j].newWeighQty = products[j].weighQty;
+                                                                                } else {
+                                                                                  products[j].weighQty = _selectproducts[0].product.weighQty - sumQty(substring2);
+                                                                                  products[j].newWeighQty = products[j].weighQty;
+                                                                                }
+                                                                              }
+
                                                                               selectproducts[i].product.weighQty = products[j].weighQty;
-                                                                              selectproducts[i].product.newWeighQty = products[j].weighQty;
+                                                                              selectproducts[i].product.newWeighQty = products[j].newWeighQty;
                                                                             } else {}
                                                                           }
                                                                           selectproducts[i].newQty = selectproducts[i].newQty + sumQty(substring2);
@@ -1236,13 +1260,18 @@ class _HomePageState extends State<HomePage> {
                                       size: 30,
                                     ),
                                   ),
-                                  title: Text('คุณ ${customer?.name ?? '-'}'),
+                                  title: Row(
+                                    children: [
+                                      Expanded(flex: 7, child: Text('คุณ  ${customer?.name ?? '-'}')),
+                                      Expanded(flex: 3, child: Text('คะแนน:  ${customer?.point_balance ?? '0'}')),
+                                    ],
+                                  ),
                                   subtitle: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('เบอร์โทร ${customer?.phoneNumber ?? '-'}'),
-                                      Text('ทะเบียนรถ ${customer?.licensePlate ?? '-'}'),
+                                      Text('เบอร์โทร: ${customer?.phoneNumber ?? '-'}'),
+                                      Text('ทะเบียนรถ: ${customer?.licensePlate ?? '-'}'),
                                     ],
                                   ),
                                   // trailing: IconButton(
@@ -1478,15 +1507,21 @@ class _HomePageState extends State<HomePage> {
                                                             for (var i = 0; i < selectproducts.length; i++) {
                                                               for (var j = 0; j < products.length; j++) {
                                                                 if (selectproducts[index].product.id == products[j].id) {
-                                                                  products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
-                                                                  products[j].newWeighQty = products[j].weighQty;
-                                                                  selectproducts[index].product.weighQty = products[j].weighQty;
-                                                                  selectproducts[index].product.newWeighQty = products[j].weighQty;
+                                                                  if (selectproducts[index].product.weighQty == 0) {
+                                                                    products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                                    products[j].newWeighQty = products[j].newWeighQty! + products[j].weighQty;
+                                                                    selectproducts[index].product.weighQty = products[j].weighQty;
+                                                                    selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                                  } else {
+                                                                    products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                                    products[j].newWeighQty = products[j].weighQty;
+                                                                    selectproducts[index].product.weighQty = products[j].weighQty;
+                                                                    selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                                  }
                                                                   break;
                                                                 } else {}
                                                               }
                                                             }
-
                                                             selectproducts[index].qty = selectproducts[index].qty + sumQty(substring2);
                                                             selectproducts[index].sumText = selectproducts[index].sumText.toString() + '+' + _myNumber.text;
                                                           });
@@ -1497,10 +1532,26 @@ class _HomePageState extends State<HomePage> {
                                                             for (var i = 0; i < selectproducts.length; i++) {
                                                               for (var j = 0; j < products.length; j++) {
                                                                 if (selectproducts[index].product.id == products[j].id) {
-                                                                  products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
-                                                                  products[j].newWeighQty = products[j].weighQty;
+                                                                  if (selectproducts[index].product.weighQty == 0) {
+                                                                    if (sumQty(substring2) > selectproducts[index].product.weighQty) {
+                                                                      products[j].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                                      products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                    } else {
+                                                                      products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                                      products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                    }
+                                                                  } else {
+                                                                    if (sumQty(substring2) > selectproducts[index].product.weighQty) {
+                                                                      products[j].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                                      products[j].newWeighQty = products[j].weighQty;
+                                                                    } else {
+                                                                      products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                                      products[j].newWeighQty = products[j].weighQty;
+                                                                    }
+                                                                  }
+
                                                                   selectproducts[index].product.weighQty = products[j].weighQty;
-                                                                  selectproducts[index].product.newWeighQty = products[j].weighQty;
+                                                                  selectproducts[index].product.newWeighQty = products[j].newWeighQty;
                                                                   break;
                                                                 } else {}
                                                               }
@@ -1684,7 +1735,7 @@ class _HomePageState extends State<HomePage> {
                                           style: TextStyle(
                                             fontFamily: 'IBMPlexSansThai',
                                           ),
-                                        ),                                        
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -1775,7 +1826,7 @@ class _HomePageState extends State<HomePage> {
                                                                 products[i].newWeighQty = 0;
                                                               }
                                                               customer = null;
-                                                              customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null);
+                                                              customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null, null);
                                                               orderItems.clear();
                                                             });
                                                           } else {
@@ -1888,7 +1939,7 @@ class _HomePageState extends State<HomePage> {
                                                                   products[i].newWeighQty = 0;
                                                                 }
                                                                 customer = null;
-                                                                customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null);
+                                                                customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null, null);
                                                                 orderItems.clear();
                                                               });
                                                             } else {
@@ -2013,7 +2064,7 @@ class _HomePageState extends State<HomePage> {
                                                                     products[i].newWeighQty = 0;
                                                                   }
                                                                   customer = null;
-                                                                  customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null);
+                                                                  customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null, null);
                                                                   orderItems.clear();
                                                                 });
                                                               } else {
@@ -2134,7 +2185,7 @@ class _HomePageState extends State<HomePage> {
                                                             products[i].newWeighQty = 0;
                                                           }
                                                           customer = null;
-                                                          customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null);
+                                                          customers[point] = Customer(null, null, null, null, null, null, null, null, null, null, null, null);
                                                           orderItems.clear();
                                                         });
                                                       } else {
