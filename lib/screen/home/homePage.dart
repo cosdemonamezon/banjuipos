@@ -1761,7 +1761,7 @@ class _HomePageState extends State<HomePage> {
                                             });
                                             if (payment!.name == 'พร้อมเพย์') {
                                               if (customer != null) {
-                                                if (customer!.code == '00000') {
+                                                if (customer!.code == '00000' || customer!.code == '000000') {
                                                   final _account = await showDialog(
                                                     context: context,
                                                     barrierDismissible: false,
@@ -1880,6 +1880,7 @@ class _HomePageState extends State<HomePage> {
                                                       barrierDismissible: false,
                                                       builder: (context) => CustomerPayment(
                                                         customerBanks: customer!.customerBanks,
+                                                        customerId: customer!.id!,
                                                       ),
                                                     );
                                                     if (_account != null) {

@@ -27,6 +27,9 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
     setState(() {
       licenseplates = widget.licenseplates;
       licenseplates.reversed;
+      if (widget.customerId == 435 || widget.customerId == 347) {
+        add = true;
+      }
     });
   }
 
@@ -35,16 +38,22 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
     try {
       LoadingDialog.open(context);
       final _licenseplate = await ProductApi.addLicensePlate(customerId: widget.customerId, licensePlate: licenseplate);
+      if (!mounted) return;
+      LoadingDialog.close(context);
       setState(() {
         if (_licenseplate != null) {
-          add = false;
+          if (widget.customerId == 435 || widget.customerId == 347) {
+            Navigator.pop(context, _licenseplate);
+          } else {
+            add = false;
           // licenseplates.add(_licenseplate);
           // licenseplates.reversed;
           licenseplates.insert(0, _licenseplate);
+          }
+          
         }
       });
-      if (!mounted) return;
-      LoadingDialog.close(context);
+      
     } on Exception catch (e) {
       if (!mounted) return;
       LoadingDialog.close(context);
@@ -65,10 +74,14 @@ class _SelectLicensePlateState extends State<SelectLicensePlate> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return AlertDialog(
-        title: Row(
+        title: widget.customerId == 435 || widget.customerId == 347
+        ?Row(
+          children: [Text('เพิ่มทะเบียนรถ')],
+        )
+        :Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Center(child: Text('เลือกทะเบียนรถ')),
+            Center(child: add == false ?Text('เลือกทะเบียนรถ') :Text('เพิ่มทะเบียนรถ')),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
               child: InkWell(
