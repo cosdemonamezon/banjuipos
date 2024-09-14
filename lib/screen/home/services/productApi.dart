@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:banjuipos/constants.dart';
+import 'package:banjuipos/models/branch.dart';
 import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/customerbank.dart';
@@ -191,6 +192,7 @@ class ProductApi {
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
+    final branch_id = prefs.getString('branchID');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
     final url = Uri.https(publicUrl, '/api/order');
     final response = await http.post(url,
@@ -204,6 +206,7 @@ class ProductApi {
           "customerId": customerId,
           "licensePlate": licensePlate,
           "paymentMethodId": paymentMethodId,
+          "branch_id": branch_id,
           "orderItems": orderItems,
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -555,4 +558,22 @@ class ProductApi {
       throw Exception(data['message']);
     }
   }
+
+  static Future<List<Branch>> getBranch() async {
+    final url = Uri.https(publicUrl, '/api/branch');
+    var headers = {'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = convert.jsonDecode(response.body);
+      final list = data as List;
+      return list.map((e) => Branch.fromJson(e)).toList();
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
 }

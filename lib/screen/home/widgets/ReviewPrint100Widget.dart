@@ -490,11 +490,11 @@ class ReviewPrint100Widget extends StatelessWidget {
                                           children: [
                                             order!.orderItems![index].dequantity != 0.0
                                                 ? Text(
-                                                    '${oCcy.format(sumOneRowReprint(order!.orderItems![index]))}',
+                                                    '${oCcy.format(roundDownToDecimalPlaces(sumOneRowReprint(order!.orderItems![index]), 0))}',
                                                     style: TextStyle(fontSize: 18),
                                                   )
                                                 : Text(
-                                                    '${oCcy.format(sumOneRowPrint(order!.orderItems![index]))}',
+                                                    '${oCcy.format(roundDownToDecimalPlaces(sumOneRowPrint(order!.orderItems![index]), 0))}',
                                                     style: TextStyle(fontSize: 18),
                                                   ),
                                           ],

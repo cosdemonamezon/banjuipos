@@ -470,11 +470,11 @@ class ViewPrintWidget extends StatelessWidget {
                                           children: [
                                             widget.order.orderItems![index].dequantity != 0.0
                                                 ? Text(
-                                                    '${oCcy.format(sumOneRowReprint(widget.order.orderItems![index]))}',
+                                                    '${oCcy.format(roundDownToDecimalPlaces(sumOneRowReprint(widget.order.orderItems![index]), 0))}',
                                                     style: TextStyle(fontSize: 20),
                                                   )
                                                 : Text(
-                                                    '${oCcy.format(sumOneRowPrint(widget.order.orderItems![index]))}',
+                                                    '${oCcy.format(roundDownToDecimalPlaces(sumOneRowPrint(widget.order.orderItems![index]), 0))}',
                                                     style: TextStyle(fontSize: 20),
                                                   ),
                                           ],

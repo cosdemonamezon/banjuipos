@@ -10,11 +10,13 @@ class LoginApi {
   static Future login(
     String username,
     String password,
+    int branch_id
   ) async {
     final url = Uri.https(publicUrl, 'api/auth/sign-in');
     final response = await http.post(url, body: {
       'username': username,
       'password': password,
+      "branch_id": branch_id.toString()
     });
     if (response.statusCode == 200) {
       final data = convert.jsonDecode(response.body);

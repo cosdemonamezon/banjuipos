@@ -1,4 +1,7 @@
+import 'package:banjuipos/extension/formattedMessage.dart';
+import 'package:banjuipos/models/branch.dart';
 import 'package:banjuipos/screen/home/firstPage.dart';
+import 'package:banjuipos/screen/home/services/productController.dart';
 import 'package:banjuipos/screen/login/services/loginApi.dart';
 import 'package:banjuipos/screen/login/services/loginController.dart';
 import 'package:banjuipos/widgets/AlertDialogYesNo.dart';
@@ -19,12 +22,44 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
-  String sclectedSite = 'สำนักงานใหญ่';
-  final List<String> site = [
-    "สำนักงานใหญ่",
-    "สาขาย่อยที่ 1",
-    "สาขาย่อยที่ 2"
-  ];
+  List<Branch> branchs = [];
+  Branch? sclectedBranch;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getlistCategory();
+    });
+  }
+
+  //ดึงข้อมูล Category
+  Future<void> getlistCategory() async {
+    try {
+      LoadingDialog.open(context);
+      await context.read<ProductController>().getListBranch();
+      final list = context.read<ProductController>().branchs;
+      if (!mounted) return;
+      LoadingDialog.close(context);
+      setState(() {
+        branchs = list;
+        sclectedBranch = list[0];
+      });
+    } on Exception catch (e) {
+      if (!mounted) return;
+      LoadingDialog.close(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialogYes(
+          title: 'แจ้งเตือน',
+          description: '${e.getMessage}',
+          pressYes: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,57 +119,65 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: size.height * 0.01,
                             ),
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
-                            //   child: Row(
-                            //     children: [
-                            //       Text(
-                            //         'เลือกสาขา',
-                            //         style: TextStyle(fontSize: 20),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // Container(
-                            //   color: Colors.grey,
-                            //   width: size.width * 0.30,
-                            //   //height: size.height ,
-                            //   child: DropdownButton<String>(
-                            //     selectedItemBuilder: (e) => site.map<Widget>((item) {
-                            //       return Center(
-                            //         child: Text(
-                            //           item,
-                            //           style: TextStyle(
-                            //             color: Colors.white,
-                            //           ),
-                            //         ),
-                            //       );
-                            //     }).toList(),
-                            //     icon: Icon(
-                            //       Icons.arrow_drop_down,
-                            //       color: Colors.white,
-                            //     ),
-                            //     underline: SizedBox(),
-                            //     items: site.map<DropdownMenuItem<String>>((item) {
-                            //       return DropdownMenuItem<String>(
-                            //         value: item,
-                            //         child: Text(
-                            //           item,
-                            //           style: TextStyle(
-                            //             fontFamily: 'IBMPlexSansThai',
-                            //             color: Colors.black,
-                            //           ),
-                            //         ),
-                            //       );
-                            //     }).toList(),
-                            //     value: sclectedSite,
-                            //     onChanged: (v) async {
-                            //       setState(() {
-                            //         sclectedSite = v!;
-                            //       });
-                            //     },
-                            //   ),
-                            // ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'เลือกสาขา',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            branchs.isNotEmpty
+                                ? Container(
+                                    color: Color.fromARGB(255, 241, 241, 241),
+                                    width: size.width * 0.30,
+                                    height: size.height * 0.07,
+                                    child: Center(
+                                      child: DropdownButton<Branch>(
+                                        selectedItemBuilder: (e) => branchs.map<Widget>((item) {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                                            child: Text(
+                                              item.name!,
+                                              style: TextStyle(color: Colors.black, fontSize: 18),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        isDense: true,
+                                        isExpanded: true,
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black,
+                                          size: 30,
+                                        ),
+                                        underline: SizedBox(),
+                                        items: branchs.map<DropdownMenuItem<Branch>>((item) {
+                                          return DropdownMenuItem<Branch>(
+                                            value: item,
+                                            child: Text(
+                                              item.name!,
+                                              style: TextStyle(
+                                                fontFamily: 'IBMPlexSansThai',
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        value: sclectedBranch,
+                                        onChanged: (v) async {
+                                          setState(() {
+                                            sclectedBranch = v!;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    child: Text('**ไม่พบสาขาให้เลือก โปรดแจ้งผู้ดูแลระบบ**', style: TextStyle(color: Colors.red, fontSize: 15)),
+                                  ),
                             SizedBox(
                               height: size.height * 0.04,
                             ),
@@ -147,20 +190,33 @@ class _LoginPageState extends State<LoginPage> {
                                   try {
                                     LoadingDialog.open(context);
 
-                                    final _login = await controller.signIn(username: username.text, password: password.text);
-                                    if (!mounted) return;
-                                    LoadingDialog.close(context);
-                                    if (_login != null) {
-                                      if (!mounted) return;
-                                      final _shift = await LoginApi.openShift();
-                                      if (_shift != null) {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
-                                      } else {
-                                        if (!mounted) return;
-                                      }
-                                    } else {
+                                    if (sclectedBranch != null) {
+                                      final _login = await controller.signIn(username: username.text, password: password.text, branch_id: sclectedBranch!.id!);
                                       if (!mounted) return;
                                       LoadingDialog.close(context);
+                                      if (_login != null) {
+                                        if (!mounted) return;
+                                        final _shift = await LoginApi.openShift();
+                                        if (_shift != null) {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
+                                        } else {
+                                          if (!mounted) return;
+                                        }
+                                      } else {
+                                        if (!mounted) return;
+                                        LoadingDialog.close(context);
+                                      }
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialogYes(
+                                          title: 'แจ้งเตือน',
+                                          description: 'ยังไม่ได้เลือกสาขา',
+                                          pressYes: () {
+                                            Navigator.pop(context, true);
+                                          },
+                                        ),
+                                      );
                                     }
                                   } on Exception catch (e) {
                                     if (!mounted) return;

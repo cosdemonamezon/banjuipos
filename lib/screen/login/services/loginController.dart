@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:banjuipos/screen/login/services/loginApi.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends ChangeNotifier {
@@ -11,14 +14,18 @@ class LoginController extends ChangeNotifier {
   Future signIn({
     required String username,
     required String password,
+    required int branch_id
   }) async {
     final data = await LoginApi.login(
       username,
       password,
+      branch_id
     );
     final SharedPreferences prefs = await _prefs;
-
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(data);
+    //inspect(decodedToken);
     await prefs.setString('token', data);
+    await prefs.setString('branchID', decodedToken['branch_id']);
     notifyListeners();
     return data;
   }

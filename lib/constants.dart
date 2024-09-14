@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:banjuipos/models/orderitems.dart';
 import 'package:banjuipos/models/selectproduct.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,10 @@ double sumTotal(List<SelectProduct> orders) => orders.fold(0, (previous, o) => p
 double sumOneRow(SelectProduct value) => ((value.qty - value.newQty) * value.product.price!);
 
 //การคำนวนรายการในแต่ละแถว
-double sumOneRowReprint(OrderItems value) => double.parse(((value.quantity! - value.dequantity!) * value.price!).truncate().toStringAsFixed(2));
-double sumOneRowPrint(OrderItems value) => double.parse(((value.quantity!) * value.price!).truncate().toStringAsFixed(2));
+double sumOneRowReprint(OrderItems value) => double.parse(((value.quantity! - value.dequantity!) * value.price!).toStringAsFixed(2));
+double sumOneRowPrint(OrderItems value) => double.parse(((value.quantity!) * value.price!).toStringAsFixed(2));
+//double sumOneRowReprint(OrderItems value) => double.parse(((value.quantity! - value.dequantity!) * value.price!).truncate().toStringAsFixed(2));
+//double sumOneRowPrint(OrderItems value) => double.parse(((value.quantity!) * value.price!).truncate().toStringAsFixed(2));
 
 //การคำนวนรายการใน 1 คอลัมน์หน้าสลิป
 double sumOneColumn(List<SelectProduct> value) => value.fold(0, (previousValue, element) => previousValue + ((element.qty - element.newQty) * element.product.price!));
@@ -33,4 +37,10 @@ double negative_result(double plus, double delete) => plus - delete;
 
 //test
 double sumTotal1(double plus, double delete) => plus * delete;
+
+//ปัดเศษทศนิยมลงตามจำนวนตำแหน่งทศนิยมที่ต้องการ
+double roundDownToDecimalPlaces(double value, int decimalPlaces) {
+  double factor = pow(10, decimalPlaces).toDouble();
+  return (value * factor).floorToDouble() / factor;
+}
 

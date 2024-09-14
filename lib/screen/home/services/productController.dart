@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:banjuipos/models/branch.dart';
 import 'package:banjuipos/models/category.dart';
 import 'package:banjuipos/models/customer.dart';
 import 'package:banjuipos/models/myorder.dart';
@@ -32,6 +33,9 @@ class ProductController extends ChangeNotifier {
   List<NamePrefix> namePrefixs = [];
   List<Panel> panels = [];
   Panel? panel;
+
+  List<Branch> branchs = [];
+  Branch? branch;
 
   getListPanel() async {
     panels.clear();
@@ -139,6 +143,12 @@ class ProductController extends ChangeNotifier {
       return customerone.phoneNumber!.contains(search);
     });
     showCustomers = _customer;
+    notifyListeners();
+  }
+
+  getListBranch() async {
+    branchs.clear();
+    branchs = await ProductApi.getBranch();
     notifyListeners();
   }
 }

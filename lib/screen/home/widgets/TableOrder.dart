@@ -51,7 +51,7 @@ class _TableOrderState extends State<TableOrder> {
             DataColumn(label: Text('สถานะ')),
             DataColumn(label: Text('ปริ๊นใบเสร็จ')),
           ],
-          source: _DataSource(data: orders, sentOrder: (orderValue){
+          source: _DataSource(size: size, data: orders, sentOrder: (orderValue){
             widget.reciveOrder(orderValue);
             //inspect(orderValue);
           }),
@@ -64,8 +64,9 @@ class _TableOrderState extends State<TableOrder> {
 class _DataSource extends DataTableSource {
   final List<Order> data;
   Function(Order) sentOrder;
+  Size size;
 
-  _DataSource({required this.data, required this.sentOrder});
+  _DataSource({required this.data, required this.sentOrder, required this.size});
 
   @override
   DataRow? getRow(int index) {
@@ -81,14 +82,17 @@ class _DataSource extends DataTableSource {
       DataCell(Text(formatter.format(item.orderDate!))),
       DataCell(Text(item.grandTotal.toString())),
       DataCell(Text('จ่ายแล้ว')),
-      DataCell(GestureDetector(
-        onTap: (){
-          sentOrder(data[index]);
-        },
-        child: Image.asset(
-          'assets/icons/Printer.png',
-          width: 25,
-          height: 25,
+      DataCell(Padding(
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.015),
+        child: GestureDetector(
+          onTap: (){
+            sentOrder(data[index]);
+          },
+          child: Image.asset(
+            'assets/icons/Printer.png',
+            width: 25,
+            height: 25,
+          ),
         ),
       )),
     ]);
