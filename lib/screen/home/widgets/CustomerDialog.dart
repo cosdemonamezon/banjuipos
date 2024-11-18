@@ -258,13 +258,13 @@ class _CustomerDialogState extends State<CustomerDialog> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InputTextFormField(
-                                  size: size,
-                                  width: 0.24,
-                                  controller: code,
-                                  maxLines: 1,
-                                  hintText: 'รหัส',
-                                ),
+                                // InputTextFormField(
+                                //   size: size,
+                                //   width: 0.24,
+                                //   controller: code,
+                                //   maxLines: 1,
+                                //   hintText: 'รหัส',
+                                // ),
                                 InputTextFormField(
                                   size: size,
                                   width: 0.24,

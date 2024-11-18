@@ -26,32 +26,10 @@ class _OrderPageState extends State<OrderPage> {
     });
   }
 
-  // Future<void> getlistOrder() async {
-  //   try {
-  //     LoadingDialog.open(context);
-  //     await context.read<ProductController>().getListOrder(start: 0, length: 10000);
-  //     if (!mounted) return;
-  //     LoadingDialog.close(context);
-  //   } on Exception catch (e) {
-  //     if (!mounted) return;
-  //     LoadingDialog.close(context);
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) => AlertDialogYes(
-  //         title: 'แจ้งเตือน',
-  //         description: '${e.getMessage}',
-  //         pressYes: () {
-  //           Navigator.pop(context, true);
-  //         },
-  //       ),
-  //     );
-  //   }
-  // }
-
   Future<void> getlistOrder() async {
     try {
       LoadingDialog.open(context);
-      await context.read<ProductController>().getListOrder();
+      await context.read<ProductController>().getListOrder(start: 0, length: 10000);
       if (!mounted) return;
       LoadingDialog.close(context);
     } on Exception catch (e) {
@@ -69,6 +47,28 @@ class _OrderPageState extends State<OrderPage> {
       );
     }
   }
+
+  // Future<void> getlistOrder() async {
+  //   try {
+  //     LoadingDialog.open(context);
+  //     await context.read<ProductController>().getListOrder();
+  //     if (!mounted) return;
+  //     LoadingDialog.close(context);
+  //   } on Exception catch (e) {
+  //     if (!mounted) return;
+  //     LoadingDialog.close(context);
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialogYes(
+  //         title: 'แจ้งเตือน',
+  //         description: '${e.getMessage}',
+  //         pressYes: () {
+  //           Navigator.pop(context, true);
+  //         },
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

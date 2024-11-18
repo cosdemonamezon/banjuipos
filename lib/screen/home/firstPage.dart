@@ -1,4 +1,5 @@
 import 'package:banjuipos/screen/home/homePage.dart';
+import 'package:banjuipos/screen/home/newOrderPage.dart';
 import 'package:banjuipos/screen/home/orderPage.dart';
 import 'package:banjuipos/screen/home/widgets/ItemMenuWidget.dart';
 import 'package:banjuipos/screen/login/loginPage.dart';
@@ -27,7 +28,8 @@ class _FirstPageState extends State<FirstPage> {
       case 'Home':
         return HomePage();
       case 'Menu':
-        return OrderPage();
+        return NewOrderPage();
+        //return OrderPage();
       case 'Setting':
         return PrinterSetting();
       // case 'History':
@@ -136,9 +138,9 @@ class _FirstPageState extends State<FirstPage> {
                         //   image: 'assets/icons/Clock.png',
                         //   press: () => _setPage('History'),
                         // ),
-                        SizedBox(
-                          height: size.height * 0.25,
-                        ),
+                        // SizedBox(
+                        //   height: size.height * 0.25,
+                        // ),
                         ItemMenuWidget(
                           size: size,
                           pageActive: pageActive,

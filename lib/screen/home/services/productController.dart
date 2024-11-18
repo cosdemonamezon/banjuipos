@@ -21,10 +21,9 @@ class ProductController extends ChangeNotifier {
   List<Product> products = [];
   Product? product;
 
-  MyOrder? myorders;
-
   List<Order> orders = [];
   Order? order;
+  MyOrder? myOrder;
 
   List<Customer> customers = [];
   List<Customer> searchCustomers = [];
@@ -37,33 +36,33 @@ class ProductController extends ChangeNotifier {
   List<Branch> branchs = [];
   Branch? branch;
 
-  getListPanel() async {
+  getListPanel({required int levelId}) async {
     panels.clear();
     panels = await ProductApi.getPanels();
     if (panels.isNotEmpty) {
       //getPanelById(panelId: panels[0].id!);
-      panel = await ProductApi.getPanelById(panelId: panels[0].id!);
+      panel = await ProductApi.getPanelById(panelId: panels[0].id!, levelId: levelId);
       products.clear();
       products = panel!.products!;
     }
     notifyListeners();
   }
 
-  getPanelById({required int panelId}) async {
-    panel = await ProductApi.getPanelById(panelId: panelId);
+  getPanelById({required int panelId, required int levelId}) async {
+    panel = await ProductApi.getPanelById(panelId: panelId, levelId: levelId);
     products.clear();
     products = panel!.products!;
     notifyListeners();
   }
 
-  getListCategory() async {
+  getListCategory({required int levelId}) async {
     categorized.clear();
     categorized = await ProductApi.getCategory();
     categorized.insert(0, Category(0, '00', 'ทั้งหมด'));
     //getProduct(categoryid: categorized[0].id!);
     products.clear();
     //products = await ProductApi.getProduct(id: categorized[0].id!);
-    products = await ProductApi.getProductByLevelAndCategory(categoryid: categorized[0].id!, levelId: 1);
+    products = await ProductApi.getProductByLevelAndCategory(categoryid: categorized[0].id!, levelId: levelId);
     notifyListeners();
   }
 
@@ -87,24 +86,36 @@ class ProductController extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  // getListOrder({
-  //   required int start,
-  //   required int length,
-  //   String? search = '',
-  // }) async {
+  getListOrder({
+    required int start,
+    required int length,
+    String? search = '',
+  }) async {
+    //orders.clear();
+    myOrder = await ProductApi.getOrder(start: start, length: length);
+    //print(orders.length);
+    notifyListeners();
+  }
+
+  getListOrderByDate({
+    required int start,
+    required int length,
+    String? search = '',
+    required String orderDate,
+  }) async {
+    //orders.clear();
+    myOrder = await ProductApi.getOrderByDate(start: start, length: length, orderDate: orderDate);
+    //print(orders.length);
+    notifyListeners();
+  }
+
+  // getListOrder() async {
   //   //orders.clear();
-  //   orders = await ProductApi.getOrder(start: start, length: length);
+  //   orders = await ProductApi.getOrder();
+  //   //orders.reversed;
   //   print(orders.length);
   //   notifyListeners();
   // }
-
-  getListOrder() async {
-    //orders.clear();
-    orders = await ProductApi.getOrder();
-    //orders.reversed;
-    print(orders.length);
-    notifyListeners();
-  }
 
   getOrderById({required int id}) async {
     order = await ProductApi.getOrderById(id: id);

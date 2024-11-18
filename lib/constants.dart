@@ -11,6 +11,7 @@ const kTextButtonColor = Color.fromARGB(255, 255, 255, 255);
 const kSecondaryColor = Color.fromARGB(255, 81, 120, 136);
 const kButtoncolor = Color(0xFFFC7716);
 const kTextDateColor = Color(0xffFA5A0E);
+const fixedColumnWidth = 'Fixed column width';
 
 const String publicUrl = 'lim-kob-kun.dev-asha.com';
 

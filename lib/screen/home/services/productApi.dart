@@ -63,13 +63,18 @@ class ProductApi {
 
   //ดูข้อมูลสินค้า ตามไอดี ระดับของลูกค้า and ตามไอดี Category
   static Future<List<Product>> getProductByLevelAndCategory({required int categoryid, required int levelId}) async {
-    final url = Uri.https(publicUrl, '/api/product', {
-      "categoryId": '$categoryid',
-      "levelId": '$levelId',
-      "sortBy": 'createdAt:DESC',
-    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
+    final branch_id = prefs.getString('branchID');
+    final url = Uri.https(publicUrl, '/api/product/datatables', {
+      "page": '1',
+      "limit": '100',
+      "filter.productLevels.level.id": '$levelId',
+      if (categoryid != 0) "filter.category.id": '$categoryid',
+      "filter.branch.id": '$branch_id',
+      "sortBy": 'createdAt:DESC',
+    });
+
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
     final response = await http.get(
       headers: headers,
@@ -77,7 +82,7 @@ class ProductApi {
     );
     if (response.statusCode == 200) {
       final data = convert.jsonDecode(response.body);
-      final list = data as List;
+      final list = data['data'] as List;
       return list.map((e) => Product.fromJson(e)).toList();
     } else {
       final data = convert.jsonDecode(response.body);
@@ -109,17 +114,16 @@ class ProductApi {
   }
 
   //คนหาข้อมูลขอลลูกค้า
-  static Future<List<Product>> searchProducts({
-    required String search,
-    required int levelId
-  }) async {
+  static Future<List<Product>> searchProducts({required String search, required int levelId}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final branch_id = prefs.getString('branchID');
     final url = Uri.https(publicUrl, '/api/product/datatables', {
       "search": '$search',
       "filter.productLevels.level.id": '$levelId',
+      "filter.branch.id": '$branch_id',
       "sortBy": 'createdAt:DESC',
     });
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
     final response = await http.get(
       headers: headers,
@@ -206,7 +210,7 @@ class ProductApi {
           "customerId": customerId,
           "licensePlate": licensePlate,
           "paymentMethodId": paymentMethodId,
-          "branch_id": branch_id,
+          "branchId": branch_id,
           "orderItems": orderItems,
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -245,36 +249,8 @@ class ProductApi {
   //   }
   // }
 
-  static Future<List<Order>> getOrder() async {
-    final url = Uri.https(publicUrl, '/api/order');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
-    final response = await http.get(
-      headers: headers,
-      url,
-    );
-    if (response.statusCode == 200) {
-      final data = convert.jsonDecode(response.body);
-      final list = data as List;
-      return list.map((e) => Order.fromJson(e)).toList().reversed.toList();
-    } else {
-      final data = convert.jsonDecode(response.body);
-      throw Exception(data['message']);
-    }
-  }
-
-
-  // static Future<List<Order>> getOrder({
-  //   required int start,
-  //   required int length,
-  //   String? search = '',
-  // }) async {
-  //   final url = Uri.https(publicUrl, '/api/order/datatables', {
-  //     "page": '$start',
-  //     "limit": '$length',
-  //     "sortBy": 'createdAt:ASC',
-  //   });
+  // static Future<List<Order>> getOrder() async {
+  //   final url = Uri.https(publicUrl, '/api/order');
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
   //   final token = prefs.getString('token');
   //   var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -284,13 +260,72 @@ class ProductApi {
   //   );
   //   if (response.statusCode == 200) {
   //     final data = convert.jsonDecode(response.body);
-  //     final list = data['data'] as List;
-  //     return list.map((e) => Order.fromJson(e)).toList();
+  //     final list = data as List;
+  //     return list.map((e) => Order.fromJson(e)).toList().reversed.toList();
   //   } else {
   //     final data = convert.jsonDecode(response.body);
   //     throw Exception(data['message']);
   //   }
   // }
+
+  static Future<MyOrder> getOrder({
+    required int start,
+    required int length,
+    String? search = '',
+    String? orderDate = '',
+  }) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final branch_id = prefs.getString('branchID');
+    final url = Uri.https(publicUrl, '/api/order/datatables', {
+      "page": '$start',
+      "limit": '$length',
+      "filter.branch.id": '$branch_id',
+      "sortBy": 'createdAt:ASC',
+    });
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200) {
+      final data = convert.jsonDecode(response.body);
+      return MyOrder.fromJson(data);
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
+
+  static Future<MyOrder> getOrderByDate({
+    required int start,
+    required int length,
+    String? search = '',
+    required String orderDate,
+  }) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final branch_id = prefs.getString('branchID');
+    final url = Uri.https(publicUrl, '/api/order/datatables', {
+      "page": '$start',
+      "limit": '$length',
+      "filter.branch.id": '$branch_id',
+      "filter.orderDate": '$orderDate',
+      "sortBy": 'createdAt:ASC',
+    });
+    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    final response = await http.get(
+      headers: headers,
+      url,
+    );
+    if (response.statusCode == 200) {
+      final data = convert.jsonDecode(response.body);
+      return MyOrder.fromJson(data);
+    } else {
+      final data = convert.jsonDecode(response.body);
+      throw Exception(data['message']);
+    }
+  }
 
   //Get order by id
   static Future<Order> getOrderById({required int id}) async {
@@ -444,7 +479,7 @@ class ProductApi {
         headers: headers,
         url,
         body: convert.jsonEncode({
-          "code": code,
+          //"code": code,
           "name": name,
           "levelId": 1,
           "address": address,
@@ -541,8 +576,11 @@ class ProductApi {
     }
   }
 
-  static Future<Panel> getPanelById({required int panelId}) async {
-    final url = Uri.https(publicUrl, '/api/panel/$panelId');
+  static Future<Panel> getPanelById({required int panelId, required int levelId}) async {
+    final url = Uri.https(publicUrl, '/api/panel/$panelId', {
+      "levelId": '$levelId',
+      "sortBy": 'createdAt:DESC',
+    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -575,5 +613,4 @@ class ProductApi {
       throw Exception(data['message']);
     }
   }
-
 }

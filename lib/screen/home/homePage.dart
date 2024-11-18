@@ -122,53 +122,123 @@ class _HomePageState extends State<HomePage> {
       await getlistPanel();
       setState(() {
         final _products = context.read<ProductController>().products;
-        if (_products.isNotEmpty) {
-          if (selectproducts.isNotEmpty) {
-            for (var i = 0; i < selectproducts.length; i++) {
-              for (var j = 0; j < _products.length; j++) {
-                if (selectproducts[i].product.id == _products[j].id) {
-                  _products[j].weighQty = selectproducts[i].product.weighQty;
-                  _products[j].newWeighQty = selectproducts[i].product.weighQty;
-                } else {}
+        List<Product> _newpro = [];
+        //LoadingDialog.close(context);
+        setState(() {
+          _newpro = _products;
+          if (_newpro.isNotEmpty) {
+            if (selectproducts.isNotEmpty) {
+              //selectproducts.clear();
+              for (var i = 0; i < selectproducts.length; i++) {
+                for (var j = 0; j < _newpro.length; j++) {
+                  if (selectproducts[i].product.id == _newpro[j].id) {
+                    _newpro[j].weighQty = selectproducts[i].product.newWeighQty!;
+                    _newpro[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                  } else {}
+                }
               }
+              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+
+              for (var i = 0; i < selectproducts.length; i++) {
+                for (var j = 0; j < newProduct.length; j++) {
+                  if (selectproducts[i].product.id == newProduct[j].id) {
+                    selectproducts[i].product = newProduct[j];
+                  }
+                }
+              }
+              showProduct.insert(point, newProduct);
+              showProduct.removeAt(point + 1);
+              products = showProduct[point];
+            } else {
+              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+              showProduct.insert(point, newProduct);
+              showProduct.removeAt(point + 1);
+              products = showProduct[point];
             }
-            final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-            showProduct.insert(point, newProduct);
-            showProduct.removeAt(point + 1);
-            products = showProduct[point];
-          } else {
-            final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-            showProduct.insert(point, newProduct);
-            showProduct.removeAt(point + 1);
-            products = showProduct[point];
           }
-        }
+        });
+        // if (_products.isNotEmpty) {
+        //   if (selectproducts.isNotEmpty) {
+        //     for (var i = 0; i < selectproducts.length; i++) {
+        //       for (var j = 0; j < _products.length; j++) {
+        //         if (selectproducts[i].product.id == _products[j].id) {
+        //           _products[j].weighQty = selectproducts[i].product.weighQty;
+        //           _products[j].newWeighQty = selectproducts[i].product.weighQty;
+        //         } else {}
+        //       }
+        //     }
+        //     final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+        //     showProduct.insert(point, newProduct);
+        //     showProduct.removeAt(point + 1);
+        //     products = showProduct[point];
+        //   } else {
+        //     final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+        //     showProduct.insert(point, newProduct);
+        //     showProduct.removeAt(point + 1);
+        //     products = showProduct[point];
+        //   }
+        // }
       });
     } else {
       await getlistCategory();
       setState(() {
         final _products = context.read<ProductController>().products;
-        if (_products.isNotEmpty) {
-          if (selectproducts.isNotEmpty) {
-            for (var i = 0; i < selectproducts.length; i++) {
-              for (var j = 0; j < _products.length; j++) {
-                if (selectproducts[i].product.id == _products[j].id) {
-                  _products[j].weighQty = selectproducts[i].product.weighQty;
-                  _products[j].newWeighQty = selectproducts[i].product.weighQty;
-                } else {}
+        List<Product> _newpro = [];
+        //LoadingDialog.close(context);
+        setState(() {
+          _newpro = _products;
+          if (_newpro.isNotEmpty) {
+            if (selectproducts.isNotEmpty) {
+              //selectproducts.clear();
+              for (var i = 0; i < selectproducts.length; i++) {
+                for (var j = 0; j < _newpro.length; j++) {
+                  if (selectproducts[i].product.id == _newpro[j].id) {
+                    _newpro[j].weighQty = selectproducts[i].product.newWeighQty!;
+                    _newpro[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                  } else {}
+                }
               }
+              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+
+              for (var i = 0; i < selectproducts.length; i++) {
+                for (var j = 0; j < newProduct.length; j++) {
+                  if (selectproducts[i].product.id == newProduct[j].id) {
+                    selectproducts[i].product = newProduct[j];
+                  }
+                }
+              }
+              showProduct.insert(point, newProduct);
+              showProduct.removeAt(point + 1);
+              products = showProduct[point];
+            } else {
+              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+              showProduct.insert(point, newProduct);
+              showProduct.removeAt(point + 1);
+              products = showProduct[point];
             }
-            final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-            showProduct.insert(point, newProduct);
-            showProduct.removeAt(point + 1);
-            products = showProduct[point];
-          } else {
-            final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-            showProduct.insert(point, newProduct);
-            showProduct.removeAt(point + 1);
-            products = showProduct[point];
           }
-        }
+        });
+        // if (_products.isNotEmpty) {
+        //   if (selectproducts.isNotEmpty) {
+        //     for (var i = 0; i < selectproducts.length; i++) {
+        //       for (var j = 0; j < _products.length; j++) {
+        //         if (selectproducts[i].product.id == _products[j].id) {
+        //           _products[j].weighQty = selectproducts[i].product.weighQty;
+        //           _products[j].newWeighQty = selectproducts[i].product.weighQty;
+        //         } else {}
+        //       }
+        //     }
+        //     final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+        //     showProduct.insert(point, newProduct);
+        //     showProduct.removeAt(point + 1);
+        //     products = showProduct[point];
+        //   } else {
+        //     final newProduct = _products.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+        //     showProduct.insert(point, newProduct);
+        //     showProduct.removeAt(point + 1);
+        //     products = showProduct[point];
+        //   }
+        // }
       });
     }
   }
@@ -177,7 +247,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> getlistCategory() async {
     try {
       //LoadingDialog.open(context);
-      await context.read<ProductController>().getListCategory();
+      if (customer != null) {
+        await context.read<ProductController>().getListCategory(levelId: customer!.level!.id!);
+      } else {
+        await context.read<ProductController>().getListCategory(levelId: 1);
+      }
       final list = context.read<ProductController>().categorized;
       if (!mounted) return;
       //LoadingDialog.close(context);
@@ -205,7 +279,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> getlistPanel() async {
     try {
       LoadingDialog.open(context);
-      await context.read<ProductController>().getListPanel();
+      if (customer != null) {
+        await context.read<ProductController>().getListPanel(levelId: customer!.level!.id!);
+      } else {
+        await context.read<ProductController>().getListPanel(levelId: 1);
+      }
       final list = context.read<ProductController>().panels;
       if (!mounted) return;
       LoadingDialog.close(context);
@@ -380,7 +458,8 @@ class _HomePageState extends State<HomePage> {
                                               }
                                             } else {
                                               //await context.read<ProductController>().getProduct(categoryid: sclectedProduct!.id!);
-                                              final _products = await ProductApi.getProduct(id: sclectedProduct!.id!);
+                                              //final _products = await ProductApi.getProduct(id: sclectedProduct!.id!);
+                                              final _products = await ProductApi.getProductByLevelAndCategory(levelId: 1, categoryid: sclectedProduct!.id!);
                                               List<Product> _newpro = [];
                                               setState(() {
                                                 _newpro = _products;
@@ -450,33 +529,77 @@ class _HomePageState extends State<HomePage> {
                                               panel = v;
                                             });
                                             //await context.read<ProductController>().getPanelById(panelId: panel!.id!);
-                                            final _panel = await ProductApi.getPanelById(panelId: panel!.id!);
-                                            List<Product> _newpro = [];
+                                            Panel? panels;
+                                            if (customer != null) {
+                                              final _panel = await ProductApi.getPanelById(panelId: panel!.id!, levelId: customer!.level!.id!);
+                                              setState(() {
+                                                panels = _panel;
+                                              });
+                                            } else {
+                                              final _panel = await ProductApi.getPanelById(panelId: panel!.id!, levelId: 1);
+                                              setState(() {
+                                                panels = _panel;
+                                              });
+                                            }
+
                                             setState(() {
-                                              _newpro = _panel.products!;
-                                              //_newpro = _panel.products!;
-                                              if (_newpro.isNotEmpty) {
-                                                //final newProduct = Product.fromJson(_products.toJson());
-                                                if (selectproducts.isNotEmpty) {
-                                                  for (var i = 0; i < selectproducts.length; i++) {
-                                                    for (var j = 0; j < _newpro.length; j++) {
-                                                      if (selectproducts[i].product.id == _newpro[j].id) {
-                                                        _newpro[j].weighQty = selectproducts[i].product.weighQty;
-                                                        _newpro[j].newWeighQty = selectproducts[i].product.weighQty;
-                                                      } else {}
+                                              List<Product> _newpro = [];
+                                              _newpro = panels!.products!;
+                                              setState(() {
+                                                if (_newpro.isNotEmpty) {
+                                                  if (selectproducts.isNotEmpty) {
+                                                    //selectproducts.clear();
+                                                    for (var i = 0; i < selectproducts.length; i++) {
+                                                      for (var j = 0; j < _newpro.length; j++) {
+                                                        if (selectproducts[i].product.id == _newpro[j].id) {
+                                                          _newpro[j].weighQty = selectproducts[i].product.newWeighQty!;
+                                                          _newpro[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                                                        } else {}
+                                                      }
                                                     }
+                                                    final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+
+                                                    for (var i = 0; i < selectproducts.length; i++) {
+                                                      for (var j = 0; j < newProduct.length; j++) {
+                                                        if (selectproducts[i].product.id == newProduct[j].id) {
+                                                          selectproducts[i].product = newProduct[j];
+                                                        }
+                                                      }
+                                                    }
+                                                    showProduct.insert(point, newProduct);
+                                                    showProduct.removeAt(point + 1);
+                                                    products = showProduct[point];
+                                                  } else {
+                                                    final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                                    showProduct.insert(point, newProduct);
+                                                    showProduct.removeAt(point + 1);
+                                                    products = showProduct[point];
                                                   }
-                                                  final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-                                                  showProduct.insert(point, newProduct);
-                                                  showProduct.removeAt(point + 1);
-                                                  products = showProduct[point];
-                                                } else {
-                                                  final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-                                                  showProduct.insert(point, newProduct);
-                                                  showProduct.removeAt(point + 1);
-                                                  products = showProduct[point];
                                                 }
-                                              }
+                                              });
+                                              //_newpro = _panel.products!;
+                                              // if (_newpro.isNotEmpty) {
+                                              //   //final newProduct = Product.fromJson(_products.toJson());
+                                              //   if (selectproducts.isNotEmpty) {
+                                              //     for (var i = 0; i < selectproducts.length; i++) {
+                                              //       for (var j = 0; j < _newpro.length; j++) {
+                                              //         if (selectproducts[i].product.id == _newpro[j].id) {
+                                              //           _newpro[j].weighQty = selectproducts[i].product.weighQty;
+                                              //           _newpro[j].newWeighQty = selectproducts[i].product.weighQty;
+                                              //         } else {}
+                                              //       }
+                                              //     }
+                                              //     final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                              //     showProduct.insert(point, newProduct);
+                                              //     showProduct.removeAt(point + 1);
+                                              //     products = showProduct[point];
+                                              //   } else {
+                                              //     final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                              //     showProduct.insert(point, newProduct);
+                                              //     showProduct.removeAt(point + 1);
+                                              //     products = showProduct[point];
+                                              //   }
+                                              // }
                                             });
                                           },
                                         ),
@@ -681,70 +804,139 @@ class _HomePageState extends State<HomePage> {
                                       customers.removeAt(point + 1);
                                       customer = customers[point];
                                     });
-                                    try {
-                                      LoadingDialog.open(context);
-                                      //final _products = await ProductApi.getProductByLevelId(levelId: customer!.level!.id!);
-                                      final _products = await ProductApi.getProductByLevelAndCategory(levelId: customer!.level!.id!, categoryid: sclectedProduct!.id!);
-                                      final _checkProducts = await ProductApi.getProductByLevelAndCategory(levelId: customer!.level!.id!, categoryid: 0);
-                                      List<Product> _newpro = [];
-                                      List<Product> _newcheck = [];
-                                      LoadingDialog.close(context);
-                                      setState(() {
-                                        _newpro = _products;
-                                        _newcheck = _checkProducts;
-                                        if (_newpro.isNotEmpty) {
-                                          if (selectproducts.isNotEmpty) {
-                                            //selectproducts.clear();
-                                            for (var i = 0; i < selectproducts.length; i++) {
-                                              for (var j = 0; j < _newpro.length; j++) {
-                                                if (selectproducts[i].product.id == _newpro[j].id) {
-                                                  _newpro[j].weighQty = selectproducts[i].product.newWeighQty!;
-                                                  _newpro[j].newWeighQty = selectproducts[i].product.newWeighQty;
-                                                } else {}
-                                              }
-                                            }
-                                            for (var i = 0; i < selectproducts.length; i++) {
-                                              for (var j = 0; j < _newcheck.length; j++) {
-                                                if (selectproducts[i].product.id == _newcheck[j].id) {
-                                                  _newcheck[j].weighQty = selectproducts[i].product.newWeighQty!;
-                                                  _newcheck[j].newWeighQty = selectproducts[i].product.newWeighQty;
-                                                } else {}
-                                              }
-                                            }
-                                            final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-                                            final checkProducts = _newcheck.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
 
-                                            for (var i = 0; i < selectproducts.length; i++) {
-                                              for (var j = 0; j < checkProducts.length; j++) {
-                                                if (selectproducts[i].product.id == checkProducts[j].id) {
-                                                  selectproducts[i].product = checkProducts[j];
+                                    if (keyPanel == 1) {
+                                      try {
+                                        LoadingDialog.open(context);
+                                        //final _products = await ProductApi.getProductByLevelId(levelId: customer!.level!.id!);
+                                        final _products = await ProductApi.getProductByLevelAndCategory(levelId: customer!.level!.id!, categoryid: sclectedProduct!.id!);
+                                        final _checkProducts = await ProductApi.getProductByLevelAndCategory(levelId: customer!.level!.id!, categoryid: 0);
+                                        List<Product> _newpro = [];
+                                        List<Product> _newcheck = [];
+                                        LoadingDialog.close(context);
+                                        setState(() {
+                                          _newpro = _products;
+                                          _newcheck = _checkProducts;
+                                          if (_newpro.isNotEmpty) {
+                                            if (selectproducts.isNotEmpty) {
+                                              //selectproducts.clear();
+                                              for (var i = 0; i < selectproducts.length; i++) {
+                                                for (var j = 0; j < _newpro.length; j++) {
+                                                  if (selectproducts[i].product.id == _newpro[j].id) {
+                                                    _newpro[j].weighQty = selectproducts[i].product.newWeighQty!;
+                                                    _newpro[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                                                  } else {}
                                                 }
                                               }
+                                              for (var i = 0; i < selectproducts.length; i++) {
+                                                for (var j = 0; j < _newcheck.length; j++) {
+                                                  if (selectproducts[i].product.id == _newcheck[j].id) {
+                                                    _newcheck[j].weighQty = selectproducts[i].product.newWeighQty!;
+                                                    _newcheck[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                                                  } else {}
+                                                }
+                                              }
+                                              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                              final checkProducts = _newcheck.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+
+                                              for (var i = 0; i < selectproducts.length; i++) {
+                                                for (var j = 0; j < checkProducts.length; j++) {
+                                                  if (selectproducts[i].product.id == checkProducts[j].id) {
+                                                    selectproducts[i].product = checkProducts[j];
+                                                  }
+                                                }
+                                              }
+                                              showProduct.insert(point, newProduct);
+                                              showProduct.removeAt(point + 1);
+                                              products = showProduct[point];
+                                            } else {
+                                              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                              showProduct.insert(point, newProduct);
+                                              showProduct.removeAt(point + 1);
+                                              products = showProduct[point];
                                             }
-                                            showProduct.insert(point, newProduct);
-                                            showProduct.removeAt(point + 1);
-                                            products = showProduct[point];
-                                          } else {
-                                            final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
-                                            showProduct.insert(point, newProduct);
-                                            showProduct.removeAt(point + 1);
-                                            products = showProduct[point];
                                           }
-                                        }
-                                      });
-                                    } on Exception catch (e) {
-                                      if (!mounted) return;
-                                      LoadingDialog.close(context);
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialogYes(
-                                          title: 'แจ้งเตือน',
-                                          description: '${e.getMessage}',
-                                          pressYes: () {
-                                            Navigator.pop(context, true);
-                                          },
-                                        ),
-                                      );
+                                        });
+                                      } on Exception catch (e) {
+                                        if (!mounted) return;
+                                        LoadingDialog.close(context);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialogYes(
+                                            title: 'แจ้งเตือน',
+                                            description: '${e.getMessage}',
+                                            pressYes: () {
+                                              Navigator.pop(context, true);
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      try {
+                                        LoadingDialog.open(context);
+                                        //final _products = await ProductApi.getProductByLevelId(levelId: customer!.level!.id!);
+                                        final _panel = await ProductApi.getPanelById(panelId: panel!.id!, levelId: customer!.level!.id!);
+                                        final _checkProducts = await ProductApi.getProductByLevelAndCategory(levelId: customer!.level!.id!, categoryid: 0);
+                                        List<Product> _newpro = [];
+                                        List<Product> _newcheck = [];
+                                        LoadingDialog.close(context);
+                                        setState(() {
+                                          _newpro = _panel.products!;
+                                          _newcheck = _checkProducts;
+                                          if (_newpro.isNotEmpty) {
+                                            if (selectproducts.isNotEmpty) {
+                                              //selectproducts.clear();
+                                              for (var i = 0; i < selectproducts.length; i++) {
+                                                for (var j = 0; j < _newpro.length; j++) {
+                                                  if (selectproducts[i].product.id == _newpro[j].id) {
+                                                    _newpro[j].weighQty = selectproducts[i].product.newWeighQty!;
+                                                    _newpro[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                                                  } else {}
+                                                }
+                                              }
+                                              for (var i = 0; i < selectproducts.length; i++) {
+                                                for (var j = 0; j < _newcheck.length; j++) {
+                                                  if (selectproducts[i].product.id == _newcheck[j].id) {
+                                                    _newcheck[j].weighQty = selectproducts[i].product.newWeighQty!;
+                                                    _newcheck[j].newWeighQty = selectproducts[i].product.newWeighQty;
+                                                  } else {}
+                                                }
+                                              }
+                                              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                              final checkProducts = _newcheck.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+
+                                              for (var i = 0; i < selectproducts.length; i++) {
+                                                for (var j = 0; j < checkProducts.length; j++) {
+                                                  if (selectproducts[i].product.id == checkProducts[j].id) {
+                                                    selectproducts[i].product = checkProducts[j];
+                                                  }
+                                                }
+                                              }
+                                              showProduct.insert(point, newProduct);
+                                              showProduct.removeAt(point + 1);
+                                              products = showProduct[point];
+                                            } else {
+                                              final newProduct = _newpro.map((e) => Product(e.id, e.code, e.name, e.image, e.stqty, e.category, e.unit, e.price, e.newWeighQty)).toList();
+                                              showProduct.insert(point, newProduct);
+                                              showProduct.removeAt(point + 1);
+                                              products = showProduct[point];
+                                            }
+                                          }
+                                        });
+                                      } on Exception catch (e) {
+                                        if (!mounted) return;
+                                        LoadingDialog.close(context);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialogYes(
+                                            title: 'แจ้งเตือน',
+                                            description: '${e.getMessage}',
+                                            pressYes: () {
+                                              Navigator.pop(context, true);
+                                            },
+                                          ),
+                                        );
+                                      }
                                     }
                                   }
                                 },
@@ -1040,7 +1232,7 @@ class _HomePageState extends State<HomePage> {
                                                                 List<SelectProduct> _selectproducts = [];
                                                                 _selectproducts.addAll(selectproducts);
                                                                 _selectproducts.retainWhere((selectproduct) {
-                                                                  return selectproduct.product.id.toString().contains(showProduct[point][index].id.toString());
+                                                                  return selectproduct.product.code.toString().contains(showProduct[point][index].code.toString());
                                                                 });
                                                                 if (_selectproducts.isNotEmpty) {
                                                                   for (var i = 0; i < selectproducts.length; i++) {
