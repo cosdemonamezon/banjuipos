@@ -1220,14 +1220,6 @@ class _HomePageState extends State<HomePage> {
                                                           onSubmit: () {
                                                             //debugPrint('Your code: ${_myNumber.text}');
                                                             try {
-                                                              // List<String> check = [];
-                                                              // for (var character in _myNumber.text.runes) {
-                                                              //   String singleCharacter = String.fromCharCode(character);
-                                                              //   print(singleCharacter);
-                                                              //   check.add(singleCharacter);
-                                                              // }
-                                                              //
-                                                              //final a = check.contains('+');
                                                               if (selectproducts.isNotEmpty) {
                                                                 List<SelectProduct> _selectproducts = [];
                                                                 _selectproducts.addAll(selectproducts);
@@ -1247,6 +1239,7 @@ class _HomePageState extends State<HomePage> {
                                                                                 products[j].newWeighQty = products[j].newWeighQty! + products[j].weighQty;
                                                                                 selectproducts[i].product.weighQty = products[j].weighQty;
                                                                                 selectproducts[i].product.newWeighQty = products[j].newWeighQty;
+                                                                                _selectproducts[0].product.weighQty = 0;
                                                                               } else {
                                                                                 products[j].weighQty = _selectproducts[0].product.weighQty + sumQty(substring2);
                                                                                 products[j].newWeighQty = products[j].weighQty;
@@ -1270,9 +1263,11 @@ class _HomePageState extends State<HomePage> {
                                                                                 if (sumQty(substring2) > _selectproducts[0].product.weighQty) {
                                                                                   products[j].weighQty = sumQty(substring2) - _selectproducts[0].product.weighQty;
                                                                                   products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                                  _selectproducts[0].product.weighQty = 0;
                                                                                 } else {
                                                                                   products[j].weighQty = _selectproducts[0].product.weighQty - sumQty(substring2);
                                                                                   products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                                  _selectproducts[0].product.weighQty = 0;
                                                                                 }
                                                                               } else {
                                                                                 if (sumQty(substring2) > _selectproducts[0].product.weighQty) {
@@ -1693,24 +1688,33 @@ class _HomePageState extends State<HomePage> {
                                                       try {
                                                         if (plusOrMinus == 0) {
                                                           List<String> substring2 = _myNumber.text.split('+');
-                                                          //inspect(sumQty(substring2));
                                                           setState(() {
-                                                            for (var i = 0; i < selectproducts.length; i++) {
-                                                              for (var j = 0; j < products.length; j++) {
-                                                                if (selectproducts[index].product.id == products[j].id) {
+                                                            for (var i = 0; i < products.length; i++) {
+                                                              if (selectproducts[index].product.id == products[i].id) {
+                                                                if (selectproducts[index].product.weighQty == 0) {
+                                                                  products[i].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                                  products[i].newWeighQty = products[i].newWeighQty! + products[i].weighQty;
+                                                                  selectproducts[index].product.weighQty = products[i].weighQty;
+                                                                  selectproducts[index].product.newWeighQty = products[i].newWeighQty;
+                                                                  selectproducts[index].product.weighQty = 0;
+                                                                } else {
+                                                                  products[i].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                                  products[i].newWeighQty = products[i].weighQty;
+                                                                  selectproducts[index].product.weighQty = products[i].weighQty;
+                                                                  selectproducts[index].product.newWeighQty = products[i].newWeighQty;
+                                                                }
+                                                                break;
+                                                              } else {
+                                                                if (i == products.length - 1) {
                                                                   if (selectproducts[index].product.weighQty == 0) {
-                                                                    products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
-                                                                    products[j].newWeighQty = products[j].newWeighQty! + products[j].weighQty;
-                                                                    selectproducts[index].product.weighQty = products[j].weighQty;
-                                                                    selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                                    selectproducts[index].product.weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                                    selectproducts[index].product.newWeighQty = selectproducts[index].product.newWeighQty! + selectproducts[index].product.weighQty;
+                                                                    selectproducts[index].product.weighQty = 0;
                                                                   } else {
-                                                                    products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
-                                                                    products[j].newWeighQty = products[j].weighQty;
-                                                                    selectproducts[index].product.weighQty = products[j].weighQty;
-                                                                    selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                                    selectproducts[index].product.weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                                    selectproducts[index].product.newWeighQty = selectproducts[index].product.weighQty;
                                                                   }
-                                                                  break;
-                                                                } else {}
+                                                                }
                                                               }
                                                             }
                                                             selectproducts[index].qty = selectproducts[index].qty + sumQty(substring2);
@@ -1720,31 +1724,58 @@ class _HomePageState extends State<HomePage> {
                                                         } else {
                                                           List<String> substring2 = _myNumber.text.split('-');
                                                           setState(() {
-                                                            for (var i = 0; i < selectproducts.length; i++) {
-                                                              for (var j = 0; j < products.length; j++) {
-                                                                if (selectproducts[index].product.id == products[j].id) {
+                                                            for (var i = 0; i < products.length; i++) {
+                                                              if (selectproducts[index].product.id == products[i].id) {
+                                                                if (selectproducts[index].product.weighQty == 0) {
+                                                                  if (sumQty(substring2) > selectproducts[index].product.weighQty) {
+                                                                    products[i].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                                    products[i].newWeighQty = products[i].newWeighQty! - products[i].weighQty;
+                                                                    selectproducts[index].product.weighQty = products[i].weighQty;
+                                                                    selectproducts[index].product.newWeighQty = products[i].newWeighQty;
+                                                                    selectproducts[index].product.weighQty = 0;
+                                                                  } else {
+                                                                    products[i].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                                    products[i].newWeighQty = products[i].newWeighQty! - products[i].weighQty;
+                                                                    selectproducts[index].product.weighQty = products[i].weighQty;
+                                                                    selectproducts[index].product.newWeighQty = products[i].newWeighQty;
+                                                                    selectproducts[index].product.weighQty = 0;
+                                                                  }
+                                                                } else {
+                                                                  if (sumQty(substring2) > selectproducts[index].product.weighQty) {
+                                                                    products[i].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                                    products[i].newWeighQty = products[i].weighQty;
+                                                                    selectproducts[index].product.weighQty = products[i].weighQty;
+                                                                    selectproducts[index].product.newWeighQty = products[i].newWeighQty;
+                                                                  } else {
+                                                                    products[i].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                                    products[i].newWeighQty = products[i].weighQty;
+                                                                    selectproducts[index].product.weighQty = products[i].weighQty;
+                                                                    selectproducts[index].product.newWeighQty = products[i].newWeighQty;
+                                                                  }
+                                                                }
+                                                                break;
+                                                              } else {
+                                                                if (i == products.length - 1) {
                                                                   if (selectproducts[index].product.weighQty == 0) {
                                                                     if (sumQty(substring2) > selectproducts[index].product.weighQty) {
-                                                                      products[j].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
-                                                                      products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                      selectproducts[index].product.weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                                      selectproducts[index].product.newWeighQty = selectproducts[index].product.newWeighQty! - selectproducts[index].product.weighQty;
+                                                                      selectproducts[index].product.weighQty = 0;
                                                                     } else {
-                                                                      products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
-                                                                      products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                                      selectproducts[index].product.weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                                      selectproducts[index].product.newWeighQty = selectproducts[index].product.newWeighQty! - selectproducts[index].product.weighQty;
+                                                                      selectproducts[index].product.weighQty = 0;
                                                                     }
                                                                   } else {
                                                                     if (sumQty(substring2) > selectproducts[index].product.weighQty) {
-                                                                      products[j].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
-                                                                      products[j].newWeighQty = products[j].weighQty;
+                                                                      selectproducts[index].product.weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                                      selectproducts[index].product.newWeighQty = selectproducts[index].product.weighQty;
                                                                     } else {
-                                                                      products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
-                                                                      products[j].newWeighQty = products[j].weighQty;
+                                                                      selectproducts[index].product.weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                                      selectproducts[index].product.newWeighQty = selectproducts[index].product.weighQty;
                                                                     }
                                                                   }
-
-                                                                  selectproducts[index].product.weighQty = products[j].weighQty;
-                                                                  selectproducts[index].product.newWeighQty = products[j].newWeighQty;
-                                                                  break;
-                                                                } else {}
+                                                                }
                                                               }
                                                             }
                                                             selectproducts[index].newQty = selectproducts[index].newQty + sumQty(substring2);
@@ -1752,6 +1783,67 @@ class _HomePageState extends State<HomePage> {
                                                           });
                                                           Navigator.pop(context, _myNumber.text);
                                                         }
+                                                        // if (plusOrMinus == 0) {
+                                                        //   List<String> substring2 = _myNumber.text.split('+');
+                                                        //   //inspect(sumQty(substring2));
+                                                        //   setState(() {
+                                                        //     for (var i = 0; i < selectproducts.length; i++) {
+                                                        //       for (var j = 0; j < products.length; j++) {
+                                                        //         if (selectproducts[index].product.id == products[j].id) {
+                                                        //           if (selectproducts[index].product.weighQty == 0) {
+                                                        //             products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                        //             products[j].newWeighQty = products[j].newWeighQty! + products[j].weighQty;
+                                                        //             selectproducts[index].product.weighQty = products[j].weighQty;
+                                                        //             selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                        //           } else {
+                                                        //             products[j].weighQty = selectproducts[index].product.weighQty + sumQty(substring2);
+                                                        //             products[j].newWeighQty = products[j].weighQty;
+                                                        //             selectproducts[index].product.weighQty = products[j].weighQty;
+                                                        //             selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                        //           }
+                                                        //           break;
+                                                        //         } else {}
+                                                        //       }
+                                                        //     }
+                                                        //     selectproducts[index].qty = selectproducts[index].qty + sumQty(substring2);
+                                                        //     selectproducts[index].sumText = selectproducts[index].sumText.toString() + '+' + _myNumber.text;
+                                                        //   });
+                                                        //   Navigator.pop(context, _myNumber.text);
+                                                        // } else {
+                                                        //   List<String> substring2 = _myNumber.text.split('-');
+                                                        //   setState(() {
+                                                        //     for (var i = 0; i < selectproducts.length; i++) {
+                                                        //       for (var j = 0; j < products.length; j++) {
+                                                        //         if (selectproducts[index].product.id == products[j].id) {
+                                                        //           if (selectproducts[index].product.weighQty == 0) {
+                                                        //             if (sumQty(substring2) > selectproducts[index].product.weighQty) {
+                                                        //               products[j].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                        //               products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                        //             } else {
+                                                        //               products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                        //               products[j].newWeighQty = products[j].newWeighQty! - products[j].weighQty;
+                                                        //             }
+                                                        //           } else {
+                                                        //             if (sumQty(substring2) > selectproducts[index].product.weighQty) {
+                                                        //               products[j].weighQty = sumQty(substring2) - selectproducts[index].product.weighQty;
+                                                        //               products[j].newWeighQty = products[j].weighQty;
+                                                        //             } else {
+                                                        //               products[j].weighQty = selectproducts[index].product.weighQty - sumQty(substring2);
+                                                        //               products[j].newWeighQty = products[j].weighQty;
+                                                        //             }
+                                                        //           }
+
+                                                        //           selectproducts[index].product.weighQty = products[j].weighQty;
+                                                        //           selectproducts[index].product.newWeighQty = products[j].newWeighQty;
+                                                        //           break;
+                                                        //         } else {}
+                                                        //       }
+                                                        //     }
+                                                        //     selectproducts[index].newQty = selectproducts[index].newQty + sumQty(substring2);
+                                                        //     selectproducts[index].downText = selectproducts[index].downText.toString() + '-' + _myNumber.text;
+                                                        //   });
+                                                        //   Navigator.pop(context, _myNumber.text);
+                                                        // }
                                                       } catch (e) {
                                                         _myNumber.clear();
                                                         showDialog(
